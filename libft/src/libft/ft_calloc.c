@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:11 by haseo            ###   ########.fr       */
+/*   Created: 2020/11/02 11:58:46 by haseo             #+#    #+#             */
+/*   Updated: 2021/10/02 17:30:51 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include "libft.h"
-# include "get_next_line.h"
+void	*ft_calloc(size_t number, size_t size)
+{
+	void	*mem;
 
-#endif
+	mem = malloc(number * size);
+	if (!mem)
+		return (NULL);
+	ft_bzero(mem, (number * size));
+	return (mem);
+}

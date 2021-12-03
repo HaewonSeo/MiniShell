@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/11/30 15:09:52 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/03 17:40:37 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,8 @@ WHITE			= \033[1;37m
 INC_DIR			=	./inc
 SRC_DIR			=	./src
 OBJ_DIR			=	./obj
+LIBFT_DIR		=	./libft
 VPATH_DIR		=	./src \
-
 
 vpath %.c $(VPATH_DIR)
 
@@ -91,22 +91,24 @@ $(OBJ_DIR):
 					@$(ECHO) "$(GREEN)[Success]\t $(ORANGE)Create $(OBJ_DIR)$(NOCOLOR)"
 
 $(OBJ_DIR)/%.o: %.c
-					@$(CC) -c $(CFLAGS) -I$(INC_DIR) -o $@ $^
+					@$(CC) -c $(CFLAGS) -I$(INC_DIR) -I$(LIBFT_DIR)/inc -o $@ $^
 					@$(ECHO) "$(GREEN)[Success]\t $(ORANGE)Create $@$(NOCOLOR)"
 
 $(LIBFT):
 					@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME):		$(LIBFT) $(OBJ_DIR) ${OBJS}
-					@$(CC) $(CFLAGS) -o $@ ${OBJS} $(LDFLAGS)
+					@$(CC) $(CFLAGS) -o $@ ${OBJS} -L$(LIBFT_DIR) $(LDFLAGS)
 					@$(ECHO) "$(GREEN)[Success]\t $(BLUE)Create $@ \t$(NOCOLOR)"
 
 clean:
+					@$(MAKE) -C $(LIBFT_DIR) clean
 					@$(RM) $(OBJS)
 					@$(RMDIR) $(OBJ_DIR)
 					@$(ECHO) "$(GREEN)[Success]\t $(RED)Remove $(OBJ_DIR)$(NOCOLOR)"
 
 fclean:			clean
+					@$(MAKE) -C $(LIBFT_DIR) fclean
 					@$(RM) $(NAME)
 					@$(ECHO) "$(GREEN)[Success]\t $(RED)Remove $(NAME)$(NOCOLOR)"
 

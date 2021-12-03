@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/03 17:42:55 by haseo            ###   ########.fr       */
+/*   Created: 2020/11/02 13:09:14 by haseo             #+#    #+#             */
+/*   Updated: 2021/10/02 17:34:43 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main()
+char	*ft_strdup(const char *str)
 {
-	printf("minishell\n");
+	int		i;
+	char	*dst;
 
-	return 0;
+	dst = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!dst)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		dst[i] = str[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

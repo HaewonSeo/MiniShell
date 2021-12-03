@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:11 by haseo            ###   ########.fr       */
+/*   Created: 2020/11/22 19:19:01 by haseo             #+#    #+#             */
+/*   Updated: 2021/10/02 17:31:58 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include "libft.h"
-# include "get_next_line.h"
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*last;
 
-#endif
+	if (!lst || !new)
+		return ;
+	if (*lst)
+	{
+		last = ft_lstlast(*lst);
+		last->next = new;
+	}
+	else
+		*lst = new;
+}

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:11 by haseo            ###   ########.fr       */
+/*   Created: 2020/11/22 20:11:59 by haseo             #+#    #+#             */
+/*   Updated: 2021/05/20 12:48:22 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include "libft.h"
-# include "get_next_line.h"
-
-#endif
+void	ft_lstiter(t_list *lst, void (*f)(char *))
+{
+	if (!lst || !f)
+		return ;
+	while (lst)
+	{
+		(*f)(lst->content);
+		lst = lst->next;
+	}
+}

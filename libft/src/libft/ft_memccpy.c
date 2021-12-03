@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:11 by haseo            ###   ########.fr       */
+/*   Created: 2020/10/05 16:51:24 by haseo             #+#    #+#             */
+/*   Updated: 2020/11/23 02:46:46 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include "libft.h"
-# include "get_next_line.h"
+void	*ft_memccpy(void *dst, const void *src, int c, size_t len)
+{
+	size_t			i;
+	unsigned char	*char_dst;
+	unsigned char	*char_src;
 
-#endif
+	i = 0;
+	char_dst = dst;
+	char_src = (unsigned char *)src;
+	while (i < len)
+	{
+		char_dst[i] = char_src[i];
+		if (char_src[i] == (unsigned char)c)
+			return (dst + i + 1);
+		i++;
+	}
+	return (NULL);
+}
