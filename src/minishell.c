@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/07 16:38:52 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/07 16:44:11 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ void signal_handler(int signum)
 
 void get_canonical_mode()
 {
-	tcgetattr(STDIN_FILENO, &g_var.canonical);
+	tcgetattr(STDIN_FILENO, &g_info.term.canonical);
 }
 
 void set_noncanonical_mode()
 {
-	tcgetattr(STDIN_FILENO, &g_var.noncanonical);
-	g_var.noncanonical.c_lflag &= ~(ICANON);
-	g_var.noncanonical.c_cc[VMIN] = 1;
-	g_var.noncanonical.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_var.noncanonical);
+	tcgetattr(STDIN_FILENO, &g_info.term.noncanonical);
+	g_info.term.noncanonical.c_lflag &= ~(ICANON);
+	g_info.term.noncanonical.c_cc[VMIN] = 1;
+	g_info.term.noncanonical.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &g_info->term.noncanonical);
 }
 
 void set_canonical_mode()
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_var.canonical);
+	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.canonical);
 }
 
 int	main(int argc, char *argv[], char *envp[])
