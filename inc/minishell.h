@@ -35,6 +35,16 @@ typedef struct			s_info {
 	t_term				term;
 }						t_info;
 
+/*
+**hyejung 추가
+*/
+typedef struct s_env
+{
+    char            *key;
+    char            *value;
+    struct s_env    *next;
+}   t_env;
+
 t_info					g_info;
 
 
