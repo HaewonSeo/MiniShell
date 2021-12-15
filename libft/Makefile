@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/02 16:49:36 by haseo             #+#    #+#              #
-#    Updated: 2021/10/14 23:15:20 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/15 19:00:08 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,6 @@ LIBFT_SRCS =		ft_memset.c \
 					ft_putnbr_fd.c \
 					ft_itoabase.c \
 					ft_putstr.c \
-					ft_exit.c \
 					ft_isformat.c \
 					ft_free2d.c \
 					ft_isdigit_str.c \

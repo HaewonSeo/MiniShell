@@ -6,11 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2021/12/07 12:10:28 by haseo            ###   ########.fr        #
-=======
-#    Updated: 2021/12/03 17:40:37 by haseo            ###   ########.fr        #
->>>>>>> b1767cb210a4cc995bb650557675c421bc99e489
+#    Updated: 2021/12/15 18:58:38 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,10 +63,7 @@ SRC_DIR			=	./src
 OBJ_DIR			=	./obj
 LIBFT_DIR		=	./libft
 VPATH_DIR		=	./src \
-<<<<<<< HEAD
-					./builtin
-=======
->>>>>>> b1767cb210a4cc995bb650557675c421bc99e489
+					./src/builtin
 
 vpath %.c $(VPATH_DIR)
 
@@ -79,9 +72,18 @@ vpath %.c $(VPATH_DIR)
 # ----------------------------------
 
 SRCS			=	minishell.c \
+					env.c \
+					util.c \
+					ft_pwd.c \
+					execute.c \
 					prompt.c \
-					util.c
-
+					ft_cd.c \
+					ft_echo.c \
+					ft_env.c \
+					ft_exit.c \
+					ft_export.c \
+					ft_pwd.c \
+					ft_unset.c \
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
@@ -91,7 +93,7 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
-LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+# LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
 # ----------------------------------
 # Rules
 # ----------------------------------
