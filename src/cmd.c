@@ -28,34 +28,39 @@ void    parsing_cmd(char *str, t_cmd *tmp) //구조체를 새로 만들었습니
     i = 0;
     while (str[i] != ' ')
         i++;
-    tmp->cd = ft_substr(str, 0, i);
-    if (check_cmd(tmp->cd) < 0)//이상한 명령이 들어온 경우 (조건에 없는 명령어등)
+    tmp->argv[0] = ft_substr(str, 0, i);
+    if (check_cmd(tmp->argv[0]) < 0)//이상한 명령이 들어온 경우 (조건에 없는 명령어등)
     {
-        free(tmp->cd);
+        free(tmp->argv[0]);
         return ;
     }
     i++;
-    if (str[i] == '-' && check_cmd(tmp->cd) == 1)//옵션이 있는 경우
+    if (str[i] == '-' && check_cmd(tmp->argv[0]) == 1)//옵션이 있는 경우
     {
-        tmp->opt = str[i + 1];
+        tmp->argv[1] = str[i + 1];
         i = i + 2;// 띄어쓰기 위치로 이동
+        tmp->argv[2] = ft_substr(str, i + 1, ft_strlen(str) - i + 1);
     }
-    tmp->ftr = ft_substr(str, i + 1, ft_strlen(str) - i + 1); //뒤에 내용이 더 있는 경우 저장
+    else
+        tmp->argv[1] = ft_substr(str, i + 1, ft_strlen(str) - i + 1); //뒤에 내용이 더 있는 경우 저장
 }
 
 void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
 {
     t_cmd   *del;
+    int     i;
     
+    i = 0;
     while (tmp)
     {
         del = tmp;
         tmp = tmp->next;
-        free(del->cd);
-        if (del->opt)
-            free(del->opt);
-        if (del->ftr)
-            free(del->ftr);
+        free(del->argv[0]);
+        while (del->argv[i])
+        {
+            free(del->argv[i]);
+            i++;
+        }
         free(del);
     }
     free(tmp);
