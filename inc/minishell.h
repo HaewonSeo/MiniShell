@@ -65,7 +65,7 @@ typedef struct			s_cmd
 	하나의 cmd에 pipe 또는 redirection 기호가 있으면, 기호는 지우고 위 변수값을 설정하는 것으로 생각해봤어요!
 	하지만 다른 방법도 존재할 것 같아요.
 	*/
-	struct s_cmd		*next;
+	struct s_cmd		*next;				// 추가했어요!!
 }						t_cmd;
 
 typedef struct			s_env
