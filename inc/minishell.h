@@ -49,23 +49,9 @@ typedef struct			s_cmd
 {
 	int					argc;
 	char 				**argv;				// main의 argv 처럼 cmd를 공백 기준으로 분리
-	/*
-	예를 들어서
-
-	argv[0] argv[1] argv[2] argv[3] argv[4]
-	echo     hi1     hi2     hi3      NULL
-	ls       -l     NULL
-	pwd	     NULL
-
-	*/
 	int					pipe;				// pipe가 있으면 1
 	int					redirection;		// redirection이 있으면 1
-	/*
-	아직 pipe와 redirection까지 구체적으로 파악하지는 못했으나, 지금까지 생각으로는
-	하나의 cmd에 pipe 또는 redirection 기호가 있으면, 기호는 지우고 위 변수값을 설정하는 것으로 생각해봤어요!
-	하지만 다른 방법도 존재할 것 같아요.
-	*/
-	struct s_cmd		*next;				// 추가했어요!!
+	struct s_cmd		*next;				// 추가했어요!
 }						t_cmd;
 
 typedef struct			s_env
@@ -125,5 +111,17 @@ void ft_exit_with_set_mode(int errno);
 void ft_perror(const char *str, int errno);
 void	ft_perror1();
 void	ft_perror2();
+
+/*
+** cmd
+*/
+
+void    init_cmd(char *str, t_cmd *tmp);
+void    parsing_cmd(char *str, t_cmd *tmp);
+int		check_cmd(t_cmd *tmp);
+int		check_pipe(t_cmd *tmp);
+int		check_redi(t_cmd *tmp);
+void	free_cmd(t_cmd *tmp);
+
 
 #endif
