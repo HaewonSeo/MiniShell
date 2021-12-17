@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 03:17:02 by haseo             #+#    #+#             */
-/*   Updated: 2021/10/10 01:00:41 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 11:44:36 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int					get_next_line(int fd, char **line);
 ** cub3D
 */
 
-void				ft_exit(const char *str);
+// void				ft_exit(const char *str);
 int					ft_isformat(char *str, char *fmt);
 void				ft_free2d(char **arr);
 int					ft_isdigit_str(const char *str);
