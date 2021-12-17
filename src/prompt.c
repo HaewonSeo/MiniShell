@@ -6,12 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/07 16:38:56 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 20:39:41 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 // readline 사용하여 input을 받는 방법
 void prompt2()
 {
@@ -33,6 +34,7 @@ void prompt2()
 
 	free(cwd);
 }
+*/
 
 // GNL을 사용하여 input을 받는 방법
 void prompt3()
@@ -88,29 +90,28 @@ static char	*ft_str_add_back(char *s, char ch)
 }
 
 // char 1개씩 input을 받는 방법
-void prompt4()
+char *prompt4()
 {
 	int		ch;
-	char	*cmd;
+	char	*input;
 
 	ch = 0;
-	cmd = NULL;
+	input = NULL;
+	ft_putstr_fd(BLU, STDOUT_FILENO);
 	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
 	ft_putstr_fd("$ ", STDOUT_FILENO);
+	ft_putstr_fd(EOC, STDOUT_FILENO);
 	while (read(STDIN_FILENO, &ch, 1))
 	{
+
 		// ft_putchar_fd((char)ch, STDOUT_FILENO);
 		if (ft_isprint(ch))
-			cmd = ft_str_add_back(cmd, (char)ch);
+			input = ft_str_add_back(input, (char)ch);
 		else if (ch == LF)
 			break;
 		// 입력이 없을 때, Ctrl + D 누르면 minishell 종료
-		else if (!cmd && ch == EOT)
-		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			ft_exit2(1);
-		}
+		else if (!input && ch == EOT)
+			ft_exit();
 	}
-	printf("cmd : %s\n", cmd);
-	free(cmd);
+	return (input);
 }

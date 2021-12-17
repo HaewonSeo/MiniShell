@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/15 19:08:20 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 20:38:22 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,20 @@
 # include <term.h>
 # include <string.h>
 # include <errno.h>
+# include <stdbool.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "libft.h"
 # include "get_next_line.h"
+# include "color.h"
 // # include <readline/readline.h>
 // # include <readline/history.h>
 
-#define EOT	4
-#define LF	10
+#define ETX	3		// ctrl + c : End of Text
+#define EOT	4		// ctrl + d : End of Transmission
+#define LF	10		// \n : Line feed
+#define FS	28		// ctrl + \ : File Separator
+#define TEST 1
 
 typedef struct			s_term
 {
@@ -38,7 +45,7 @@ typedef struct			s_term
 cmd도 env처럼 연결리스트로 구현한다면
 
 head_cmd - cmd1    -      cmd2        - cmd3 - ...
-          "ls -l"  -    "test.txt"    - NULL
+          "ls -l >>"  -  "test.txt"   - NULL
 
 이런식으로 구현해보는게 어떨까 생각했습니다.
 그래서 순차적으로 명령어를 실행시키는 흐름으로...
@@ -51,7 +58,7 @@ typedef struct			s_cmd
 	char 				**argv;				// main의 argv 처럼 cmd를 공백 기준으로 분리
 	int					pipe;				// pipe가 있으면 1
 	int					redirection;		// redirection이 있으면 1
-	struct s_cmd		*next;				// 추가했어요!
+	struct s_cmd		*next;
 }						t_cmd;
 
 typedef struct			s_env
@@ -64,8 +71,8 @@ typedef struct			s_env
 typedef struct			s_info
 {
 	t_term				term;				// terminal 관련 속성
-	// char				**argv;				// test용도 (무시해주세요)
-	// char				**envp;
+	char				**argv;
+	char				**envp;				// subshell에게 envp를 전달하기 위한 포인터
 	t_env				*head_env;			// 환경변수 연결 리스트의 head
 	t_cmd				*head_cmd;			// cmd 연결 리스트의 head
 	t_env				*head_shell_var;	// 쉘 변수 연결 리스트의 head
@@ -79,17 +86,17 @@ t_info					g_info;				// 전역변수 - 모든 함수에서 접근 가능
 ** terminal
 */
 
-void get_canonical_mode();
-void set_noncanonical_mode();
-void set_canonical_mode();
+void	get_canonical_mode();
+void	set_noncanonical_mode();
+void	set_canonical_mode();
 
 /*
 ** prompt
 */
 
 // void prompt2();
-// void prompt3();
-// void prompt4();
+void	prompt3();
+char	*prompt4();
 
 /*
 ** builtin
@@ -107,8 +114,8 @@ void	ft_unset(t_cmd *cmd);
 ** utility
 */
 
-void ft_exit_with_set_mode(int errno);
-void ft_perror(const char *str, int errno);
+void	ft_exit_with_set_mode(int errnum);
+void	ft_perror(const char *str, int errnum);
 void	ft_perror1();
 void	ft_perror2();
 
@@ -116,12 +123,28 @@ void	ft_perror2();
 ** cmd
 */
 
-void    init_cmd(char *str, t_cmd *tmp);
-void    parsing_cmd(char *str, t_cmd *tmp);
+t_cmd	*init_cmd(char *str);
+void    parsing_cmd(char *str, t_cmd **tmp);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(t_cmd *tmp);
 void	free_cmd(t_cmd *tmp);
 
+/*
+** execute
+*/
+
+void	exec_cmd();
+
+/*
+** env
+*/
+
+void	add_env(t_env *head, char *t_key, char *t_value);
+void	split_env(char **envp, t_env **head);
+void	del_env(t_env *head, char *key);
+void	finish_env(t_env *head);
+char	*get_env(t_env *head, char *key);
+void	print_env(t_env *head);
 
 #endif

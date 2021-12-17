@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:43:46 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/15 18:49:13 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 12:40:30 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,22 @@ static void cd_home()
 
 	path = get_env(g_info.head_env, "HOME");
 	if (!path || chdir(path) == -1)
-		ft_perror1("cd", "No $HOME", EPERM);
+		ft_perror1("cd", "No $HOME", (int)EPERM);
 }
 
-static void cd_envv(const char *arg)
+static void cd_envv(char *arg)
 {
 	char	*path;
 
 	path = get_env(g_info.head_env, &arg[1]);
 	if (!path || chdir(path) == -1)
-		ft_perror2("cd", arg, "No such argument", EPERM);
+		ft_perror2("cd", arg, "No such argument", (int)EPERM);
 }
 
 static void cd_path(const char *path)
 {
 	if (!path || chdir(path) == -1)
-		ft_perror2("cd", path, "No such file or directory", EPERM);
+		ft_perror2("cd", path, "No such file or directory", (int)EPERM);
 }
 
 
@@ -68,12 +68,12 @@ ft_cd() 기능
 void ft_cd(t_cmd *cmd)
 {
 	if (cmd->argc != 2)
-		ft_perror1("cd", "too many arguments", EPERM);
+		ft_perror1("cd", "too many arguments", (int)EPERM);
 	else if (cmd->argc == 1 || !ft_strcmp(cmd->argv[1], "~"))
 		cd_home();
-	else if (cmd->argc == 2 && cmd[1][0] == '$')
+	else if (cmd->argc == 2 && cmd->argv[1][0] == '$')
 		cd_envv(cmd->argv[1]);
-	else if (cmd->argc == 2 && cmd[1][0] != '~' && cmd[1][0] != '$')
+	else if (cmd->argc == 2 && cmd->argv[1][0] != '~' && cmd->argv[1][0] != '$')
 		cd_path(cmd->argv[1]);
 	else
 		ft_perror2("cd", cmd->argv[1], "No such file or directory", EPERM);

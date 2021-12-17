@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:18 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/15 18:53:14 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 20:55:09 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void ft_unset(t_cmd *cmd)
 	{
 		if (cmd->argv[i][0] == '$')
 		{
-			num_str = ft_strdup('`');
+			num_str = ft_strdup("`");
 			i_str = ft_itoa(i);
-			ft_strjoin(num_str, i_str);
-			ft_strjoin(num_str, '\'');
+			num_str = ft_strjoin(num_str, i_str);
+			num_str = ft_strjoin(num_str, "\'");
 			ft_perror2("export", num_str, "not a valid identifier");
 			free(i_str);
 			free(num_str);
@@ -48,7 +48,7 @@ void ft_unset(t_cmd *cmd)
 		else
 		{
 			del_env(g_info.head_env, cmd->argv[i]);
-			del_shell_var(g_info.head_shell_var, cmd->argv[i]); // 아직 구현 못한 함수
+			//del_shell_var(g_info.head_shell_var, cmd->argv[i]); // 아직 구현 못한 함수
 		}
 	}
 	g_info.exit_status = 0;

@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/12/15 18:58:38 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/17 15:08:51 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,6 @@ vpath %.c $(VPATH_DIR)
 SRCS			=	minishell.c \
 					env.c \
 					util.c \
-					ft_pwd.c \
 					execute.c \
 					prompt.c \
 					ft_cd.c \
@@ -84,6 +83,9 @@ SRCS			=	minishell.c \
 					ft_export.c \
 					ft_pwd.c \
 					ft_unset.c \
+					cmd_infree.c \
+					cmd_pire.c \
+					cmd.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 

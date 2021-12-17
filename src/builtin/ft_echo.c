@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/15 19:07:35 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/17 11:47:24 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void echo_envv(char *arg)
 	char	*value;
 
 	if (arg[1] == '?')
-		printf("%d", g_info.exit_statue);
+		printf("%d", g_info.exit_status);
 	else
 	{
 		key = &arg[1];

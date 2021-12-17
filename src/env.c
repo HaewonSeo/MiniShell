@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/17 11:48:49 by haseo             #+#    #+#             */
+/*   Updated: 2021/12/17 18:30:58 by haseo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -20,29 +31,29 @@ void    add_env(t_env *head, char *t_key, char *t_value)
     return ;
 }
 
-void    split_env(char **envp, t_env *head)
+void    split_env(char **envp, t_env **head)
 {
     int     i;
     int     j;
-    char    *k;
-    char    *v;
     t_env *cur;
     t_env *new;
 
     i = 0;
-    cur = head;
+    cur = *head;
     while (envp[i])
     {
         j = 0;
         while (envp[i][j] != '=')
             j++;
-        k = ft_substr(envp[i], 0, j);
-        v = ft_substr(envp[i], j + 1, ft_strlen(envp[i]) - j - 1);
-        new = (t_env *)malloc(sizeof(t_env));
-        new->key = k;
-        new->value = v;
+        new = (t_env *)ft_calloc(1, sizeof(t_env));
+        new->key = ft_substr(envp[i], 0, j);
+        new->value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]) - j - 1);
         cur->next = new;
         cur = cur->next;
+#ifdef TEST11
+        printf("new = %p\ncur = %p\ncur->next = %p\n", new, cur, cur->next);
+        printf("%s %s\n", cur->key, cur->value);
+#endif
         i++;
     }
     return ;
@@ -90,8 +101,8 @@ void    finish_env(t_env *head)
 
 char *get_env(t_env *head, char *key)
 {
-    t_env *cur;
-    t_env *ret;
+    t_env   *cur;
+    char    *ret;   // ret 값의 자료형을 수정했습니다.
 
     cur = head;
     while (cur->next) {
@@ -107,16 +118,16 @@ char *get_env(t_env *head, char *key)
 
 void    print_env(t_env *head)
 {
-    t_env   *tmp;
+    t_env   *cur;
 
-    tmp = head;
-    while (tmp)
+    cur = head;
+    while (cur->next)
     {
-        printf("%s=", tmp->key);
-        if (tmp->value)
-            printf("%s\n", tmp->value);
+        cur = cur->next;
+        printf("%s=", cur->key);
+        if (cur->value)
+            printf("%s\n", cur->value);
         else
             printf("\n");
-        tmp = tmp->next;
     }
 }

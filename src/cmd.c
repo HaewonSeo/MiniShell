@@ -30,15 +30,16 @@ int check_cmd(t_cmd *tmp)
 	return (k);
 }
 
-void    parsing_cmd(char *str, t_cmd *tmp)
+void    parsing_cmd(char *str, t_cmd **cur)
 {
-    int i;
-    int j;
-    int mid;
+    int     i;
+    int     j;
+    int     mid;
+    t_cmd   *tmp;
 
     i = 0;
     j = 0;
-    init_cmd(str, tmp);
+    tmp = init_cmd(str);
     while(i < ft_strlen(str))
     {
         while (str[i] && str[i] == ' ')
@@ -51,9 +52,17 @@ void    parsing_cmd(char *str, t_cmd *tmp)
         i++;
     }
 	tmp->argv[j] = NULL;
+    tmp->argc = j;
     tmp->pipe = check_pipe(tmp);
     tmp->redirection = check_redi(tmp);
+
+    /*
+    double free 발생! -> 수정 필요
+
     if (check_cmd(tmp) - tmp->pipe != 1)
         free_cmd(tmp);
+    */
+
+    (*cur)->next = tmp;
     return ;
 }
