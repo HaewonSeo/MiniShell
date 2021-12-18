@@ -1,9 +1,8 @@
 
 #include "minishell.h"
 
-t_cmd   *init_cmd(char *str)
+void    init_cmd(char *str, t_cmd *tmp)
 {
-    t_cmd   *tmp;
     int     i;
     int     j;
 
@@ -21,6 +20,7 @@ t_cmd   *init_cmd(char *str)
     tmp->argv = (char **)malloc(sizeof(char *) * (j + 1));
     tmp->pipe = 0;
     tmp->redirection = 0;
+    tmp->quote = 0;
     tmp->next = NULL;
     return (tmp);
 }

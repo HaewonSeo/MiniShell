@@ -12,122 +12,102 @@
 
 #include "minishell.h"
 
-void    add_env(t_env *head, char *t_key, char *t_value)
+void    free_envp(char **env)
 {
-    t_env   *new;
-    t_env   *tmp;
-
-    new = (t_env *)malloc(sizeof(t_env));
-    new->key = ft_strdup(t_key);
-    if (t_value)
-        new->value = ft_strdup(t_value);
-    else
-        new->value = ft_strdup("");
-    new->next = NULL;
-    tmp = head;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new;
-    return ;
+    int i;
+    
+    i = 0;
+    while (env[i])
+    {
+        free(env[i]);
+        i++;
+    }
+    free(env);
 }
 
-void    split_env(char **envp, t_env **head)
+void    add_envp_new(t_info *info, char *str)
+{
+    int i;
+    int j;
+    char **tmp;
+
+    i = 0;
+    j = 0;
+    while (info->envp[i])
+        i++;
+    tmp = (char **)malloc(sizeof(char *) * (i + 2));
+    while (j < i)
+    {
+        tmp[j] = ft_substr(info->envp[j], 0, ft_strlen(info->envp[j]));
+        j++;
+    }
+    tmp[j] = ft_substr(str, 0, ft_strlen(str));
+    free_envp(info->envp);
+    info->envp = (char **)malloc(sizeof(char *) * (i + 2));
+    j = 0;
+    while (j < i + 1)
+    {
+        info->envp[j] = ft_substr(tmp[j], 0, ft_strlen(tmp[j]));
+        j++;
+    }
+    free_envp(tmp);
+    info->envp[j] = 0;
+}
+
+void    add_envp(t_info *info, char *str)
 {
     int     i;
     int     j;
-    t_env *cur;
-    t_env *new;
+    char    *tmp;
 
     i = 0;
-    cur = *head;
-    while (envp[i])
+    j = 0;
+    while (str[i])
     {
-        j = 0;
-        while (envp[i][j] != '=')
-            j++;
-        new = (t_env *)ft_calloc(1, sizeof(t_env));
-        new->key = ft_substr(envp[i], 0, j);
-        new->value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]) - j - 1);
-        cur->next = new;
-        cur = cur->next;
-#ifdef TEST11
-        printf("new = %p\ncur = %p\ncur->next = %p\n", new, cur, cur->next);
-        printf("%s %s\n", cur->key, cur->value);
-#endif
+        if (str[i] == '=')
+            break ;
         i++;
     }
-    return ;
-}
-
-void    del_env(t_env *head, char *key)
-{
-    t_env *cur;
-    t_env *tmp;
-
-    cur = head;
-    while (cur->next)
+    tmp = ft_substr(str, 0, i);
+    if (!getenv(tmp))
+        add_envp_new(info, str);
+    else
     {
-        if (!ft_strncmp(cur->next->key, key, ft_strlen(key)))
-        {
-            tmp = cur->next;
-            cur->next = tmp->next;
-            free(tmp->key);
-            free(tmp->value);
-            free(tmp);
-            break;
-        }
-        cur = cur->next;
+        while (ft_strncmp(info->envp[j], tmp, i))
+            j++;
+        free(info->envp[j]);
+        info->envp[j] = ft_substr(str, 0, ft_strlen(str));
     }
 }
 
-void    finish_env(t_env *head)
+void    del_envp(t_info *info, char *key)
 {
-    t_env   *tmp;
-    t_env   *del;
+    int i;
 
-    tmp = head;
-    while (tmp)
+    i = 0;
+    while (ft_strncmp(info->envp[i], key, ft_strlen(key)))
+        i++;
+    while (info->envp[i] && info->envp[i + 1])
     {
-        del = tmp;
-        tmp = tmp->next;
-        if (del->key)
-            free(del->key);
-        if (del->value)
-            free(del->value);
-        free(del);
+        info->envp[i] = info->envp[i + 1];
+        i++;
     }
-    free(head);
+    free(info->envp[i]);
+    info->envp[i] = 0;
 }
 
-char *get_env(t_env *head, char *key)
+void    split_envp(char **envp, t_info *info)//g_info.envp가 들어올 거(뒤)
 {
-    t_env   *cur;
-    char    *ret;   // ret 값의 자료형을 수정했습니다.
+    int i;
 
-    cur = head;
-    while (cur->next) {
-        if (!ft_strncmp(cur->next->key, key, ft_strlen(key)))
-        {
-            ret = ft_strdup(cur->next->value);
-            return (ret);
-        }
-        cur = cur->next;
-    }
-    return (NULL);
-}
-
-void    print_env(t_env *head)
-{
-    t_env   *cur;
-
-    cur = head;
-    while (cur->next)
+    i = 0;
+    while (envp[i])
+        i++;
+    info->envp = (char **)malloc(sizeof(char *) * (i + 1));
+    i = 0;
+    while (envp[i])
     {
-        cur = cur->next;
-        printf("%s=", cur->key);
-        if (cur->value)
-            printf("%s\n", cur->value);
-        else
-            printf("\n");
+        info->envp[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+        i++;
     }
 }

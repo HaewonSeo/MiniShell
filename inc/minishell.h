@@ -58,6 +58,7 @@ typedef struct			s_cmd
 	char 				**argv;				// main의 argv 처럼 cmd를 공백 기준으로 분리
 	int					pipe;				// pipe가 있으면 1
 	int					redirection;		// redirection이 있으면 1
+	int					quote;				// '는 1 "는 2
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -123,7 +124,7 @@ void	ft_perror2();
 ** cmd
 */
 
-t_cmd	*init_cmd(char *str);
+void	init_cmd(char *str, t_cmd *tmp);
 void    parsing_cmd(char *str, t_cmd **tmp);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
@@ -140,11 +141,10 @@ void	exec_cmd();
 ** env
 */
 
-void	add_env(t_env *head, char *t_key, char *t_value);
-void	split_env(char **envp, t_env **head);
-void	del_env(t_env *head, char *key);
-void	finish_env(t_env *head);
-char	*get_env(t_env *head, char *key);
-void	print_env(t_env *head);
+void    free_envp(char **env);
+void    add_envp_new(t_info *info, char *str);
+void    add_envp(t_info *info, char *str);
+void    del_envp(t_info *info, char *key);
+void    split_envp(char **envp, t_info *info);
 
 #endif

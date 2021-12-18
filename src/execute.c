@@ -72,6 +72,10 @@ static int	is_builtin(char *cmd)
 			argc = 1
 			--------------------
 
+		**hyejung 추가
+		기존에 사용했던 명령어랑 겹쳐서 출력이 되는 것 같아요!
+		그런데 아래 키 몇번 누르니까 잘 작동은 해요 
+
 	(5)ft_export()
 
 		- 쉘 변수를 환경 변수 리스트에 추가하는 기능을 구현하지 못함
@@ -83,6 +87,15 @@ static int	is_builtin(char *cmd)
 				(ex 2)
 				$ export AAAAA=4	// ex1 과 동일한 기능
 
+
+	**hyejung
+
+	- 쉘변수가 존재해도, 값이 바뀌지 않음
+	ex) 
+	USER=jeonghyeonjin
+	$ export USER=hyejung 
+	-> 결과 확인시 변경되지 않음을 알 수 있음
+	 
 
 	(6)ft_unset() : Good
 
