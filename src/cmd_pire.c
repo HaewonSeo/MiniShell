@@ -9,7 +9,7 @@ int check_pipe(t_cmd *tmp)
     i = 1;
     while (tmp->argv[i])
     {
-        if (tmp->argv[i][0] == '-')
+        if (tmp->argv[i][0] == '|')
             return (1);
         else
             i++;
