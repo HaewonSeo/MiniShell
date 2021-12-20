@@ -85,6 +85,7 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new->pipe = check_pipe(new);
     new->redirection = check_redi(new);
     tmp->next = new;
+    new->next = NULL;
     if (new->pipe > 0 || new->redirection > 0)
         re_parsing_cmd(new, str + where_pire(str));
 }
