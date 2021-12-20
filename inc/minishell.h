@@ -125,7 +125,9 @@ void	ft_perror2();
 */
 
 void	init_cmd(char *str, t_cmd *tmp);
+void	new_init(char *str, t_cmd *tmp);
 void    parsing_cmd(char *str, t_cmd **tmp);
+int		parsing_cmd_qu(char *str, t_cmd *tmp);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(t_cmd *tmp);

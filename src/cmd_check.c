@@ -71,5 +71,21 @@ int     where_pire(char *str)
         }
         i++;
     }
-    return (0);
+    return (-1);
+}
+
+int where_quote(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '\'')
+            return (i);
+        if (str[i] == '\"')
+            return (i);
+        i++;
+    }
+    return (-1);
 }

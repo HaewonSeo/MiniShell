@@ -86,6 +86,8 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new->redirection = check_redi(new);
     tmp->next = new;
     new->next = NULL;
+    if (where_quote(str) > where_pire(str))
+        tmp->quote = 0;
     if (new->pipe > 0 || new->redirection > 0)
         re_parsing_cmd(new, str + where_pire(str));
 }
@@ -120,6 +122,8 @@ void    parsing_cmd(char *str, t_cmd **cur)
     tmp->pipe = check_pipe(tmp);
     tmp->redirection = check_redi(tmp);
     (*cur)->next = tmp;
+    if (where_quote(str) > where_pire(str))
+        tmp->quote = 0;
     if (tmp->pipe > 0 || tmp->redirection > 0)
         re_parsing_cmd(tmp, str);
     return ;
