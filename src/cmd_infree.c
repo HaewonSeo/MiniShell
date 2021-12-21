@@ -6,7 +6,6 @@ void    init_cmd(char *str, t_cmd *tmp)
     int     i;
     int     j;
 
-    tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));           // cmd node를 동적할당
     i = 0;
     j = 0;
     while (str[i])
@@ -22,7 +21,6 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->redirection = 0;
     tmp->quote = 0;
     tmp->next = NULL;
-    return (tmp);
 }
 
 void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
@@ -44,4 +42,41 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
         free(del);
     }
     free(tmp);
+}
+
+void   new_init(char *str, t_cmd *tmp)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (i < ft_strlen(str))
+    {
+        while (str[i] && str[i] == ' ')
+            i++;
+        if (str[i] == '\'')
+        {
+            i++;
+            while (str[i] && str[i] != '\'')
+                i++;
+            i++;
+            j++;
+            continue ;
+        }
+        else if (str[i] == '\"')
+        {
+            i++;
+            while (str[i] && str[i] != '\"')
+                i++;
+            i++;
+            j++;
+            continue ;
+        }
+        while (str[i] && str[i] != ' ')
+            i++;
+        j++;
+        i++;
+    }
+    tmp->argv = (char **)malloc(sizeof(char *) * (j + 1));
 }
