@@ -20,6 +20,8 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->pipe = 0;
     tmp->redirection = 0;
     tmp->quote = 0;
+    tmp->fd[0] = 0;
+    tmp->fd[1] = 0;
     tmp->next = NULL;
 }
 
@@ -33,7 +35,8 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
     {
         del = tmp;
         tmp = tmp->next;
-        free(del->argv[0]);
+        // free(del->argv[0]);
+        i = 0;
         while (del->argv[i])
         {
             free(del->argv[i]);

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 20:38:22 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/22 19:04:27 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
@@ -59,6 +60,8 @@ typedef struct			s_cmd
 	int					pipe;				// pipe가 있으면 1
 	int					redirection;		// redirection이 있으면 1
 	int					quote;				// '는 1 "는 2
+	int					fd[2];				// 현재 cmd에 pipe가 존재하는 경우 next_cmd의 fd[]를 생성한다.(pipe() 사용)
+	int					pipe_prev;			// 직전 cmd에 pipe가 있으면 1
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -105,6 +108,7 @@ char	*prompt4();
 void	ft_cd(t_cmd *cmd);
 void	ft_echo(t_cmd *cmd);
 void	ft_env(t_cmd *cmd);
+void	ft_exit_with_set_mode(int errnum);
 void	ft_exit();
 void	ft_export(t_cmd *cmd);
 void	ft_pwd();
@@ -115,10 +119,10 @@ void	ft_unset(t_cmd *cmd);
 ** utility
 */
 
-void	ft_exit_with_set_mode(int errnum);
 void	ft_perror(const char *str, int errnum);
 void	ft_perror1();
 void	ft_perror2();
+void	ft_perror3(const char *cmd, const char *msg, int errnum);
 
 /*
 ** cmd
@@ -132,21 +136,33 @@ int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(t_cmd *tmp);
 void	free_cmd(t_cmd *tmp);
+int		check_cmd(t_cmd *tmp);
+int		check_quote(char *str);
+int		where_pire(char *str);
+int		where_quote(char *str);
 
 /*
 ** execute
 */
 
-void	exec_cmd();
+void	exec_input();
+int		is_builtin(char *cmd);
+void	exec_builtin(t_cmd *cmd);
+char	*get_cmd_path(char *cmd);
+void	exec_cmd_child(t_cmd *cmd);
+void	exec_cmd(t_cmd *cmd);
+void	exec_pipe(t_cmd *cur);
 
 /*
 ** env
 */
 
-void    free_envp(char **env);
-void    add_envp_new(t_info *info, char *str);
-void    add_envp(t_info *info, char *str);
-void    del_envp(t_info *info, char *key);
-void    split_envp(char **envp, t_info *info);
+void	free_envp(char **env);
+void	add_envp_new(t_info *info, char *str);
+void	add_envp(t_info *info, char *str);
+void	del_envp(t_info *info, char *key);
+void	split_envp(char **envp, t_info *info);
+void	print_envp(char **envp);
+char	*get_env(char **envp, char *key);
 
 #endif

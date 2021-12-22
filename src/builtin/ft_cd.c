@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:43:46 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 12:40:30 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/21 16:51:35 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void cd_home()
 {
 	char	*path;
 
-	path = get_env(g_info.head_env, "HOME");
+	path = get_env(g_info.envp, "HOME");
 	if (!path || chdir(path) == -1)
 		ft_perror1("cd", "No $HOME", (int)EPERM);
 }
@@ -41,7 +41,7 @@ static void cd_envv(char *arg)
 {
 	char	*path;
 
-	path = get_env(g_info.head_env, &arg[1]);
+	path = get_env(g_info.envp, &arg[1]);
 	if (!path || chdir(path) == -1)
 		ft_perror2("cd", arg, "No such argument", (int)EPERM);
 }

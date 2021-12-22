@@ -96,11 +96,13 @@ int	ft_strcmp(const char *s1, const char *s2)
 ** init && free
 */
 
-void    init_cmd(char *str, t_cmd *tmp)
+t_cmd *init_cmd(char *str)
 {
-    int     i;
-    int     j;
+    t_cmd *tmp;
+    int i;
+    int j;
 
+    tmp = (t_cmd *)malloc(sizeof(t_cmd));
     i = 0;
     j = 0;
     while (str[i])
@@ -116,6 +118,7 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->redirection = 0;
     tmp->quote = 0;
     tmp->next = NULL;
+    return (tmp);
 }
 
 void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
@@ -257,7 +260,7 @@ int check_cmd(t_cmd *tmp)
 int where_pire(char *str)
 {
     int i;
-    
+
     i = 0;
     while (str[i])
     {
@@ -428,7 +431,7 @@ void    parsing_cmd(char *str, t_cmd **cur)
         mid = i;
         while (str[i] && str[i] != ' ')
             i++;
-        tmp->argv[j] = ft_substr(str, mid, i - mid);
+        (*tmp)->argv[j] = ft_substr(str, mid, i - mid);
         j++;
         i++;
     }
@@ -454,7 +457,7 @@ int main()
     int i;
 
 
-    g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd)); 
+    g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     tmp = g_info.head_cmd;
 
 

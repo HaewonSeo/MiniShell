@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 20:45:26 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/22 18:42:03 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static void init_info(char *argv[], char *envp[])
 	g_info.envp = envp;
 	g_info.head_env = (t_env *)ft_calloc(1, sizeof(t_env)); // head는 더미 포인터
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	split_env(envp, &(g_info.head_env));
+	split_envp(envp, &g_info);
 #ifdef TEST11
-	print_env(g_info.head_env);
+	print_envp(g_info.envp);
 #endif
 }
 
@@ -76,23 +76,36 @@ int	main(int argc, char *argv[], char *envp[])
 		cur = cur->next;
 
 #ifdef TEST
+		t_cmd *tmp = cur;
 		printf("\n----Parsing test----\n");
 		printf("input : %s\n", input);
-		i = 0;
-		while (cur->argv[i])
+
+		int n = 0;
+		while (tmp)
 		{
-			printf("argv[%d] : %s\n", i, cur->argv[i]);
-			i++;
+			printf("[cmd %d]\n", n++);
+			i = 0;
+			while (tmp->argv[i])
+			{
+				printf("argv[%d] : %s\n", i, tmp->argv[i]);
+				i++;
+			}
+			printf("argc = %d\n", tmp->argc);
+			printf("fd[0] : %d\n", tmp->fd[0]);
+			printf("fd[1] : %d\n", tmp->fd[1]);
+			printf("pipe = %d\n", tmp->pipe);
+			printf("pipe_prev = %d\n", tmp->pipe_prev);
+			printf("redirection = %d\n", tmp->redirection);
+
+			printf("--------------------\n");
+			tmp = tmp->next;
 		}
-		printf("argc = %d\n", cur->argc);
-		printf("--------------------\n");
 #endif
 
-		exec_cmd(cur);
+		exec_input(cur);
 		free(input);
 	}
 
 	set_canonical_mode();
-
 	return 0;
 }

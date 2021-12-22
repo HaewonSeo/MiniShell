@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/12/17 15:08:51 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/22 18:38:26 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,8 @@ SRC_DIR			=	./src
 OBJ_DIR			=	./obj
 LIBFT_DIR		=	./libft
 VPATH_DIR		=	./src \
-					./src/builtin
+					./src/builtin \
+					./src/execute
 
 vpath %.c $(VPATH_DIR)
 
@@ -85,7 +86,10 @@ SRCS			=	minishell.c \
 					ft_unset.c \
 					cmd_infree.c \
 					cmd_pire.c \
-					cmd.c
+					cmd.c \
+					cmd_check.c \
+					execute_cmd.c \
+					execute_pipe.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 

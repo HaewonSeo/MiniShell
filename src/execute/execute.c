@@ -6,21 +6,11 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:10:49 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 21:06:51 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/22 18:54:41 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_builtin(char *cmd)
-{
-	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo")
-	|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "env")
-	|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "export")
-	|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "exit"))
-		return (1);
-	return (0);
-}
 
 /*
 	test 진행 상황
@@ -74,7 +64,7 @@ static int	is_builtin(char *cmd)
 
 		**hyejung 추가
 		기존에 사용했던 명령어랑 겹쳐서 출력이 되는 것 같아요!
-		그런데 아래 키 몇번 누르니까 잘 작동은 해요 
+		그런데 아래 키 몇번 누르니까 잘 작동은 해요
 
 	(5)ft_export()
 
@@ -91,11 +81,11 @@ static int	is_builtin(char *cmd)
 	**hyejung
 
 	- 쉘변수가 존재해도, 값이 바뀌지 않음
-	ex) 
+	ex)
 	USER=jeonghyeonjin
-	$ export USER=hyejung 
+	$ export USER=hyejung
 	-> 결과 확인시 변경되지 않음을 알 수 있음
-	 
+
 
 	(6)ft_unset() : Good
 
@@ -103,34 +93,49 @@ static int	is_builtin(char *cmd)
 
 */
 
-static void exec_builtin(t_cmd *cmd)
-{
-	if (!ft_strcmp(cmd->argv[0], "cd"))
-		ft_cd(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "echo"))
-		ft_echo(cmd);//
-	else if (!ft_strcmp(cmd->argv[0], "pwd"))
-		ft_pwd();//
-	else if (!ft_strcmp(cmd->argv[0], "env"))
-		ft_env(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		ft_export(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		ft_unset(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		ft_exit();//
-}
+/*
+	특이 사항
 
-void exec_cmd(t_cmd *cur)
+	- pipe 기호 다음 cmd가 존재하지 않는 경우는 일단 에러로 처리하기로 함
+		ex) $ ls -l |
+
+
+	- 실행 예
+		$ ls | sort
+		$ ls -l | sort
+		$ env | sort			// -> 오류 ...
+
+	- builtin에 대한 pipe와 redirection 처리 필요
+
+*/
+
+
+/*
+	exec_input 기능
+
+	input으로 들어와 파싱된 cmd list를 순차적으로 실행
+
+	- free_cmd()
+		- 만약, readline()을 사용한다면 필요
+		- 만약, prompt4()를 사용하여 history를 추가적으로 구현해야 한다면, cmd를 free해서는 안 될 것 같음
+*/
+
+void exec_input(t_cmd *cmd)
 {
-	if (cur->argv[0])
+	t_cmd	*cur;
+
+	cur = cmd;
+	while (cur)
 	{
-		if (is_builtin(cur->argv[0]))
-			exec_builtin(cur);
-		// else if (cur->redirection)
-		// 	exec_redirection(cur);
-		// else if (cur->pipe)
-		// 	exec_pipe(cur);
+		if (cur->pipe || cur->pipe_prev)
+			exec_pipe(cur);
+		else
+			exec_cmd(cur);
+		/*
+		else if (cur->redirection)
+			exec_redirection(cur);
+		*/
+		cur = cur->next;
 	}
-	// free cmd list
+	//free_cmd(cmd);		// 만약, cmd list를 history로 사용한다면, free 하면 안됨
 }

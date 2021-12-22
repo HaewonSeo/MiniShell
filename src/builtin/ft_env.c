@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 16:15:29 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 12:38:00 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/21 17:07:30 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void ft_env(t_cmd *cmd)
 	pid_t	pid;
 
 	if (cmd->argc == 1)
-		print_env(g_info.head_env);
+		print_envp(g_info.envp);
 	else
 	{
 		pid = fork();

@@ -6,18 +6,11 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:28:18 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 14:27:20 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/22 18:23:47 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void ft_exit_with_set_mode(int errnum)
-{
-	// 프로그래밍이 종료되기 때문에, 동적 할당한 메모리 해제하는 기능을 추가해야 함
-	set_canonical_mode();
-	exit(errnum);
-}
 
 // error msg 출력 & exit status 저장 & exit
 void ft_perror(const char *str, int errnum)
@@ -42,6 +35,11 @@ bash: cd: ~23: No such file or directory
 
 - printf()를 사용하여 출력하는 방법
 - stderr 스트림으로 출력하는 방법
+
+(3)
+shw2662@DESKTOP-F8LA849:~/42Seoul/minishell2$ asaaaa
+asaaaa: command not found
+
 */
 
 
@@ -63,6 +61,15 @@ void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum)
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	g_info.exit_status = errnum;
+}
+
+void	ft_perror3(const char *cmd, const char *msg, int errnum)
+{
+	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);

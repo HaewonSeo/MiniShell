@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 11:47:24 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/21 16:54:23 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void echo_envv(char *arg)
+static void echo_env(char *arg)
 {
 	char	*key;
 	char	*value;
@@ -23,7 +23,7 @@ static void echo_envv(char *arg)
 	{
 		key = &arg[1];
 		// 환경변수 리스트에서 key에 해당하는 value를 찾아서 출력
-		value = get_env(g_info.head_env, key);
+		value = get_env(g_info.envp, key);
 		if (value)
 		{
 			printf("%s", value);
@@ -58,7 +58,7 @@ void ft_echo(t_cmd *cmd)
 	while (++i < cmd->argc)
 	{
 		if (cmd->argv[i][0] == '$')
-			echo_envv(cmd->argv[i]);
+			echo_env(cmd->argv[i]);
 		else
 			printf("%s", cmd->argv[i]);
 		if (i < cmd->argc - 1)
