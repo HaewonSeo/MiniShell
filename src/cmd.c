@@ -101,6 +101,7 @@ void    parsing_cmd(char *str, t_cmd **cur)
 
     i = 0;
     j = 0;
+    check_right(str);
     tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     init_cmd(str, tmp);
     tmp->quote = check_quote(str);

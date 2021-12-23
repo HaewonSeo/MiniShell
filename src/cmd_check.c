@@ -89,3 +89,10 @@ int where_quote(char *str)
     }
     return (-1);
 }
+
+void    check_right(char *str) // | < << > >> " '
+{
+    ch_right_quote(str);
+    ch_right_pipe(str);
+    ch_right_redi(str);
+}

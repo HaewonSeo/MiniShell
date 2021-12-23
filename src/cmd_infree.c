@@ -35,7 +35,6 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
     {
         del = tmp;
         tmp = tmp->next;
-        // free(del->argv[0]);
         i = 0;
         while (del->argv[i])
         {
