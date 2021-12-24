@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:10:49 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/22 18:54:41 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/24 14:20:37 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@
 		$ ls | sort
 		$ ls -l | sort
 		$ env | sort			// -> 오류 ...
+		$ ls | grep ab | sort
+		$ ls | grep ab | sort -r // -> 오류 -에
 
 	- builtin에 대한 pipe와 redirection 처리 필요
 
