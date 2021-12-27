@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/22 19:04:27 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/27 23:56:28 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ head_cmd - cmd1    -      cmd2        - cmd3 - ...
 
 */
 
+typedef struct			s_redir
+{
+	char 				*l;
+	char				*ll;
+	char				*r;
+	char				*rr;
+}						t_redir;
+
 typedef struct			s_cmd
 {
 	int					argc;
@@ -62,7 +70,9 @@ typedef struct			s_cmd
 	int					quote;				// '는 1 "는 2
 	int					fd[2];				// 현재 cmd에 pipe가 존재하는 경우 next_cmd의 fd[]를 생성한다.(pipe() 사용)
 	int					pipe_prev;			// 직전 cmd에 pipe가 있으면 1
+	t_redir				redir;				// redirection이 있는 경우 redireciton 관련 정보를 저장
 	struct s_cmd		*next;
+
 }						t_cmd;
 
 typedef struct			s_env
