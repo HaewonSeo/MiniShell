@@ -46,16 +46,14 @@ int check_quote(char *str)
     return (0);
 }
 
-int     where_pire(char *str)
+int where_redi(char *str)
 {
     int i;
-    
+
     i = 0;
     while (str[i])
     {
-        if (str[i] == '|')
-            return (i + 1);
-        else if (str[i] == '>')
+        if (str[i] == '>')
         {
             if (str[i + 1] == '>')
                 return (i + 2);
@@ -69,6 +67,20 @@ int     where_pire(char *str)
             else if (str[i + 1] == ' ')
                 return (i + 1);
         }
+        i++;
+    }
+    return (-1);
+}
+
+int     where_pipe(char *str)
+{
+    int i;
+    
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '|')
+            return (i + 1);
         i++;
     }
     return (-1);

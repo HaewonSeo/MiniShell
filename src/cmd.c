@@ -1,6 +1,35 @@
 
 #include "minishell.h"
 
+void    put_redirection(t_cmd *tmp)
+{
+    int i;
+
+    i = 0;
+    if (tmp->redirection == 0)
+        return ;
+    while (i < tmp->argc)
+    {
+        if (tmp->argv[i][0] == '<')
+        {
+            if (!tmp->argv[i][1])
+                tmp->redir->l = tmp->argv[i + 1];
+            else if (tmp->argv[i][1] == '<')
+                tmp->redir->ll = tmp->argv[i + 1];
+            i++;
+        }
+        if (tmp->argv[i][0] == '>')
+        {
+            if (!tmp->argv[i][1])
+                tmp->redir->r = tmp->argv[i + 1];
+            else if (tmp->argv[i][1] == '>')
+                tmp->redir->rr = tmp->argv[i + 1];
+            i++;
+        }
+        i++;
+    }
+}
+
 int parsing_cmd_qu(char *str, t_cmd *tmp)
 {
     int i;
@@ -45,7 +74,41 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
     return (j);
 }
 
+void    remove_redi(t_cmd *tmp)
+{
+    int     i;
+    int     j;
 
+    i = 0;
+    while (tmp->argv[i])
+    {
+        if (tmp->argv[i][0] == '<')
+        {
+            j = i;
+            while (tmp->argv[j + 2])
+            {
+                tmp->argv[j] = tmp->argv[j + 2];
+                j++;
+            }
+            tmp->argv[j] = NULL;
+            i = 0;
+            continue ;
+        }
+        if (tmp->argv[i][0] == '>')
+        {
+            j = i;
+            while (tmp->argv[j + 2])
+            {
+                tmp->argv[j] = tmp->argv[j + 2];
+                j++;
+            }
+            tmp->argv[j] = NULL;
+            i = 0;
+            continue ;
+        }
+        i++;
+    }
+}
 
 void    re_parsing_cmd(t_cmd *tmp, char *str)
 {
@@ -57,25 +120,16 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     i = 0;
     j = 0;
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+    new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->quote = check_quote(str);
     while (tmp->argv[i])
     {
         if (tmp->argv[i][0] == '|')
             break ;
-        else if (tmp->argv[i][0] == '>')
-        {
-            if (tmp->argv[i][1] == '>' || !tmp->argv[i][1])
-                break ;
-        }
-        else if (tmp->argv[i][0] == '<')
-        {
-            if (tmp->argv[i][1] == '<' || !tmp->argv[i][1])
-                break ;
-        }
         i++;
     }
     k = i + 1;
-    new->argv = (char **)malloc(sizeof(char *) * (tmp->argc - k));
+    new->argv = (char **)malloc(sizeof(char *) * (tmp->argc - k + 1));
     new->argc = tmp->argc - k;
     tmp->argc = tmp->argc - new->argc - 1;
     while (tmp->argv[k])
@@ -83,13 +137,16 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new->argv[j] = 0;
     tmp->argv[i] = 0;
     new->pipe = check_pipe(new);
-    new->redirection = check_redi(new);
+    k = where_pire(str);
+    new->redirection = check_redi(str + k);
     tmp->next = new;
     new->next = NULL;
     if (where_quote(str) > where_pire(str))
         tmp->quote = 0;
-    if (new->pipe > 0 || new->redirection > 0)
-        re_parsing_cmd(new, str + where_pire(str));
+    if (new->pipe > 0)
+        re_parsing_cmd(new, str + k);
+    put_redirection(new);
+    remove_redi(new);
 }
 
 void    parsing_cmd(char *str, t_cmd **cur)
@@ -121,11 +178,15 @@ void    parsing_cmd(char *str, t_cmd **cur)
         j = parsing_cmd_qu(str, tmp);
     tmp->argc = j;
     tmp->pipe = check_pipe(tmp);
-    tmp->redirection = check_redi(tmp);
+    tmp->redirection = check_redi(str);
+    if (tmp->pipe == 1 && where_pire(str) < where_redi(str))
+        tmp->redirection = 0;
     (*cur)->next = tmp;
     if (where_quote(str) > where_pire(str))
         tmp->quote = 0;
-    if (tmp->pipe > 0 || tmp->redirection > 0)
+    if (tmp->pipe > 0)
         re_parsing_cmd(tmp, str);
+    put_redirection(tmp);//
+    remove_redi(tmp);//
     return ;
 }
