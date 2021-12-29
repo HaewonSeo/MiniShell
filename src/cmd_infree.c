@@ -23,6 +23,7 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->fd[0] = 0;
     tmp->fd[1] = 0;
     tmp->next = NULL;
+    tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));///
 }
 
 void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
@@ -41,6 +42,14 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
             free(del->argv[i]);
             i++;
         }
+        if (del->redir->r)
+            free(del->redir->r);
+        if (del->redir->l)
+            free(del->redir->l);
+        if (del->redir->rr)
+            free(del->redir->rr);
+        if (del->redir->ll)
+            free(del->redir->ll);
         free(del);
     }
     free(tmp);

@@ -61,9 +61,9 @@ head_cmd - cmd1    -      cmd2        - cmd3 - ...
 
 typedef struct			s_redir
 {
-	char 				*l;
+	char 				*l;				// <
 	char				*ll;
-	char				*r;
+	char				*r;				// >
 	char				*rr;
 }						t_redir;
 
@@ -76,7 +76,7 @@ typedef struct			s_cmd
 	int					quote;				// '는 1 "는 2
 	int					fd[2];				// 현재 cmd에 pipe가 존재하는 경우 next_cmd의 fd[]를 생성한다.(pipe() 사용)
 	int					pipe_prev;			// 직전 cmd에 pipe가 있으면 1
-	t_redir				redir;				// redirection이 있는 경우 redireciton 관련 정보를 저장
+	t_redir				*redir;				// redirection이 있는 경우 redireciton 관련 정보를 저장
 	struct s_cmd		*next;
 
 }						t_cmd;
@@ -150,24 +150,25 @@ void	ft_perror3(const char *cmd, const char *msg, int errnum);
 
 void	init_cmd(char *str, t_cmd *tmp);
 void	new_init(char *str, t_cmd *tmp);
+void	put_redirection(t_cmd *tmp);
 void    parsing_cmd(char *str, t_cmd **tmp);
 int		parsing_cmd_qu(char *str, t_cmd *tmp);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(t_cmd *tmp);
 void	free_cmd(t_cmd *tmp);
+void	remove_redi(t_cmd *tmp);
 int		check_cmd(t_cmd *tmp);
 int		check_quote(char *str);
-int		where_pire(char *str);
+int		where_pipe(char *str);
 int		where_quote(char *str);
+int		where_redi(char *str);
 void    printf_error(int i);
 void    ch_right_redi_2(char *str, int i);
 void    ch_right_redi(char *str);
 void    ch_right_pipe(char *str);
 void    ch_right_quote(char *str);
 void    check_right(char *str);
-
-
 
 /*
 ** execute
