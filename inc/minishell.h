@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/27 23:56:28 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/29 18:07:59 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <term.h>
+# include <termcap.h>
 # include <string.h>
 # include <errno.h>
 # include <stdbool.h>
@@ -34,12 +35,17 @@
 #define EOT	4		// ctrl + d : End of Transmission
 #define LF	10		// \n : Line feed
 #define FS	28		// ctrl + \ : File Separator
+#define DEL	127
+#define LEFT_ARROW	4479771
+#define RIGHT_ARROW	4414235
 #define TEST 1
 
 typedef struct			s_term
 {
 	struct termios		canonical;
 	struct termios		noncanonical;
+	char				*cm;			// Screen-relative cursor motion.
+	char				*ce;			// Clear to end of line.
 }						t_term;
 
 /*
@@ -112,6 +118,10 @@ void	set_canonical_mode();
 void	prompt3();
 char	*prompt4();
 
+void	get_cursor_pos(int *col, int *row);
+void	put_backspace(int *col, int *row);
+void	move_cursor_left(int *col, int *row);
+void	move_cursor_right(int *col, int *row);
 /*
 ** builtin
 */
@@ -150,6 +160,14 @@ int		check_cmd(t_cmd *tmp);
 int		check_quote(char *str);
 int		where_pire(char *str);
 int		where_quote(char *str);
+void    printf_error(int i);
+void    ch_right_redi_2(char *str, int i);
+void    ch_right_redi(char *str);
+void    ch_right_pipe(char *str);
+void    ch_right_quote(char *str);
+void    check_right(char *str);
+
+
 
 /*
 ** execute

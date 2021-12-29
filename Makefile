@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/12/22 18:38:26 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/28 22:16:58 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,8 +88,10 @@ SRCS			=	minishell.c \
 					cmd_pire.c \
 					cmd.c \
 					cmd_check.c \
+					cmd_right.c \
 					execute_cmd.c \
-					execute_pipe.c
+					execute_pipe.c \
+					cursor.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
@@ -100,6 +102,8 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
 # LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+LDFLAGS			+= -lncurses
+
 # ----------------------------------
 # Rules
 # ----------------------------------

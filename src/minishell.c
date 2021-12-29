@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/24 14:23:58 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:00:23 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,20 @@ void signal_handler(int signum)
 
 void get_canonical_mode()
 {
+	char	*term;
+
 	tcgetattr(STDIN_FILENO, &g_info.term.canonical);
+	term = "xterm";
+	term = getenv("TERM");
+	tgetent(NULL, "xterm");
+	g_info.term.cm = tgetstr("cm", NULL);
+	g_info.term.ce = tgetstr("ce", NULL);
 }
 
 void set_noncanonical_mode()
 {
 	tcgetattr(STDIN_FILENO, &g_info.term.noncanonical);
-	g_info.term.noncanonical.c_lflag &= ~(ICANON);
+	g_info.term.noncanonical.c_lflag &= ~(ICANON | ECHO);
 	g_info.term.noncanonical.c_cc[VMIN] = 1;
 	g_info.term.noncanonical.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.noncanonical);
