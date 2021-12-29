@@ -17,25 +17,25 @@ int check_pipe(t_cmd *tmp)
     return (0);
 }
 
-int check_redi(t_cmd *tmp)// <은1 <<는2 >는3 >>는4
+int check_redi(char *str)// <은1 <<는2 >는3 >>는4
 {
     int i;
 
-    i = 1;
-    while (tmp->argv[i])
+    i = 0;
+    while (str[i])
     {
-        if (tmp->argv[i][0] == '<')
+        if (str[i] == '<')
         {
-            if (!tmp->argv[i][1])
+            if (str[i + 1] == ' ')
                 return (1);
-            else if (tmp->argv[i][1] == '<')
+            else if (str[i + 1] == '<')
                 return (2);
         }
-        else if (tmp->argv[i][0] == '>')
+        else if (str[i] == '>')
         {
-            if (!tmp->argv[i][1])
+            if (str[i + 1] == ' ')
                 return (3);
-            else if (tmp->argv[i][1] == '>')
+            else if (str[i + 1] == '>')
                 return (4);
         }
         i++;
