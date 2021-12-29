@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:10:49 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/28 00:21:08 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/28 17:43:32 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,6 @@ void exec_input(t_cmd *cmd)
 	cur = cmd;
 	while (cur)
 	{
-		/*
-		-> 자식 프로세스로 위치를 변경할 예정
-		if (cur->redirection)
-			set_redirection(cur);
-		*/
 		if (cur->pipe || cur->pipe_prev)
 			exec_pipe(cur);
 		else

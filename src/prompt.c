@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/17 20:39:41 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:08:47 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,29 +89,60 @@ static char	*ft_str_add_back(char *s, char ch)
 	return (str);
 }
 
+// 백스페이스 입력시 input의 마지막 한 글자가 지워짐
+static void *ft_str_remove_back(char *s)
+{
+	int	len;
+
+	len = ft_strlen(s);
+	s[len - 1] = '\0';
+}
+
 // char 1개씩 input을 받는 방법
 char *prompt4()
 {
 	int		ch;
 	char	*input;
+	int		col = 0;
+	int		row = 0;
 
 	ch = 0;
 	input = NULL;
-	ft_putstr_fd(BLU, STDOUT_FILENO);
-	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
-	ft_putstr_fd("$ ", STDOUT_FILENO);
-	ft_putstr_fd(EOC, STDOUT_FILENO);
-	while (read(STDIN_FILENO, &ch, 1))
+
+	// cwd 출력 시 , cwd 길이만큼 cursor의 col값이 증가하지 않아서 cursor 제어에 오류가 발생함
+	// 이 오류를 제외하고는 정상적으로 동작함
+
+	// ft_putstr_fd(BLU, STDOUT_FILENO);
+	// ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
+	// ft_putstr_fd("$ ", STDOUT_FILENO);
+	// ft_putstr_fd(EOC, STDOUT_FILENO);
+
+	get_cursor_pos(&col, &row);
+	while (read(STDIN_FILENO, &ch, sizeof(ch)) > 0)
 	{
 
 		// ft_putchar_fd((char)ch, STDOUT_FILENO);
 		if (ft_isprint(ch))
+		{
+			col++;
 			input = ft_str_add_back(input, (char)ch);
+			ft_putchar_fd(ch, STDOUT_FILENO);
+		}
+		else if (ch == DEL)
+		{
+			put_backspace(&col, &row);
+			ft_str_remove_back(input);
+		}
+		else if (ch == LEFT_ARROW)
+			move_cursor_left(&col, &row);
+		else if (ch == RIGHT_ARROW)
+			move_cursor_right(&col, &row);
 		else if (ch == LF)
-			break;
+			break ;
 		// 입력이 없을 때, Ctrl + D 누르면 minishell 종료
 		else if (!input && ch == EOT)
 			ft_exit();
+		ch = 0;
 	}
 	return (input);
 }
