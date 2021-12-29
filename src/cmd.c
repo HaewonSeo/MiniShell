@@ -137,11 +137,11 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new->argv[j] = 0;
     tmp->argv[i] = 0;
     new->pipe = check_pipe(new);
-    k = where_pire(str);
+    k = where_pipe(str);
     new->redirection = check_redi(str + k);
     tmp->next = new;
     new->next = NULL;
-    if (where_quote(str) > where_pire(str))
+    if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (new->pipe > 0)
         re_parsing_cmd(new, str + k);
@@ -179,10 +179,10 @@ void    parsing_cmd(char *str, t_cmd **cur)
     tmp->argc = j;
     tmp->pipe = check_pipe(tmp);
     tmp->redirection = check_redi(str);
-    if (tmp->pipe == 1 && where_pire(str) < where_redi(str))
+    if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
         tmp->redirection = 0;
     (*cur)->next = tmp;
-    if (where_quote(str) > where_pire(str))
+    if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (tmp->pipe > 0)
         re_parsing_cmd(tmp, str);
