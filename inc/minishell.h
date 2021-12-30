@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/29 18:07:59 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 13:02:24 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
@@ -182,6 +183,7 @@ char	*get_cmd_path(char *cmd);
 void	exec_cmd_child(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd);
 void	exec_pipe(t_cmd *cur);
+void	set_redirection(t_cmd *cur);
 
 /*
 ** env

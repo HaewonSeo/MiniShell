@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/29 22:00:23 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 00:04:27 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("pipe = %d\n", tmp->pipe);
 			printf("pipe_prev = %d\n", tmp->pipe_prev);
 			printf("redirection = %d\n", tmp->redirection);
-
+			printf("l = %s\n", tmp->redir->l);
+			printf("ll = %s\n", tmp->redir->ll);
+			printf("r = %s\n", tmp->redir->r);
+			printf("rr = %s\n", tmp->redir->rr);
 			printf("--------------------\n");
 			tmp = tmp->next;
 		}

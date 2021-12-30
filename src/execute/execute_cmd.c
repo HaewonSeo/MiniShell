@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/28 18:05:22 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 12:54:40 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ void exec_cmd(t_cmd *cmd)
 			ft_perror("fork", 1);
 		else if (pid == 0)
 		{
-			// if (cmd->redirection)
-			// 	set_redirection();
+			if (cmd->redirection)
+				set_redirection(cmd);
 			exec_cmd_child(cmd);
 		}
 		waitpid(pid, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:32:45 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/28 18:05:26 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 12:53:48 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void exec_pipe_fork(t_cmd *cmd)
 		ft_perror("fork", 1);
 	else if (pid == 0)
 	{
-		// if (cmd->redirection)
-		// 		set_redirection();
+		if (cmd->redirection)
+				set_redirection(cmd);
 		if (cmd->pipe && !cmd->pipe_prev)
 		{
 			// STDOUT과 기존에 연결되어 있던 모니터 파일은 자동으로 닫히고, STDOUT에는 fd[1]이 새롭게 연결된다.
