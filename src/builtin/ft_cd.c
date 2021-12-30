@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:43:46 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/21 16:51:35 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 13:46:03 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ ft_cd() 기능
 */
 void ft_cd(t_cmd *cmd)
 {
-	if (cmd->argc != 2)
+	if (cmd->argc > 2)
 		ft_perror1("cd", "too many arguments", (int)EPERM);
 	else if (cmd->argc == 1 || !ft_strcmp(cmd->argv[1], "~"))
 		cd_home();

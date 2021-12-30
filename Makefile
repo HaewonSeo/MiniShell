@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/12/28 22:16:58 by haseo            ###   ########.fr        #
+#    Updated: 2021/12/30 12:55:22 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,8 @@ SRCS			=	minishell.c \
 					cmd_right.c \
 					execute_cmd.c \
 					execute_pipe.c \
-					cursor.c
+					cursor.c \
+					set_redirection.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 

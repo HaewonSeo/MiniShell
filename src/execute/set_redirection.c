@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 22:24:47 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/28 00:01:09 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 13:04:31 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@
 		--> 1)이 이상적으로 보이나, 기존 구현 방식의 수정이 필요함
 */
 
-static void	set_l(t_redir *redir)
+static void	set_l(char *fname)
 {
 	int	fd;
 
-	fd = open(redir->l, O_RDONLY);
+	fd = open(fname, O_RDONLY);
 	if (fd < 0)
-		ft_perror1(redir->l, "No such file or directory", (int)EPERM);
+		ft_perror1(fname, "No such file or directory", (int)EPERM);
 		// exit(EPERM);
 	else
 	{
@@ -68,13 +68,13 @@ static void	set_l(t_redir *redir)
 	}
 }
 
-static void	set_r(t_redir *redir)
+static void	set_r(char *fname)
 {
 	int	fd;
 
-	fd = open(redir->r, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		ft_perror1(redir->r, "No such file or directory", (int)EPERM);
+		ft_perror1(fname, "No such file or directory", (int)EPERM);
 	else
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
@@ -83,13 +83,13 @@ static void	set_r(t_redir *redir)
 	}
 }
 
-static void	set_rr(t_redir *redir)
+static void	set_rr(char *fname)
 {
 	int	fd;
 
-	fd = open(redir->rr, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(fname, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
-		ft_perror1(redir->rr, "No such file or directory", (int)EPERM);
+		ft_perror1(fname, "No such file or directory", (int)EPERM);
 	else
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
@@ -100,13 +100,12 @@ static void	set_rr(t_redir *redir)
 
 void	set_redirection(t_cmd *cur)
 {
-	if (l)
-		set_l(&(cur->redir));
-	if (r)
-		set_r(&(cur->redir));
+	if (cur->redir->l)
+		set_l(cur->redir->l);
+	if (cur->redir->r)
+		set_r(cur->redir->r);
 	// if (ll)
 		// set_ll();
-	if (rr)
-		set_rr(&(cur->redir));
-	// arg 수정
+	if (cur->redir->rr)
+		set_rr(cur->redir->rr);
 }
