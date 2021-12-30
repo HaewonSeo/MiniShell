@@ -101,7 +101,7 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
-# LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
 LDFLAGS			+= -lncurses
 
 # ----------------------------------

@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-/*
-// readline 사용하여 input을 받는 방법
-void prompt2()
+
+//readline 사용하여 input을 받는 방법
+char *prompt2()
 {
 	char	*cwd;
 	char	*cmd;
@@ -34,7 +34,7 @@ void prompt2()
 
 	free(cwd);
 }
-*/
+
 
 // GNL을 사용하여 input을 받는 방법
 void prompt3()

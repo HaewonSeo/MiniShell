@@ -28,8 +28,8 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
-// # include <readline/readline.h>
-// # include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #define ETX	3		// ctrl + c : End of Text
 #define EOT	4		// ctrl + d : End of Transmission
@@ -114,7 +114,8 @@ void	set_canonical_mode();
 ** prompt
 */
 
-// void prompt2();
+char	*prompt2();//
+//void	prompt2();
 void	prompt3();
 char	*prompt4();
 
