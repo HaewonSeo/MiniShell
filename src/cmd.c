@@ -80,6 +80,7 @@ void    remove_redi(t_cmd *tmp)
     int     j;
 
     i = 0;
+    j = tmp->argc;
     while (tmp->argv[i])
     {
         if (tmp->argv[i][0] == '<')
@@ -107,6 +108,7 @@ void    remove_redi(t_cmd *tmp)
             continue ;
         }
         i++;
+        tmp->argc = j;
     }
 }
 
