@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 22:24:47 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 13:04:31 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:56:49 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,63 @@ static void	set_l(char *fname)
 	}
 }
 
+/*
+	set_ll() 기능
+
+	ex1) $ sort << EOF
+		STDIN으로 받은 입력을 임시 파일에 저장하고
+		이 파일이 sort 명령어를 실행하기 위한 입력으로 적용된다.
+		<< 우측의 문자열이 delimiter가 되고 delimeter가 입력되면 임시 파일에 입력이 중단된다.
+
+	ex2) $ sort << EOF > output.txt
+		입력은 위 예제와 동일하게 받게 되고
+		sort의 실행 결과가 output.txt 에 저장된다.
+
+	ex3) $ cat << EOF1
+		> h
+		> a
+		> EOF1
+		h
+		a
+
+	동작 순서
+		1. 임시 파일을 creat
+		2. STDIN으로 받는 값을 임시파일에 저장
+		3. Delimiter가 입력되면 중단
+		4. STDIN을 임시 파일의 fd에 연결
+*/
+
+static void	set_ll(char *delimiter)
+{
+	int	fd;
+	char *input;
+
+	fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0744); // __O_TMPFILE 을 사용하면 임시 파일을 만들 수 있지만, 허용되지 않는 함수가 필요하다.
+	if (fd < 0)
+		ft_perror1("tmp", "No such file or directory", (int)EPERM);
+	else
+	{
+		while (1)
+		{
+			ft_putstr_fd("> ", STDOUT_FILENO);
+			input = prompt4();
+			if (!strcmp(input, delimiter))
+			{
+				free(input);
+				break;
+			}
+			ft_putstr_fd(input, fd);
+			ft_putstr_fd("\n", fd);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+			free(input);
+		}
+		close(fd);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		set_l("tmp");	// lseek()를 사용할 수 없으므로, 새로 fd를 open해서 STDIN에 연결
+		// tmp.txt 파일 삭제 생략됨
+	}
+}
+
 static void	set_r(char *fname)
 {
 	int	fd;
@@ -98,14 +155,16 @@ static void	set_rr(char *fname)
 	}
 }
 
+
+
 void	set_redirection(t_cmd *cur)
 {
 	if (cur->redir->l)
 		set_l(cur->redir->l);
+	if (cur->redir->ll)
+		set_ll(cur->redir->ll);
 	if (cur->redir->r)
 		set_r(cur->redir->r);
-	// if (ll)
-		// set_ll();
 	if (cur->redir->rr)
 		set_rr(cur->redir->rr);
 }
