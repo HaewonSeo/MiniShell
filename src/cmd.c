@@ -155,14 +155,23 @@ void    parsing_cmd(char *str, t_cmd **cur)
 {
     int     i;
     int     j;
+    int     k;
     int     mid;
     t_cmd   *tmp;
 
-    i = 0;
     j = 0;
     check_right(str);
     tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+    k = check_cmd_env(str);
+    if (k != -1)
+        (*cur)->next = parsing_cmd_env(str);
+    else
+        k = 0;
+    str = str + k;
+    if (ft_strlen(str) == 0)
+        return ;
     init_cmd(str, tmp);
+    i = 0;
     tmp->quote = check_quote(str);
     while(tmp->quote == 0 && i < ft_strlen(str))
     {
@@ -183,7 +192,10 @@ void    parsing_cmd(char *str, t_cmd **cur)
     tmp->redirection = check_redi(str);
     if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
         tmp->redirection = 0;
-    (*cur)->next = tmp;
+    if (k == 0)
+        (*cur)->next = tmp;
+    else
+        (*cur)->next->next = tmp;
     if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (tmp->pipe > 0)

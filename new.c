@@ -462,6 +462,59 @@ void    check_right(char *str) // | < << > >> " '
     ch_right_redi(str);
 }
 
+/*
+*** env 
+*/
+
+int check_cmd_env(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] && str[i] == ' ')
+        i++;
+    while (str[i] && str[i] != ' ')
+    {
+        if (str[i] == '<' || str[i] == '>' || str[i] == '|')
+            return (-1);
+        if (str[i] == '=' && i != 0)
+        {
+            while (str[i] && str[i] != ' ')
+                i++;
+            return (i);
+        }
+        i++;
+    }
+    return (-1);
+}
+
+t_cmd   *parsing_cmd_env(char *str)
+{
+    int     len;
+    int     i;
+    t_cmd   *new;
+
+    i = 0;
+    len = check_cmd_env(str);
+    while (str[i] && str[i] == ' ')
+        i++;
+    new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+    new->argc = 1;
+    new->argv = (char **)malloc(sizeof(char *) * 1);
+    new->argv[0] = (char *)malloc(sizeof(char) * (len - i + 1));
+    new->redirection = 0;
+    new->pipe = 0;
+    new->quote = 0;
+    new->fd[0] = 0;
+    new->fd[1] = 0;
+    new->pipe_prev = 0;
+    new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
+    new->next = NULL;
+    new->argv[0] = ft_substr(str, i, len - i);
+    return (new);
+}
+
+
 
 /*
 ** 시작
@@ -603,11 +656,11 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new->argv[j] = 0;
     tmp->argv[i] = 0;
     new->pipe = check_pipe(new);
-    k = where_pire(str);
+    k = where_pipe(str);
     new->redirection = check_redi(str + k);
     tmp->next = new;
     new->next = NULL;
-    if (where_quote(str) > where_pire(str))
+    if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (new->pipe > 0)
         re_parsing_cmd(new, str + k);
@@ -619,14 +672,21 @@ void    parsing_cmd(char *str, t_cmd **cur)
 {
     int     i;
     int     j;
+    int     k;
     int     mid;
     t_cmd   *tmp;
 
-    i = 0;
     j = 0;
     check_right(str);
     tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+    k = check_cmd_env(str);
+    if (k != -1)
+        (*cur)->next = parsing_cmd_env(str);
+    else
+        k = 0;
+    str = str + k;
     init_cmd(str, tmp);
+    i = 0;
     tmp->quote = check_quote(str);
     while(tmp->quote == 0 && i < ft_strlen(str))
     {
@@ -645,10 +705,13 @@ void    parsing_cmd(char *str, t_cmd **cur)
     tmp->argc = j;
     tmp->pipe = check_pipe(tmp);
     tmp->redirection = check_redi(str);
-    if (tmp->pipe == 1 && where_pire(str) < where_redi(str))
+    if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
         tmp->redirection = 0;
-    (*cur)->next = tmp;
-    if (where_quote(str) > where_pire(str))
+    if (k == 0)
+        (*cur)->next = tmp;
+    else
+        (*cur)->next->next = tmp;
+    if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (tmp->pipe > 0)
         re_parsing_cmd(tmp, str);
@@ -663,8 +726,8 @@ void    parsing_cmd(char *str, t_cmd **cur)
 
 int main()
 {
-   // char *str = " haai << wo > aa | rld > ww";
-    char *str = " h <  \" wor < a\"  > b | w > sss >> qqq lw";
+   char *str = " ha=ai wo > aa | rld > ww";
+   // char *str = " h <  \" wor < a\"  > b | w > sss >> qqq lw";
     t_cmd *tmp;
     int i;
 
@@ -679,7 +742,7 @@ int main()
     parsing_cmd(str, &tmp);
    while (tmp->next->argv[i])
     {
-       printf("%s\n", tmp->next->argv[i]);
+       printf("<%s>\n", tmp->next->argv[i]);
         i++;
     }
     printf("%s|%s|%s|%s\n", tmp->next->redir->r,tmp->next->redir->rr,tmp->next->redir->l,tmp->next->redir->ll);
@@ -693,7 +756,7 @@ int main()
     }
      printf("%s %s %s %s\n", tmp->next->next->redir->r, tmp->next->next->redir->rr,tmp->next->next->redir->l,tmp->next->next->redir->ll);
     printf("%d\n", tmp->next->next->quote);
-    /*
+    
     i = 0;
     printf("-----\n");
     while (tmp->next->next->next->argv[i])
@@ -701,7 +764,7 @@ int main()
         printf("%s\n", tmp->next->next->next->argv[i]);
         i++;
     }
-    printf("%d\n", tmp->next->next->next->quote);
+    printf("%d\n", tmp->next->next->next->quote);/*
     i = 0;
     printf("-----\n");
     while (tmp->next->next->next->next->argv[i])

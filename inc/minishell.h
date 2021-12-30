@@ -114,6 +114,7 @@ void	set_canonical_mode();
 /*
 ** prompt
 */
+
 char	*prompt();
 void	prompt2();
 void	prompt3();
@@ -170,6 +171,8 @@ void    ch_right_redi(char *str);
 void    ch_right_pipe(char *str);
 void    ch_right_quote(char *str);
 void    check_right(char *str);
+int		check_cmd_env(char *str);
+t_cmd   *parsing_cmd_env(char *str);
 
 /*
 ** execute

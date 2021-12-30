@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
-
 // readline 사용하여 input을 받는 방법
-char	*prompt2()
+void  *prompt2()
 {
 	char	*cwd;
 	char	*cmd;
@@ -31,11 +30,8 @@ char	*prompt2()
 		add_history(cmd);	// history에 저장(위, 아래 방향키로 확인 가능)
 		free(cmd);
 	}
-
 	free(cwd);
-	return (cmd);
 }
-
 
 char	*prompt()
 {
@@ -58,7 +54,7 @@ char	*prompt()
 
 
 // GNL을 사용하여 input을 받는 방법
-void prompt3()
+/*void prompt3()
 {
 	char	*cmd;
 	char	*line;
@@ -82,7 +78,7 @@ void prompt3()
 	}
 	printf("%s ", cmd);
 	free(cmd);
-}
+}*/
 
 static char	*ft_str_add_back(char *s, char ch)
 {

@@ -71,8 +71,8 @@ int	main(int argc, char *argv[], char *envp[])
 
 	signal(SIGINT, (void *)signal_handler);
 	signal(SIGQUIT, (void *)signal_handler);
-	get_canonical_mode();
-	set_noncanonical_mode();
+	//get_canonical_mode();
+	//set_noncanonical_mode();
 	init_info(argv, envp);
 
 	cur = g_info.head_cmd;
@@ -117,6 +117,6 @@ int	main(int argc, char *argv[], char *envp[])
 		input = NULL;
 	}
 
-	set_canonical_mode();
+	//set_canonical_mode();
 	return 0;
 }
