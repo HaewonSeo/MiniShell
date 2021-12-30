@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 21:09:12 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 21:13:49 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ void	set_canonical_mode();
 /*
 ** prompt
 */
-
-// void prompt2();
+char	*prompt();
+void	prompt2();
 void	prompt3();
 char	*prompt4();
 
