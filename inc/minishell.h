@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 13:02:24 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 21:09:12 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
-// # include <readline/readline.h>
-// # include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #define ETX	3		// ctrl + c : End of Text
 #define EOT	4		// ctrl + d : End of Transmission

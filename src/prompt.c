@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/29 22:08:47 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 20:45:53 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 // readline 사용하여 input을 받는 방법
-void prompt2()
+char	*prompt2()
 {
 	char	*cwd;
 	char	*cmd;
@@ -33,6 +33,27 @@ void prompt2()
 	}
 
 	free(cwd);
+	return (cmd);
+}
+
+
+char	*prompt()
+{
+	char	*cwd;
+	char	*cmd;
+
+	cwd = getcwd(NULL, 0);	// dynamic allocation
+	cwd = ft_strjoin(cwd, "$ ");
+	cmd = readline(cwd);
+	if (!cmd)
+	{
+		free(cwd);
+		ft_exit();
+	}
+	printf("%s\n", cmd);
+	add_history(cmd);	// history에 저장(위, 아래 방향키로 확인 가능)
+	free(cwd);
+	return (cmd);
 }
 */
 
@@ -75,6 +96,7 @@ static char	*ft_str_add_back(char *s, char ch)
 		if (!str)
 			exit(1);
 		str[0] = ch;
+		str[1] = '\0';
 	}
 	else
 	{
@@ -84,6 +106,7 @@ static char	*ft_str_add_back(char *s, char ch)
 		while (s[++i])
 			str[i] = s[i];
 		str[i] = ch;
+		str[i + 1] = '\0';
 		free(s);
 	}
 	return (str);
