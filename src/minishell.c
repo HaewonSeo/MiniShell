@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 00:04:27 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 21:10:07 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char *argv[], char *envp[])
 	cur = g_info.head_cmd;
 	while (1)
 	{
-		input = prompt2(); //ㅇㅝㄴ래 4
+		input = prompt();
 		parsing_cmd(input, &cur);
 		cur = cur->next;
 
@@ -114,6 +114,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 		exec_input(cur);
 		free(input);
+		input = NULL;
 	}
 
 	//set_canonical_mode();
