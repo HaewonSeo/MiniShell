@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 //readline 사용하여 input을 받는 방법
 char *prompt2()
 {
@@ -37,7 +36,7 @@ char *prompt2()
 
 
 // GNL을 사용하여 input을 받는 방법
-void prompt3()
+/*void prompt3()
 {
 	char	*cmd;
 	char	*line;
@@ -61,7 +60,7 @@ void prompt3()
 	}
 	printf("%s ", cmd);
 	free(cmd);
-}
+}*/
 
 static char	*ft_str_add_back(char *s, char ch)
 {

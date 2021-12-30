@@ -85,6 +85,7 @@ SRCS			=	minishell.c \
 					ft_pwd.c \
 					ft_unset.c \
 					cmd_infree.c \
+					cmd_env.c \
 					cmd_pire.c \
 					cmd.c \
 					cmd_check.c \
