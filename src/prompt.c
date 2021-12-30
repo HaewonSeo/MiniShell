@@ -12,8 +12,27 @@
 
 #include "minishell.h"
 
+char	*prompt2()
+{
+	char	*cwd;
+	char	*cmd;
+
+	cwd = getcwd(NULL, 0);	// dynamic allocation
+	cwd = ft_strjoin(cwd, "$ ");
+	cmd = readline(cwd);
+	if (!cmd)
+	{
+		free(cwd);
+		ft_exit();
+	}
+	printf("%s\n", cmd);
+	add_history(cmd);	// history에 저장(위, 아래 방향키로 확인 가능)
+	free(cwd);
+	return (cmd);
+}
+
 //readline 사용하여 input을 받는 방법
-char *prompt2()
+/*char *prompt2()
 {
 	char	*cwd;
 	char	*cmd;
@@ -32,7 +51,7 @@ char *prompt2()
 	}
 
 	free(cwd);
-}
+}*/
 
 
 // GNL을 사용하여 input을 받는 방법

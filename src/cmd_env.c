@@ -1,6 +1,22 @@
 
 #include "minishell.h"
 
+char    *re_make_str(char *str)
+{
+    int     i;
+    int     j;
+    char    *new;
+
+    i = 0;
+    while(str[i] && str[i] == ' ')
+        i++;
+    j = i;
+    while (str[i] && str[i] != ' ')
+        i++;
+    new = ft_substr(str, j, i - j);
+    return (new);
+}
+
 int check_cmd_env(char *str)
 {
     int i;
@@ -25,18 +41,16 @@ int check_cmd_env(char *str)
 
 t_cmd   *parsing_cmd_env(char *str)
 {
-    int     len;
     int     i;
     t_cmd   *new;
 
     i = 0;
-    len = check_cmd_env(str);
-    while (str[i] && str[i] == ' ')
+    str = re_make_str(str);
+    while (str[i] != '=')
         i++;
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-    new->argc = 1;
-    new->argv = (char **)malloc(sizeof(char *) * 1);
-    new->argv[0] = (char *)malloc(sizeof(char) * (len - i + 1));
+    new->argc = 2;
+    new->argv = (char **)malloc(sizeof(char *) * 3);
     new->redirection = 0;
     new->pipe = 0;
     new->quote = 0;
@@ -45,6 +59,8 @@ t_cmd   *parsing_cmd_env(char *str)
     new->pipe_prev = 0;
     new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->next = NULL;
-    new->argv[0] = ft_substr(str, i, len - i);
+    new->argv[0] = ft_substr(str, 0, i);//
+    new->argv[1] = ft_substr(str, i + 1, ft_strlen(str) - i);//
+    add_envp(&g_info, str);
     return (new);
 }

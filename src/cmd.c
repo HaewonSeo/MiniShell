@@ -168,6 +168,8 @@ void    parsing_cmd(char *str, t_cmd **cur)
     else
         k = 0;
     str = str + k;
+    if (ft_strlen(str) == 0)
+        return ;
     init_cmd(str, tmp);
     i = 0;
     tmp->quote = check_quote(str);
