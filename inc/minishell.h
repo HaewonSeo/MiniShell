@@ -94,6 +94,7 @@ typedef struct			s_info
 	t_term				term;				// terminal 관련 속성
 	char				**argv;
 	char				**envp;				// subshell에게 envp를 전달하기 위한 포인터
+	char				**shell;
 	t_env				*head_env;			// 환경변수 연결 리스트의 head
 	t_cmd				*head_cmd;			// cmd 연결 리스트의 head
 	t_env				*head_shell_var;	// 쉘 변수 연결 리스트의 head
@@ -116,7 +117,7 @@ void	set_canonical_mode();
 */
 
 char	*prompt();
-void	prompt2();
+void	*prompt2();
 void	prompt3();
 char	*prompt4();
 
@@ -173,6 +174,17 @@ void    ch_right_quote(char *str);
 void    check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd   *parsing_cmd_env(char *str);
+
+/*
+** shell_env
+*/
+
+void    add_shell_env(char *str);
+void    add_new_shell_env(char *str, t_info *info);
+void    free_shell(char **shel);
+char	*get_shell(t_info *info, char *key);
+void    del_shell(t_info *info, char *key);
+
 
 /*
 ** execute

@@ -69,6 +69,8 @@ void    add_envp(t_info *info, char *str)
 		i++;
 	}
 	tmp = ft_substr(str, 0, i);
+	if (get_shell(info, tmp))//
+		del_shell(info, tmp);//
 	if (!getenv(tmp))
 		add_envp_new(info, str);
 	else
