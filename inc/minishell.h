@@ -89,13 +89,6 @@ typedef struct			s_env
 	struct s_env		*next;
 }						t_env;
 
-typedef struct			s_shell
-{
-	char				*key;
-	char				*value;
-	struct s_shell		*next;
-}						t_shell;
-
 typedef struct			s_info
 {
 	t_term				term;				// terminal 관련 속성
@@ -104,7 +97,6 @@ typedef struct			s_info
 	char				**shell;
 	t_env				*head_env;			// 환경변수 연결 리스트의 head
 	t_cmd				*head_cmd;			// cmd 연결 리스트의 head
-	t_shell				*head_shell;
 	t_env				*head_shell_var;	// 쉘 변수 연결 리스트의 head
 	int					exit_status;		// 종료 상태
 }						t_info;
@@ -125,7 +117,7 @@ void	set_canonical_mode();
 */
 
 char	*prompt();
-void	prompt2();
+void	*prompt2();
 void	prompt3();
 char	*prompt4();
 

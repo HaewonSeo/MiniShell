@@ -57,7 +57,7 @@ static void init_info(char *argv[], char *envp[])
 	g_info.envp = envp;
 	g_info.head_env = (t_env *)ft_calloc(1, sizeof(t_env)); // head는 더미 포인터
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	g_info.head_shell = (t_shell *)ft_calloc(1, sizeof(t_shell));//추가
+	g_info.head_shell_var = (t_env *)ft_calloc(1, sizeof(t_env));//추가
 	g_info.shell = (char **)malloc(sizeof(char *) * 1);
 	split_envp(envp, &g_info);
 #ifdef TEST11
