@@ -6,13 +6,34 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/29 22:08:47 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 21:13:52 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*prompt2()
+// readline 사용하여 input을 받는 방법
+void  *prompt2()
+{
+	char	*cwd;
+	char	*cmd;
+
+	cwd = getcwd(NULL, 0);	// dynamic allocation
+	cwd = ft_strjoin(cwd, "$ ");
+	while (1)
+	{
+		cmd = readline(cwd);
+		if (cmd)
+			printf("%s\n", cmd);
+		else
+			break;
+		add_history(cmd);	// history에 저장(위, 아래 방향키로 확인 가능)
+		free(cmd);
+	}
+	free(cwd);
+}
+
+char	*prompt()
 {
 	char	*cwd;
 	char	*cmd;
@@ -30,28 +51,6 @@ char	*prompt2()
 	free(cwd);
 	return (cmd);
 }
-
-//readline 사용하여 input을 받는 방법
-/*char *prompt2()
-{
-	char	*cwd;
-	char	*cmd;
-
-	cwd = getcwd(NULL, 0);	// dynamic allocation
-	cwd = ft_strjoin(cwd, "$ ");
-	while (1)
-	{
-		cmd = readline(cwd);
-		if (cmd)
-			printf("%s\n", cmd);
-		else
-			break;
-		add_history(cmd);	// history에 저장(위, 아래 방향키로 확인 가능)
-		free(cmd);
-	}
-
-	free(cwd);
-}*/
 
 
 // GNL을 사용하여 input을 받는 방법
@@ -93,6 +92,7 @@ static char	*ft_str_add_back(char *s, char ch)
 		if (!str)
 			exit(1);
 		str[0] = ch;
+		str[1] = '\0';
 	}
 	else
 	{
@@ -102,6 +102,7 @@ static char	*ft_str_add_back(char *s, char ch)
 		while (s[++i])
 			str[i] = s[i];
 		str[i] = ch;
+		str[i + 1] = '\0';
 		free(s);
 	}
 	return (str);

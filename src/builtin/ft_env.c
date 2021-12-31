@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 16:15:29 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/21 17:07:30 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 14:32:34 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,30 @@ void ft_env(t_cmd *cmd)
 {
 	int		i;
 	pid_t	pid;
+	t_cmd	*new_cmd;
 
 	if (cmd->argc == 1)
 		print_envp(g_info.envp);
 	else
 	{
-		pid = fork();
-		if (pid < 0)
-			ft_perror("fork", (int)EPERM);
-		else if (pid == 0)
-		{
-			if (execve(cmd->argv[1], &cmd->argv[1], g_info.envp) == -1)
-				ft_perror("execve", (int)EPERM);
-		}
-		waitpid(pid, NULL, 0);
-		g_info.exit_status = 0;
+		new_cmd = cmd;
+		new_cmd->argv = &(new_cmd->argv[1]);
+		new_cmd->argc = new_cmd->argc - 1;
+		exec_cmd(new_cmd);
+
+
+		// pid = fork();
+		// if (pid < 0)
+		// 	ft_perror("fork", (int)EPERM);
+		// else if (pid == 0)
+		// {
+		// 	// if (cmd->redirection)
+		// 	// 	set_redirection(cmd);
+		// 	if (execve(cmd->argv[1], &cmd->argv[1], g_info.envp) == -1)
+		// 		ft_perror("execve", (int)EPERM);
+		// }
+		// waitpid(pid, NULL, 0);
+		// g_info.exit_status = 0;
+
 	}
 }

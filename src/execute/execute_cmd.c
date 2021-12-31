@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 12:54:40 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 17:37:51 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void exec_builtin(t_cmd *cmd)
 	만약 있다면 해당 cmd의 절대경로를 return
 	만약 없다면 NULL return
 
+	0. cmd 자체가 경로로 주어지고, 실행 파일이 존재하는 경우 cmd를 return
 	1. path의 value를 ':' 단위로 split
 	2. stat()함수로 해당 경로에 cmd가 존재하는지를 판단
 		- /로 끝나는 경로가 있기도 하고, /로 끝나지 않는 경로가 있기도 함
@@ -65,6 +66,8 @@ char *get_cmd_path(char *cmd)
 	int			i;
 	struct stat	st;
 
+	if (stat(cmd, &st) == 0)
+		return (cmd);
 	path_value = get_env(g_info.envp, "PATH");
 	paths = ft_split(path_value, ':');
 #ifdef TEST11
