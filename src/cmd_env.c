@@ -61,6 +61,6 @@ t_cmd   *parsing_cmd_env(char *str)
     new->next = NULL;
     new->argv[0] = ft_substr(str, 0, i);//
     new->argv[1] = ft_substr(str, i + 1, ft_strlen(str) - i);//
-    add_envp(&g_info, str);
+    add_shell_env(str);
     return (new);
 }
