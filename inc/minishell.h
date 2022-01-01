@@ -176,6 +176,7 @@ void    ch_right_quote(char *str);
 void    check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd   *parsing_cmd_env(char *str);
+void	finish_cmd(t_cmd *tmp, char *str);
 
 /*
 ** cmd tool

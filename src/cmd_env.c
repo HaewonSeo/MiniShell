@@ -20,6 +20,7 @@ char    *re_make_str(char *str)
 int check_cmd_env(char *str)
 {
     int i;
+    int j;
 
     i = 0;
     while (str[i] && str[i] == ' ')
@@ -27,11 +28,18 @@ int check_cmd_env(char *str)
     while (str[i] && str[i] != ' ')
     {
         if (str[i] == '<' || str[i] == '>' || str[i] == '|')
-            return (-1);
+            return (0);
         if (str[i] == '=' && i != 0)
         {
             while (str[i] && str[i] != ' ')
                 i++;
+            j = i;
+            while (j < ft_strlen(str))
+            {
+                if (str[j] == '>' || str[j] == '<')
+                    return (-2);
+                j++;
+            }
             return (i);
         }
         i++;
@@ -43,8 +51,8 @@ t_cmd   *parsing_cmd_env(char *str)
 {
     t_cmd   *new;
 
-    str = re_make_str(str);
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+    str = re_make_str(str);
     new->argc = 1;
     new->argv = (char **)malloc(sizeof(char *) * 1);
     new->redirection = 0;

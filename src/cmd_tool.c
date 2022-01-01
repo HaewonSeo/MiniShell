@@ -43,37 +43,38 @@ void    tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
     return ;
 }
 
-int return_j(t_cmd *tmp, char *str)
-{
-    int i;
-    int j;
-    int mid;
-
-    i = 0;
-    j = 0;
-    tmp->quote = check_quote(str);
-    while(tmp->quote == 0 && i < ft_strlen(str))
-    {
-        while (str[i] && str[i] == ' ')
-            i++;
-        mid = i;
-        while (str[i] && str[i] != ' ')
-            i++;
-        tmp->argv[j] = ft_substr(str, mid, i - mid);
-        j++;
-        i++;
-    }
-    tmp->argv[j] = 0;
-    if (tmp->quote != 0)
-        j = parsing_cmd_qu(str, tmp);
-    tmp->pipe = check_pipe(tmp);
-    tmp->redirection = check_redi(str);
-    return (j);
-}
-
 void    check_right(char *str) // | < << > >> " '
 {
     ch_right_quote(str);
     ch_right_pipe(str);
     ch_right_redi(str);
+}
+
+void    put_redirection(t_cmd *tmp)
+{
+    int i;
+
+    i = 0;
+    if (tmp->redirection == 0)
+        return ;
+    while (i < tmp->argc)
+    {
+        if (tmp->argv[i][0] == '<')
+        {
+            if (!tmp->argv[i][1])
+                tmp->redir->l = tmp->argv[i + 1];
+            else if (tmp->argv[i][1] == '<')
+                tmp->redir->ll = tmp->argv[i + 1];
+            i++;
+        }
+        if (tmp->argv[i][0] == '>')
+        {
+            if (!tmp->argv[i][1])
+                tmp->redir->r = tmp->argv[i + 1];
+            else if (tmp->argv[i][1] == '>')
+                tmp->redir->rr = tmp->argv[i + 1];
+            i++;
+        }
+        i++;
+    }
 }
