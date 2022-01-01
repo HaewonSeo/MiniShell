@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:10:49 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/28 17:43:32 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 15:05:13 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,49 +22,7 @@
 
 	(3)ft_pwd() : Good
 
-	(4)ft_env()
-
-		- argument 주어졌을 때 구현 안함
-			-> envp 를 subshell에게 전달하는 과정 필요...
-			-> 지금까지의 환경 변수 리스트를 char ** 형식으로 만들어서 subshell에 전달하는 방법?
-			-> 아니면 다른 방법?
-
-		- export나 unset 명령어 사용 후, env 명령어 입력시 아래처럼 문자열이 깨지는 현상 발생
-
-			(ex 1)
-			/home/shw2662/42Seoul/MiniShell$ unset AA
-
-			/home/shw2662/42Seoul/MiniShell$ env
-
-				----Parsing test----
-				input : en��Uv
-				argv[0] : en��Uv
-				argc = 1
-				--------------------
-
-			(ex 2)
-			/home/shw2662/42Seoul/MiniShell$ export 1 2 $
-
-			----Parsing test----
-			input : export 1 2 $
-			argv[0] : export
-			argv[1] : 1
-			argv[2] : 2
-			argv[3] : $
-			argc = 4
-			--------------------
-			bash: export: `3': not a valid identifier
-			/home/shw2662/42Seoul/MiniShell$ env
-
-			----Parsing test----
-			input : enToUv
-			argv[0] : enToUv
-			argc = 1
-			--------------------
-
-		**hyejung 추가
-		기존에 사용했던 명령어랑 겹쳐서 출력이 되는 것 같아요!
-		그런데 아래 키 몇번 누르니까 잘 작동은 해요
+	(4)ft_env() : Good
 
 	(5)ft_export()
 

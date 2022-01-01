@@ -6,12 +6,17 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/21 16:54:23 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 17:03:06 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	쉘 변수 및 환경변수 리스트에서 key에 해당하는 value를 찾아서 출력
+	1. 환경변수 리스트에서 탐색
+	2. 없으면 쉘변수 리스트에서 탐색
+*/
 static void echo_env(char *arg)
 {
 	char	*key;
@@ -22,13 +27,16 @@ static void echo_env(char *arg)
 	else
 	{
 		key = &arg[1];
-		// 환경변수 리스트에서 key에 해당하는 value를 찾아서 출력
+
 		value = get_env(g_info.envp, key);
 		if (value)
 		{
 			printf("%s", value);
-			free(value);
+			return ;
 		}
+		value = get_shell(&g_info, key);
+		if (value)
+			printf("%s", value);
 	}
 }
 

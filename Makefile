@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2021/12/30 21:09:19 by haseo            ###   ########.fr        #
+#    Updated: 2022/01/01 14:26:17 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ CC				= gcc
 # CFLAGS 			= -Wall -Wextra -Werror
 # CFLAGS			+= -g3 -fsanitize=address
 CFLAGS			+= -g
-USER			= haseo
-# USER			= hyejung
+# USER			= $(USER)
 
 # ----------------------------------
 # Command
@@ -95,7 +94,9 @@ SRCS			=	minishell.c \
 					execute_cmd.c \
 					execute_pipe.c \
 					cursor.c \
-					set_redirection.c
+					set_redirection.c \
+					terminal_input_mode.c \
+					signal.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
@@ -105,7 +106,7 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
-LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+# LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
 LDFLAGS			+= -lncurses
 
 # ----------------------------------

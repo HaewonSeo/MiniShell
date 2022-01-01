@@ -90,3 +90,12 @@ void    del_shell(t_info *info, char *key)
 	free(info->shell[i]);
 	info->shell[i] = 0;
 }
+
+void	print_shell(char **shell)
+{
+	int		i;
+
+	i = -1;
+	while (shell[++i])
+		printf("%s\n", shell[i]);
+}

@@ -6,12 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 21:13:52 by haseo            ###   ########.fr       */
+/*   Updated: 2021/12/30 23:19:15 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#ifndef WSL
 // readline 사용하여 input을 받는 방법
 void  *prompt2()
 {
@@ -33,6 +34,7 @@ void  *prompt2()
 	free(cwd);
 }
 
+
 char	*prompt()
 {
 	char	*cwd;
@@ -51,7 +53,7 @@ char	*prompt()
 	free(cwd);
 	return (cmd);
 }
-
+#endif
 
 // GNL을 사용하여 input을 받는 방법
 /*void prompt3()

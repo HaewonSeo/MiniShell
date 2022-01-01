@@ -6,58 +6,17 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 21:10:07 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 16:24:08 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void signal_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		printf("SIGINT : print a new prompt on a newline.\n");
-		g_info.exit_status = 130;
-	}
-	else if (signum == SIGQUIT)
-	{
-		printf("SIGQUIT : DO NOTHING.\n");
-	}
-}
-
-void get_canonical_mode()
-{
-	char	*term;
-
-	tcgetattr(STDIN_FILENO, &g_info.term.canonical);
-	term = "xterm";
-	term = getenv("TERM");
-	tgetent(NULL, "xterm");
-	g_info.term.cm = tgetstr("cm", NULL);
-	g_info.term.ce = tgetstr("ce", NULL);
-}
-
-void set_noncanonical_mode()
-{
-	tcgetattr(STDIN_FILENO, &g_info.term.noncanonical);
-	g_info.term.noncanonical.c_lflag &= ~(ICANON | ECHO);
-	g_info.term.noncanonical.c_cc[VMIN] = 1;
-	g_info.term.noncanonical.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.noncanonical);
-}
-
-void set_canonical_mode()
-{
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.canonical);
-}
-
 static void init_info(char *argv[], char *envp[])
 {
 	g_info.argv = argv;
 	g_info.envp = envp;
-	g_info.head_env = (t_env *)ft_calloc(1, sizeof(t_env)); // head는 더미 포인터
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	g_info.head_shell_var = (t_env *)ft_calloc(1, sizeof(t_env));//추가
 	g_info.shell = (char **)malloc(sizeof(char *) * 1);
 	split_envp(envp, &g_info);
 #ifdef TEST11
@@ -73,14 +32,21 @@ int	main(int argc, char *argv[], char *envp[])
 
 	signal(SIGINT, (void *)signal_handler);
 	signal(SIGQUIT, (void *)signal_handler);
-	//get_canonical_mode();
-	//set_noncanonical_mode();
+#ifdef WSL
+	get_canonical_mode();
+	set_noncanonical_mode();
+#endif
 	init_info(argv, envp);
 
 	cur = g_info.head_cmd;
 	while (1)
 	{
+#ifdef WSL
+		input = prompt4();
+#endif
+#ifndef WSL
 		input = prompt();
+#endif
 		parsing_cmd(input, &cur);
 		cur = cur->next;
 
@@ -120,6 +86,8 @@ int	main(int argc, char *argv[], char *envp[])
 		input = NULL;
 	}
 
-	//set_canonical_mode();
+#ifdef WSL
+	set_canonical_mode();
+#endif
 	return 0;
 }

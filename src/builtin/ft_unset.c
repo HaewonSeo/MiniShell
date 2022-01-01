@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:18 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/21 17:08:02 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 20:23:02 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ void ft_unset(t_cmd *cmd)
 		else
 		{
 			del_envp(&g_info, cmd->argv[i]);
-			//del_shell_var(g_info.head_shell_var, cmd->argv[i]); // 아직 구현 못한 함수
+			// del_shell(&g_info, cmd->argv[i]); (에러) 동작안하고 무한루프 빠짐
+#ifdef TEST
+			printf("[shell list]\n");		// (에러) 쉘 변수 리스트에 환경변수 SHELL이 존재함
+			print_shell(g_info.shell);		// SHELL=/bin/bash 첫항에 존재
+#endif
 		}
 	}
 	g_info.exit_status = 0;

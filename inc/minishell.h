@@ -6,12 +6,14 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 21:13:49 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 20:23:23 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+// #define WSL
 
 # include <signal.h>
 # include <unistd.h>
@@ -29,8 +31,10 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
+#ifndef WSL
 # include <readline/readline.h>
 # include <readline/history.h>
+#endif
 
 #define ETX	3		// ctrl + c : End of Text
 #define EOT	4		// ctrl + d : End of Transmission
@@ -83,12 +87,14 @@ typedef struct			s_cmd
 
 }						t_cmd;
 
+/*
 typedef struct			s_env
 {
 	char				*key;
 	char				*value;
 	struct s_env		*next;
 }						t_env;
+*/
 
 typedef struct			s_info
 {
@@ -96,29 +102,35 @@ typedef struct			s_info
 	char				**argv;
 	char				**envp;				// subshell에게 envp를 전달하기 위한 포인터
 	char				**shell;
-	t_env				*head_env;			// 환경변수 연결 리스트의 head
 	t_cmd				*head_cmd;			// cmd 연결 리스트의 head
-	t_env				*head_shell_var;	// 쉘 변수 연결 리스트의 head
 	int					exit_status;		// 종료 상태
 }						t_info;
 
 t_info					g_info;				// 전역변수 - 모든 함수에서 접근 가능
 
+/*
+** signal
+*/
+
+void	signal_handler(int signum);
 
 /*
-** terminal
+** terminal_input_mode
 */
 
 void	get_canonical_mode();
 void	set_noncanonical_mode();
 void	set_canonical_mode();
 
+
 /*
 ** prompt
 */
 
+#ifndef WSL
 char	*prompt();
-void	*prompt2();
+void	prompt2();
+#endif
 void	prompt3();
 char	*prompt4();
 
@@ -126,6 +138,7 @@ void	get_cursor_pos(int *col, int *row);
 void	put_backspace(int *col, int *row);
 void	move_cursor_left(int *col, int *row);
 void	move_cursor_right(int *col, int *row);
+
 /*
 ** builtin
 */
@@ -155,9 +168,9 @@ void	ft_perror3(const char *cmd, const char *msg, int errnum);
 void	init_cmd(char *str, t_cmd *tmp);
 void	new_init(char *str, t_cmd *tmp);
 void	put_redirection(t_cmd *tmp);
-void    parsing_cmd(char *str, t_cmd **tmp);
+void	parsing_cmd(char *str, t_cmd **tmp);
 int		parsing_cmd_qu(char *str, t_cmd *tmp);
-void    re_parsing_cmd(t_cmd *tmp, char *str);
+void	re_parsing_cmd(t_cmd *tmp, char *str);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(char *str);
@@ -168,12 +181,12 @@ int		check_quote(char *str);
 int		where_pipe(char *str);
 int		where_quote(char *str);
 int		where_redi(char *str);
-void    printf_error(int i);
-void    ch_right_redi_2(char *str, int i);
-void    ch_right_redi(char *str);
-void    ch_right_pipe(char *str);
-void    ch_right_quote(char *str);
-void    check_right(char *str);
+void	printf_error(int i);
+void	ch_right_redi_2(char *str, int i);
+void	ch_right_redi(char *str);
+void	ch_right_pipe(char *str);
+void	ch_right_quote(char *str);
+void	check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd   *parsing_cmd_env(char *str);
 void	finish_cmd(t_cmd *tmp, char *str);
@@ -187,16 +200,17 @@ int		argv_pipe(t_cmd *tmp);
 void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str);
 int		return_j(t_cmd *tmp, char *str);
 
+
 /*
 ** shell_env
 */
 
-void    add_shell_env(char *str);
-void    add_new_shell_env(char *str, t_info *info);
-void    free_shell(char **shel);
+void	add_shell_env(char *str);
+void	add_new_shell_env(char *str, t_info *info);
+void	free_shell(char **shel);
 char	*get_shell(t_info *info, char *key);
-void    del_shell(t_info *info, char *key);
-
+void	del_shell(t_info *info, char *key);
+void	print_shell(char **shell);
 
 /*
 ** execute

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 17:37:51 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 16:54:19 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,14 @@ void exec_cmd_child(t_cmd *cmd)
 
 	if (is_builtin(cmd->argv[0]))
 		exec_builtin(cmd);
+	else if (cmd->shell_var)
+	{
+		add_shell_env(cmd->argv[0]);
+#ifdef TEST
+		printf("[shell list]\n");
+		print_shell(g_info.shell);		// SHELL=/bin/bash 첫항에 존재
+#endif
+	}
 	else
 	{
 		cmd_path = get_cmd_path(cmd->argv[0]);
