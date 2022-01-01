@@ -1,35 +1,6 @@
 
 #include "minishell.h"
 
-void    put_redirection(t_cmd *tmp)
-{
-    int i;
-
-    i = 0;
-    if (tmp->redirection == 0)
-        return ;
-    while (i < tmp->argc)
-    {
-        if (tmp->argv[i][0] == '<')
-        {
-            if (!tmp->argv[i][1])
-                tmp->redir->l = tmp->argv[i + 1];
-            else if (tmp->argv[i][1] == '<')
-                tmp->redir->ll = tmp->argv[i + 1];
-            i++;
-        }
-        if (tmp->argv[i][0] == '>')
-        {
-            if (!tmp->argv[i][1])
-                tmp->redir->r = tmp->argv[i + 1];
-            else if (tmp->argv[i][1] == '>')
-                tmp->redir->rr = tmp->argv[i + 1];
-            i++;
-        }
-        i++;
-    }
-}
-
 int parsing_cmd_qu(char *str, t_cmd *tmp)
 {
     int     i;
@@ -85,6 +56,21 @@ void    remove_redi(t_cmd *tmp)
     }
 }
 
+void    re_parsing_cmd_env(t_cmd *tmp)
+{
+    int i;
+
+    i = 0;
+    while (tmp->argv[i])
+    {
+        if (tmp->argv[i][0] == '|' && !tmp->argv[i][1])
+            break ;
+        i++;
+    }
+    tmp->argc = i;
+    tmp->argv[i] = 0;
+}
+
 void    re_parsing_cmd(t_cmd *tmp, char *str)
 {
     int     i;
@@ -92,9 +78,10 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     t_cmd   *new;
 
     i = 0;
-    if (ft_strlen(str + check_cmd_env(str)) == 0)
+    if (check_cmd_env(str) > 0 && ft_strlen(str + check_cmd_env(str)) == 0)
     {
         tmp->next = parsing_cmd_env(str);
+        re_parsing_cmd_env(tmp);
         return ;
     }
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
@@ -120,24 +107,23 @@ void    parsing_cmd(char *str, t_cmd **cur)
 
     check_right(str);
     k = check_cmd_env(str);
-    if (k != 0)
+    if (k > 0)
+    {
         (*cur)->next = parsing_cmd_env(str);
-    str = str + k;
+        while (str[k] == ' ' | str[k] == '|')
+            k++;
+        str = str + k;
+    }
     if (ft_strlen(str) == 0)
         return ;
     tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     init_cmd(str, tmp);
     tmp->argc = return_j(tmp, str);
-    if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
-        tmp->redirection = 0;
-    if (k == 0)
+    if (k <= 0)
         (*cur)->next = tmp;
     else
         (*cur)->next->next = tmp;
-    if (where_quote(str) > where_pipe(str))
-        tmp->quote = 0;
-    if (tmp->pipe > 0)
-        re_parsing_cmd(tmp, str + where_pipe(str));
-    put_redirection(tmp);//
-    remove_redi(tmp);//
+    if (k == -2)
+        tmp->shell_var = 1;
+    finish_cmd(tmp, str);
 }

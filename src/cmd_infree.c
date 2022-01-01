@@ -84,3 +84,42 @@ void   new_init(char *str, t_cmd *tmp)
     }
     tmp->argv = (char **)malloc(sizeof(char *) * (j + 1));
 }
+
+int return_j(t_cmd *tmp, char *str)
+{
+    int i;
+    int j;
+    int mid;
+
+    i = 0;
+    j = 0;
+    tmp->quote = check_quote(str);
+    while(tmp->quote == 0 && i < ft_strlen(str))
+    {
+        while (str[i] && str[i] == ' ')
+            i++;
+        mid = i;
+        while (str[i] && str[i] != ' ')
+            i++;
+        tmp->argv[j++] = ft_substr(str, mid, i - mid);
+        i++;
+    }
+    tmp->argv[j] = 0;
+    if (tmp->quote != 0)
+        j = parsing_cmd_qu(str, tmp);
+    tmp->pipe = check_pipe(tmp);
+    tmp->redirection = check_redi(str);
+    return (j);
+}
+
+void    finish_cmd(t_cmd *tmp, char *str)
+{
+    if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
+        tmp->redirection = 0;
+    if (where_quote(str) > where_pipe(str))
+        tmp->quote = 0;
+    if (tmp->pipe > 0)
+        re_parsing_cmd(tmp, str + where_pipe(str));
+    put_redirection(tmp);//
+    remove_redi(tmp);//
+}
