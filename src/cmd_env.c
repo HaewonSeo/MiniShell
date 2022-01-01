@@ -36,31 +36,26 @@ int check_cmd_env(char *str)
         }
         i++;
     }
-    return (-1);
+    return (0);
 }
 
 t_cmd   *parsing_cmd_env(char *str)
 {
-    int     i;
     t_cmd   *new;
 
-    i = 0;
     str = re_make_str(str);
-    while (str[i] != '=')
-        i++;
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-    new->argc = 2;
-    new->argv = (char **)malloc(sizeof(char *) * 3);
+    new->argc = 1;
+    new->argv = (char **)malloc(sizeof(char *) * 1);
     new->redirection = 0;
     new->pipe = 0;
     new->quote = 0;
     new->fd[0] = 0;
     new->fd[1] = 0;
     new->pipe_prev = 0;
+    new->shell_var = 1;
     new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->next = NULL;
-    new->argv[0] = ft_substr(str, 0, i);//
-    new->argv[1] = ft_substr(str, i + 1, ft_strlen(str) - i);//
-    add_shell_env(str);
+    new->argv[0] = ft_substr(str, 0, ft_strlen(str));//
     return (new);
 }

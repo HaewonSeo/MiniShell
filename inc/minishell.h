@@ -77,6 +77,7 @@ typedef struct			s_cmd
 	int					quote;				// '는 1 "는 2
 	int					fd[2];				// 현재 cmd에 pipe가 존재하는 경우 next_cmd의 fd[]를 생성한다.(pipe() 사용)
 	int					pipe_prev;			// 직전 cmd에 pipe가 있으면 1
+	int					shell_var;			// 쉘변수이면 1
 	t_redir				*redir;				// redirection이 있는 경우 redireciton 관련 정보를 저장
 	struct s_cmd		*next;
 
@@ -156,6 +157,7 @@ void	new_init(char *str, t_cmd *tmp);
 void	put_redirection(t_cmd *tmp);
 void    parsing_cmd(char *str, t_cmd **tmp);
 int		parsing_cmd_qu(char *str, t_cmd *tmp);
+void    re_parsing_cmd(t_cmd *tmp, char *str);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
 int		check_redi(char *str);
@@ -174,6 +176,15 @@ void    ch_right_quote(char *str);
 void    check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd   *parsing_cmd_env(char *str);
+
+/*
+** cmd tool
+*/
+
+int		check_i(char *str, t_cmd *tmp, int i, int j, int mid);
+int		argv_pipe(t_cmd *tmp);
+void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str);
+int		return_j(t_cmd *tmp, char *str);
 
 /*
 ** shell_env

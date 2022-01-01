@@ -22,6 +22,7 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->quote = 0;
     tmp->fd[0] = 0;
     tmp->fd[1] = 0;
+    tmp->shell_var = 0;
     tmp->next = NULL;
     tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));///
 }
@@ -57,28 +58,21 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
 
 void   new_init(char *str, t_cmd *tmp)
 {
-    int i;
-    int j;
+    int     i;
+    int     j;
+    char    c;
 
     i = 0;
     j = 0;
-    while (i < ft_strlen(str))
+    while (i++ < ft_strlen(str))
     {
         while (str[i] && str[i] == ' ')
             i++;
-        if (str[i] == '\'')
+        if (str[i] == '\'' || str[i] == '\"')
         {
+            c = str[i];
             i++;
-            while (str[i] && str[i] != '\'')
-                i++;
-            i++;
-            j++;
-            continue ;
-        }
-        else if (str[i] == '\"')
-        {
-            i++;
-            while (str[i] && str[i] != '\"')
+            while (str[i] && str[i] != c)
                 i++;
             i++;
             j++;
@@ -87,7 +81,6 @@ void   new_init(char *str, t_cmd *tmp)
         while (str[i] && str[i] != ' ')
             i++;
         j++;
-        i++;
     }
     tmp->argv = (char **)malloc(sizeof(char *) * (j + 1));
 }

@@ -1,5 +1,4 @@
 
-
 #include "minishell.h"
 
 int check_pipe(t_cmd *tmp)
