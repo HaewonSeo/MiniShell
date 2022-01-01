@@ -72,7 +72,7 @@ int where_redi(char *str)
     return (-1);
 }
 
-int     where_pipe(char *str)
+int where_pipe(char *str)
 {
     int i;
     
@@ -100,11 +100,4 @@ int where_quote(char *str)
         i++;
     }
     return (-1);
-}
-
-void    check_right(char *str) // | < << > >> " '
-{
-    ch_right_quote(str);
-    ch_right_pipe(str);
-    ch_right_redi(str);
 }

@@ -43,7 +43,7 @@ void    add_new_shell_env(char *str, t_info *info)
 	info->shell[j] = 0;
 }
 
-void    add_shell_env(char *str)
+void    add_shell_env(char *str)// str = argv[0]
 {
     int     i;
     char    *tmp;
@@ -56,8 +56,8 @@ void    add_shell_env(char *str)
         i++;
     }
     tmp = ft_substr(str, 0, i);
-    if (getenv(tmp))
-        add_envp(&g_info, str);
+    if (getenv(tmp))// env로 존재한다->env 수정으로 바뀜
+        add_envp(&g_info, str);//
     else
         add_new_shell_env(str, &g_info);
 }

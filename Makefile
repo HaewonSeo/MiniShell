@@ -90,6 +90,7 @@ SRCS			=	minishell.c \
 					cmd.c \
 					cmd_check.c \
 					cmd_right.c \
+					cmd_tool.c \
 					shell_env.c \
 					execute_cmd.c \
 					execute_pipe.c \
