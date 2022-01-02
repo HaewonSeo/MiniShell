@@ -25,7 +25,7 @@ void	ft_exit()
 {
 	printf("exit\n");
 	free_envp(g_info.envp);
-	free_shell(g_info.shell);
-	// free_cmd(g_info.head_cmd);
+	free_cmd(g_info.head_cmd);
+	free(g_info.shell);
 	ft_exit_with_set_mode(0);
 }
