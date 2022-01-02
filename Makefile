@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2022/01/01 14:26:17 by haseo            ###   ########.fr        #
+#    Updated: 2022/01/02 18:06:21 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,8 @@ NAME			= minishell
 
 CC				= gcc
 #CFLAGS 			= -Wall -Wextra -Werror
-CFLAGS			+= -g3 -fsanitize=address
+# CFLAGS			+= -g3 -fsanitize=address
 CFLAGS			+= -g
-#USER			= $(USER)
 
 # ----------------------------------
 # Command
@@ -63,7 +62,11 @@ OBJ_DIR			=	./obj
 LIBFT_DIR		=	./libft
 VPATH_DIR		=	./src \
 					./src/builtin \
-					./src/execute
+					./src/execute \
+					./src/parsing \
+					./src/prompt \
+					./src/utility \
+					./src/variable
 
 vpath %.c $(VPATH_DIR)
 
@@ -72,10 +75,6 @@ vpath %.c $(VPATH_DIR)
 # ----------------------------------
 
 SRCS			=	minishell.c \
-					env.c \
-					util.c \
-					execute.c \
-					prompt.c \
 					ft_cd.c \
 					ft_echo.c \
 					ft_env.c \
@@ -83,20 +82,24 @@ SRCS			=	minishell.c \
 					ft_export.c \
 					ft_pwd.c \
 					ft_unset.c \
-					cmd_infree.c \
-					cmd_env.c \
-					cmd_pire.c \
-					cmd.c \
-					cmd_check.c \
-					cmd_right.c \
-					cmd_tool.c \
-					shell_env.c \
 					execute_cmd.c \
 					execute_pipe.c \
-					cursor.c \
+					execute.c \
 					set_redirection.c \
+					cmd_check.c \
+					cmd_env.c \
+					cmd_infree.c \
+					cmd_pire.c \
+					cmd_right.c \
+					cmd_tool.c \
+					cmd.c \
+					cursor.c \
+					prompt.c \
+					signal.c \
 					terminal_input_mode.c \
-					signal.c
+					error.c \
+					env.c \
+					shell.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
@@ -106,8 +109,11 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
-LDFLAGS			+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
-LDFLAGS			+= -lncurses
+ifeq ($(OS), Darwin)
+	LDFLAGS		+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+else
+	LDFLAGS		+= -lncurses
+endif
 
 # ----------------------------------
 # Rules

@@ -24,7 +24,7 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->fd[1] = 0;
     tmp->shell_var = 0;
     tmp->next = NULL;
-    tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));///
+    tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
 }
 
 void    free_cmd(t_cmd *tmp)

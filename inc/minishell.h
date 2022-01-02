@@ -6,14 +6,14 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 20:23:23 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 18:36:08 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// #define WSL
+#define WSL
 
 # include <signal.h>
 # include <unistd.h>
@@ -36,10 +36,10 @@
 # include <readline/history.h>
 #endif
 
-#define ETX	3		// ctrl + c : End of Text
-#define EOT	4		// ctrl + d : End of Transmission
-#define LF	10		// \n : Line feed
-#define FS	28		// ctrl + \ : File Separator
+#define ETX	3
+#define EOT	4
+#define LF	10
+#define FS	28
 #define DEL	127
 #define LEFT_ARROW	4479771
 #define RIGHT_ARROW	4414235
@@ -49,95 +49,44 @@ typedef struct			s_term
 {
 	struct termios		canonical;
 	struct termios		noncanonical;
-	char				*cm;			// Screen-relative cursor motion.
-	char				*ce;			// Clear to end of line.
+	char				*cm;
+	char				*ce;
 }						t_term;
-
-/*
-cmd도 env처럼 연결리스트로 구현한다면
-
-head_cmd - cmd1    -      cmd2        - cmd3 - ...
-          "ls -l >>"  -  "test.txt"   - NULL
-
-이런식으로 구현해보는게 어떨까 생각했습니다.
-그래서 순차적으로 명령어를 실행시키는 흐름으로...
-
-*/
 
 typedef struct			s_redir
 {
-	char 				*l;				// <
+	char 				*l;
 	char				*ll;
-	char				*r;				// >
+	char				*r;
 	char				*rr;
 }						t_redir;
 
 typedef struct			s_cmd
 {
 	int					argc;
-	char 				**argv;				// main의 argv 처럼 cmd를 공백 기준으로 분리
-	int					pipe;				// pipe가 있으면 1
-	int					redirection;		// redirection이 있으면 1
-	int					quote;				// '는 1 "는 2
-	int					fd[2];				// 현재 cmd에 pipe가 존재하는 경우 next_cmd의 fd[]를 생성한다.(pipe() 사용)
-	int					pipe_prev;			// 직전 cmd에 pipe가 있으면 1
-	int					shell_var;			// 쉘변수이면 1
-	t_redir				*redir;				// redirection이 있는 경우 redireciton 관련 정보를 저장
+	char 				**argv;
+	int					pipe;
+	int					redirection;
+	int					quote;
+	int					fd[2];
+	int					pipe_prev;
+	int					shell_var;
+	t_redir				*redir;
 	struct s_cmd		*next;
 
 }						t_cmd;
 
-/*
-typedef struct			s_env
-{
-	char				*key;
-	char				*value;
-	struct s_env		*next;
-}						t_env;
-*/
-
 typedef struct			s_info
 {
-	t_term				term;				// terminal 관련 속성
+	t_term				term;
 	char				**argv;
-	char				**envp;				// subshell에게 envp를 전달하기 위한 포인터
+	char				**envp;
 	char				**shell;
-	t_cmd				*head_cmd;			// cmd 연결 리스트의 head
-	int					exit_status;		// 종료 상태
+	t_cmd				*head_cmd;
+	int					exit_status;
 }						t_info;
 
-t_info					g_info;				// 전역변수 - 모든 함수에서 접근 가능
-
-/*
-** signal
-*/
-
-void	signal_handler(int signum);
-
-/*
-** terminal_input_mode
-*/
-
-void	get_canonical_mode();
-void	set_noncanonical_mode();
-void	set_canonical_mode();
-
-
-/*
-** prompt
-*/
-
-#ifndef WSL
-char	*prompt();
-void	*prompt2();
-#endif
-void	prompt3();
-char	*prompt4();
-
-void	get_cursor_pos(int *col, int *row);
-void	put_backspace(int *col, int *row);
-void	move_cursor_left(int *col, int *row);
-void	move_cursor_right(int *col, int *row);
+t_info					g_info;
 
 /*
 ** builtin
@@ -151,15 +100,18 @@ void	ft_export(t_cmd *cmd);
 void	ft_pwd();
 void	ft_unset(t_cmd *cmd);
 
-
 /*
-** utility
+** execute
 */
 
-void	ft_perror(const char *str, int errnum);
-void	ft_perror1();
-void	ft_perror2();
-void	ft_perror3(const char *cmd, const char *msg, int errnum);
+void	exec_input();
+int		is_builtin(char *cmd);
+void	exec_builtin(t_cmd *cmd);
+char	*get_cmd_path(char *cmd);
+void	exec_cmd_child(t_cmd *cmd);
+void	exec_cmd(t_cmd *cmd);
+void	exec_pipe(t_cmd *cur);
+void	set_redirection(t_cmd *cur);
 
 /*
 ** cmd
@@ -204,28 +156,46 @@ int		return_j(t_cmd *tmp, char *str);
 
 
 /*
-** shell_env
+** cursor
 */
 
-void	add_shell_env(char *str);
-void	add_new_shell_env(char *str, t_info *info);
-void	free_shell(char **shel);
-char	*get_shell(t_info *info, char *key);
-void	del_shell(t_info *info, char *key);
-void	print_shell(char **shell);
+void	get_cursor_pos(int *col, int *row);
+void	put_backspace(int *col, int *row);
+void	move_cursor_left(int *col, int *row);
+void	move_cursor_right(int *col, int *row);
 
 /*
-** execute
+** prompt
 */
 
-void	exec_input();
-int		is_builtin(char *cmd);
-void	exec_builtin(t_cmd *cmd);
-char	*get_cmd_path(char *cmd);
-void	exec_cmd_child(t_cmd *cmd);
-void	exec_cmd(t_cmd *cmd);
-void	exec_pipe(t_cmd *cur);
-void	set_redirection(t_cmd *cur);
+#ifndef WSL
+char	*prompt();
+#endif
+char	*prompt4();
+
+/*
+** signal
+*/
+
+void	signal_handler(int signum);
+
+/*
+** terminal_input_mode
+*/
+
+void	get_canonical_mode();
+void	set_noncanonical_mode();
+void	set_canonical_mode();
+
+/*
+** error
+*/
+
+void	ft_perror(const char *str, int errnum);
+void	ft_perror1(const char *cmd, const char *msg, int errnum);
+void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum);
+void	ft_perror3(const char *cmd, const char *msg, int errnum);
+void	ft_perror4(const char *cmd, int i, const char *msg, int errnum);
 
 /*
 ** env
@@ -238,5 +208,17 @@ void	del_envp(t_info *info, char *key);
 void	split_envp(char **envp, t_info *info);
 void	print_envp(char **envp);
 char	*get_env(char **envp, char *key);
+void	mod_env(char **envp, char *key, char *value);
+
+/*
+** shell
+*/
+
+void	add_shell_env(char *str);
+void	add_new_shell_env(char *str, t_info *info);
+void	free_shell(char **shel);
+char	*get_shell(t_info *info, char *key);
+void	del_shell(t_info *info, char *key);
+void	print_shell(char **shell);
 
 #endif

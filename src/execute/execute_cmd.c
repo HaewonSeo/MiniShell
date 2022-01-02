@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 16:54:19 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 17:51:44 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	is_builtin(char *cmd)
 	|| !ft_strcmp(cmd, "unset"))
 		return (1);
 	return (0);
-	//  || !ft_strcmp(cmd, "exit")
 }
 
 void exec_builtin(t_cmd *cmd)
@@ -37,9 +36,6 @@ void exec_builtin(t_cmd *cmd)
 		ft_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		ft_unset(cmd);
-	// else if (!ft_strcmp(cmd->argv[0], "exit"))
-	// 	ft_exit();
-	g_info.exit_status = 0;
 }
 
 /*
@@ -57,9 +53,18 @@ void exec_builtin(t_cmd *cmd)
 	3. 동적할당한 메모리는 free
 */
 
-char *get_cmd_path(char *cmd)
+static void	free_double_arr(char **mem)
 {
-	char		*path_value;
+	int		i;
+
+	i = -1;
+	while (mem[++i])
+		free(mem[i]);
+	free(mem);
+}
+
+char		*get_cmd_path(char *cmd)
+{
 	char		**paths;
 	char		*_cmd;
 	char		*cmd_path;
@@ -68,39 +73,25 @@ char *get_cmd_path(char *cmd)
 
 	if (stat(cmd, &st) == 0)
 		return (cmd);
-	path_value = get_env(g_info.envp, "PATH");
-	paths = ft_split(path_value, ':');
-#ifdef TEST11
-	i = -1;
-	while (paths[++i])
-		printf("%s\n", paths[i]);
-#endif
-	_cmd = ft_strdup("/");				// /
-	_cmd = ft_strjoin(_cmd, cmd);		// /cmd
-	cmd_path = NULL;
+	paths = ft_split(get_env(g_info.envp, "PATH"), ':');
+	_cmd = ft_strdup("/");
+	_cmd = ft_strjoin(_cmd, cmd);
 	i = -1;
 	while (paths[++i])
 	{
 		cmd_path = ft_strdup(paths[i]);
 		cmd_path = ft_strjoin(cmd_path, _cmd);
 		if (stat(cmd_path, &st) == 0)
-			break;
+			break ;
 		free(cmd_path);
 		cmd_path = NULL;
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	free_double_arr(paths);
 	free(_cmd);
-	if (cmd_path)
-		return (cmd_path);
-	else
-		return (NULL);
+	return (cmd_path);
 }
 
 /*
-
 	exec_cmd_child 기능
 
 	- pipe가 있는 경우에도 사용되기 때문에 함수화하였음
@@ -110,7 +101,7 @@ char *get_cmd_path(char *cmd)
 
 */
 
-void exec_cmd_child(t_cmd *cmd)
+void		exec_cmd_child(t_cmd *cmd)
 {
 	char	*cmd_path;
 
@@ -127,9 +118,6 @@ void exec_cmd_child(t_cmd *cmd)
 	else
 	{
 		cmd_path = get_cmd_path(cmd->argv[0]);
-#ifdef TEST11
-		printf("cmd_path : %s\n", cmd_path);
-#endif
 		if (!cmd_path)
 			ft_perror3(cmd->argv[0], "command not found", 127);
 		else
@@ -150,7 +138,7 @@ void exec_cmd_child(t_cmd *cmd)
 		- 참고로 exit()가 pipe 와 같이 사용되는 경우 동작이 다름
 */
 
-void exec_cmd(t_cmd *cmd)
+void		exec_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
 
