@@ -32,40 +32,37 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 
 void    remove_redi(t_cmd *tmp)
 {
-    int     i;
-    int     j;
-    char    **str;
+    int i;
+    int j;
 
-    if (tmp->redirection == 0)
-        return ;
     i = 0;
-    j = 0;
-    str = (char **)malloc(sizeof(char *) * (tmp->argc - 1));
-    while (i < tmp->argc)
+    j = tmp->argc;
+    while (tmp->argv[i])
     {
-        if (tmp->argv[i][0] == '>' | tmp->argv[i][0] == '<')
-            i = i + 2;
-        str[j] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
+        if (tmp->argv[i][0] == '<' | tmp->argv[i][0] == '>')
+        {
+            j = i;
+            while (tmp->argv[j + 2])
+            {
+                tmp->argv[j] = tmp->argv[j + 2];
+                j++;
+            }
+            tmp->argv[j] = NULL;
+            i = 0;
+            continue ;
+        }
         i++;
-        j++;
+        tmp->argc = j;
     }
-    free_argv(tmp->argv, tmp->argc);
-    tmp->argv = (char **)malloc(sizeof(char *) * j);
-    i = 0;
-    while (i++ < j)
-        tmp->argv[i] = ft_substr(str[i], 0, ft_strlen(str[i]));
-    tmp->argv[i] = 0;
-    tmp->argc = i;
-    free_argv(str, i);
 }
 
 void    re_malloc_cmd(t_cmd *tmp, int len)
 {
-    int i;
+    int     i;
     char    **str;
 
     i = 0;
-    str = (char **)malloc(sizeof(char *) * len);
+    str = (char **)malloc(sizeof(char *) * (len + 1));
     while (i < len)
     {
         str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
@@ -73,7 +70,8 @@ void    re_malloc_cmd(t_cmd *tmp, int len)
     }
     str[i] = 0;
     free_argv(tmp->argv, tmp->argc);
-    tmp->argc = i;
+    tmp->argv = (char **)malloc(sizeof(char *) * (len + 1));    
+    tmp->argc = len;
     i = 0;
     while (i < tmp->argc)
     {
@@ -90,7 +88,6 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     int     k;
     t_cmd   *new;
 
-    i = 0;
     if (check_cmd_env(str) > 0 && ft_strlen(str + check_cmd_env(str)) == 0)
     {
         tmp->next = parsing_cmd_env(str);
@@ -100,13 +97,14 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->quote = check_quote(str);
-    k = argv_pipe(tmp) + 1;
-    new->argv = (char **)malloc(sizeof(char *) * (tmp->argc - k + 1));
-    new->argc = tmp->argc - k;
-    while (tmp->argv[k])
-        new->argv[i++] = tmp->argv[k++];
+    k = argv_pipe(tmp);
+    new->argv = (char **)malloc(sizeof(char *) * (tmp->argc - k));
+    new->argc = tmp->argc - k - 1;
+    i = 0;
+    while (++k < tmp->argc)
+        new->argv[i++] = ft_substr(tmp->argv[k], 0, ft_strlen(tmp->argv[k]));
     new->argv[i] = 0;
-    re_malloc_cmd(tmp, i);
+    re_malloc_cmd(tmp, argv_pipe(tmp));
     tmp_and_new(tmp, new, str);
     put_redirection(new);
     remove_redi(new);
