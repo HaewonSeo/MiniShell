@@ -5,17 +5,17 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 	int     i;
 	int     j;
 	int     mid;
-	i = 0;
+	i = -1;
 	j = 0;
 	new_init(str, tmp);
-	while (i++ < ft_strlen(str))
+	while (++i < ft_strlen(str))
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
 		mid = i;
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			i = check_i(str, tmp, i, j, mid);//
+			i = check_i(str, tmp, i, j, mid);
 			j++;
 			continue ;
 		}
