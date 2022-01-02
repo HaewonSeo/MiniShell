@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:36:01 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 17:52:24 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 21:19:26 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_exit()
 {
 	printf("exit\n");
 	free_envp(g_info.envp);
-	free_cmd(g_info.head_cmd);
+	free_shell(g_info.shell);
+	// free_cmd(g_info.head_cmd);
 	ft_exit_with_set_mode(0);
 }

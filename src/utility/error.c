@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:28:18 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 18:36:36 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 20:47:39 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_perror(const char *str, int errnum)
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
-	exit(errno);
+	exit(errnum);
 }
 
 void	ft_perror1(const char *cmd, const char *msg, int errnum)
@@ -29,6 +29,7 @@ void	ft_perror1(const char *cmd, const char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+	exit(errnum);
 }
 
 void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum)
@@ -41,6 +42,7 @@ void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+	exit(errnum);
 }
 
 void	ft_perror3(const char *cmd, const char *msg, int errnum)
@@ -50,6 +52,7 @@ void	ft_perror3(const char *cmd, const char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+	exit(errnum);
 }
 
 void	ft_perror4(const char *cmd, int i, const char *msg, int errnum)
@@ -64,4 +67,5 @@ void	ft_perror4(const char *cmd, int i, const char *msg, int errnum)
 	ft_perror2(cmd, num_str, msg, errnum);
 	free(i_str);
 	free(num_str);
+	// exit(errnum);
 }

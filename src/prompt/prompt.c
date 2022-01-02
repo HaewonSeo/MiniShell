@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 18:22:01 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 21:14:34 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,16 @@ char	*prompt()
 	if (!cmd)
 	{
 		free(cwd);
-		ft_exit();
+		return (NULL);
 	}
+#ifdef SIGNAL_
+	if (g_info.signal || !cmd)
+	{
+		g_info.signal = 0;
+		free(cwd);
+		return (NULL);
+	}
+#endif
 	printf("%s\n", cmd);
 	add_history(cmd);
 	free(cwd);
@@ -89,6 +97,13 @@ char	*prompt4()
 	get_cursor_pos(&col, &row);
 	while (read(STDIN_FILENO, &ch, sizeof(ch)) > 0)
 	{
+		if (g_info.signal)
+		{
+			g_info.signal = 0;
+			if (input)
+				free(input);
+			return (NULL);
+		}
 		// ft_putchar_fd((char)ch, STDOUT_FILENO);
 		if (ft_isprint(ch))
 		{

@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2022/01/02 18:06:21 by haseo            ###   ########.fr        #
+#    Updated: 2022/01/02 21:17:06 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME			= minishell
 # ----------------------------------
 
 CC				= gcc
-#CFLAGS 			= -Wall -Wextra -Werror
+# CFLAGS 			= -Wall -Wextra -Werror
 # CFLAGS			+= -g3 -fsanitize=address
 CFLAGS			+= -g
 
@@ -98,6 +98,7 @@ SRCS			=	minishell.c \
 					signal.c \
 					terminal_input_mode.c \
 					error.c \
+					print_cmd.c \
 					env.c \
 					shell.c
 

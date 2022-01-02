@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:06 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 17:24:57 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 20:49:36 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	declare_envp(char **envp)
 void	ft_export(t_cmd *cmd)
 {
 	int		i;
-	char	*num_str;
-	char	*i_str;
 
 	g_info.exit_status = 0;
 	if (cmd->argc == 1)

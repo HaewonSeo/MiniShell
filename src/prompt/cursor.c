@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 20:12:27 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 18:37:13 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 20:56:59 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_nbrlen(int n)
+static int	ft_nbrlen(int n)
 {
 	int		len;
 
@@ -27,7 +27,7 @@ static int ft_nbrlen(int n)
 	return (len);
 }
 
-void	get_cursor_pos(int *col, int *row)
+void		get_cursor_pos(int *col, int *row)
 {
 	int		read_size;
 	int		i;
@@ -66,7 +66,7 @@ static int	putchar_stdout(int c)
 	return (0);
 }
 
-void	put_backspace(int *col, int *row)
+void		put_backspace(int *col, int *row)
 {
 	if (*col == 0)
 		return ;
@@ -75,7 +75,7 @@ void	put_backspace(int *col, int *row)
 	tputs(g_info.term.ce, 1, putchar_stdout);
 }
 
-void	move_cursor_left(int *col, int *row)
+void		move_cursor_left(int *col, int *row)
 {
 	if (*col == 0)
 		return ;
@@ -83,7 +83,7 @@ void	move_cursor_left(int *col, int *row)
 	tputs(tgoto(g_info.term.cm, *col, *row), 1, putchar_stdout);
 }
 
-void	move_cursor_right(int *col, int *row)
+void		move_cursor_right(int *col, int *row)
 {
 	(*col)++;
 	tputs(tgoto(g_info.term.cm, *col, *row), 1, putchar_stdout);

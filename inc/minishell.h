@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 18:36:08 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 21:16:05 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ typedef struct			s_cmd
 typedef struct			s_info
 {
 	t_term				term;
+	int					argc;
 	char				**argv;
 	char				**envp;
 	char				**shell;
 	t_cmd				*head_cmd;
 	int					exit_status;
+	int					signal;
 }						t_info;
 
 t_info					g_info;
@@ -188,7 +190,7 @@ void	set_noncanonical_mode();
 void	set_canonical_mode();
 
 /*
-** error
+** utility
 */
 
 void	ft_perror(const char *str, int errnum);
@@ -196,6 +198,7 @@ void	ft_perror1(const char *cmd, const char *msg, int errnum);
 void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum);
 void	ft_perror3(const char *cmd, const char *msg, int errnum);
 void	ft_perror4(const char *cmd, int i, const char *msg, int errnum);
+void	print_cmd(t_cmd *tmp, char *input);
 
 /*
 ** env

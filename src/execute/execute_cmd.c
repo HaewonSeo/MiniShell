@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 17:51:44 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 20:43:22 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ void exec_builtin(t_cmd *cmd)
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		ft_unset(cmd);
 }
-
-/*
-	get_cmd_path() 기능
-
-	환경 변수 path의 모든 경로와 cmd를 순차적으로 연결하여 해당 경로에서 cmd 실행 파일을 찾아본다.
-	만약 있다면 해당 cmd의 절대경로를 return
-	만약 없다면 NULL return
-
-	0. cmd 자체가 경로로 주어지고, 실행 파일이 존재하는 경우 cmd를 return
-	1. path의 value를 ':' 단위로 split
-	2. stat()함수로 해당 경로에 cmd가 존재하는지를 판단
-		- /로 끝나는 경로가 있기도 하고, /로 끝나지 않는 경로가 있기도 함
-			-> 결과적으로 return되는 cmd_path를 실행하는데에는 영향이 없다.
-	3. 동적할당한 메모리는 free
-*/
 
 static void	free_double_arr(char **mem)
 {
@@ -91,16 +76,6 @@ char		*get_cmd_path(char *cmd)
 	return (cmd_path);
 }
 
-/*
-	exec_cmd_child 기능
-
-	- pipe가 있는 경우에도 사용되기 때문에 함수화하였음
-
-	1. builtin이라면 builtin 실행
-	2. 그 외 cmd들은 환경 변수 PATH 경로에서 실행 파일을 찾아 실행
-
-*/
-
 void		exec_cmd_child(t_cmd *cmd)
 {
 	char	*cmd_path;
@@ -129,18 +104,10 @@ void		exec_cmd_child(t_cmd *cmd)
 	}
 }
 
-/*
-	exec_cmd 기능
-
-	- pipe나 redirection 없이 일반적으로 cmd를 실행하기 위한 함수
-	- 기본적으로 subshell에서 cmd가 실행되기 때문에 fork() 사용
-	- exit()의 경우 subshell에서 실행되는 것이 아니기 때문에 따로 예외를 만듦
-		- 참고로 exit()가 pipe 와 같이 사용되는 경우 동작이 다름
-*/
-
 void		exec_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
+	int		status;
 
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		ft_exit();
@@ -154,7 +121,15 @@ void		exec_cmd(t_cmd *cmd)
 			if (cmd->redirection)
 				set_redirection(cmd);
 			exec_cmd_child(cmd);
+			exit(g_info.exit_status);
 		}
-		waitpid(pid, NULL, 0);
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				g_info.exit_status = WEXITSTATUS(status);
+			else
+				g_info.exit_status = 1;
+		}
 	}
 }
