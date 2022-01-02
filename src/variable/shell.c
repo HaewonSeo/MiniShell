@@ -17,7 +17,7 @@ void	free_shell(char **shel)
 	int i;
 
 	i = 0;
-	while (shel[i])
+	while (shel && shel[i])
 	{
 		free(shel[i]);
 		i++;
@@ -106,7 +106,10 @@ void	print_shell(char **shell)
 {
 	int		i;
 
-	i = -1;
-	while (shell[++i])
+	i = 0;
+	while (shell[i])
+	{
 		printf("%s\n", shell[i]);
+		i++;
+	}
 }

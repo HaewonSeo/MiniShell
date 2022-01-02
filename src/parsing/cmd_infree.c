@@ -37,20 +37,18 @@ void    free_cmd(t_cmd *tmp)
         del = tmp;
         tmp = tmp->next;
         i = 0;
-        while (del->argv[i])
-        {
+        while (i++ < del->argc)
             free(del->argv[i]);
-            i++;
-        }
-        if (del->redir->r)
-            free(del->redir->r);
-        if (del->redir->l)
+        if (del->redirection == 1)
             free(del->redir->l);
-        if (del->redir->rr)
-            free(del->redir->rr);
-        if (del->redir->ll)
+        if (del->redirection == 2)
             free(del->redir->ll);
+        if (del->redirection == 3)
+            free(del->redir->r);
+        if (del->redirection == 4)
+            free(del->redir->rr);
         free(del->redir);
+        free(del->argv);
         free(del);
     }
     free(tmp);
