@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 22:24:47 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 15:56:49 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 22:30:14 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 		1) 파싱에서 먼저 진행
 		2) 명령어 실행 단계에서 진행
 
-		--> 1)이 이상적으로 보이나, 기존 구현 방식의 수정이 필요함
+		--> 1) 파싱 단계에서 진행
 */
 
 static void	set_l(char *fname)
@@ -140,7 +140,7 @@ static void	set_r(char *fname)
 	}
 }
 
-static void	set_rr(char *fname)
+static	void	set_rr(char *fname)
 {
 	int	fd;
 
@@ -154,8 +154,6 @@ static void	set_rr(char *fname)
 		close(fd);
 	}
 }
-
-
 
 void	set_redirection(t_cmd *cur)
 {

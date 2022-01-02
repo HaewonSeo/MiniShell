@@ -33,29 +33,39 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 void    remove_redi(t_cmd *tmp)
 {
     int     i;
-    char    **str;
+    int     j;
 
     i = 0;
-    str = (char **)malloc(sizeof(char *) * (tmp->argc - 2));
+    j = tmp->argc;
     while (tmp->argv[i])
     {
-        if (tmp->argv[i][0] == '>' | tmp->argv[i][0] == '<')
-            i = i + 2;
-        str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
+        if (tmp->argv[i][0] == '<')
+        {
+            j = i;
+            while (tmp->argv[j + 2])
+            {
+                tmp->argv[j] = tmp->argv[j + 2];
+                j++;
+            }
+            tmp->argv[j] = NULL;
+            i = 0;
+            continue ;
+        }
+        if (tmp->argv[i][0] == '>')
+        {
+            j = i;
+            while (tmp->argv[j + 2])
+            {
+                tmp->argv[j] = tmp->argv[j + 2];
+                j++;
+            }
+            tmp->argv[j] = NULL;
+            i = 0;
+            continue ;
+        }
         i++;
+        tmp->argc = j;
     }
-    str[i] = 0;
-    free_argv(tmp->argv, tmp->argc);
-    tmp->argv = (char **)malloc(sizeof(char *) * i);
-    i = 0;
-    while (str[i])
-    {
-        tmp->argv[i] = ft_substr(str[i], 0, ft_strlen(str[i]));
-        i++;
-    }
-    tmp->argv[i] = 0;
-    tmp->argc = i;
-    free_argv(str, i);
 }
 
 void    re_malloc_cmd(t_cmd *tmp, int len)

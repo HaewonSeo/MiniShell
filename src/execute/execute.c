@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:10:49 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 15:05:13 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 00:13:56 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,7 @@
 
 */
 
-
-/*
-	exec_input 기능
-
-	input으로 들어와 파싱된 cmd list를 순차적으로 실행
-
-	- free_cmd()
-		- 만약, readline()을 사용한다면 필요
-		- 만약, prompt4()를 사용하여 history를 추가적으로 구현해야 한다면, cmd를 free해서는 안 될 것 같음
-*/
-
-void exec_input(t_cmd *cmd)
+void	exec_input(t_cmd *cmd)
 {
 	t_cmd	*cur;
 
@@ -93,5 +82,4 @@ void exec_input(t_cmd *cmd)
 			exec_cmd(cur);
 		cur = cur->next;
 	}
-	//free_cmd(cmd);		// 만약, cmd list를 history로 사용한다면, free 하면 안됨
 }

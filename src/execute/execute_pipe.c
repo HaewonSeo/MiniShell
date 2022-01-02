@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:32:45 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/30 12:53:48 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 00:12:37 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void exec_pipe_fork(t_cmd *cmd)
 			// close(cmd->next->fd[1]);
 		}
 		exec_cmd_child(cmd);
-
 #ifdef REFACTORING
 		if (cmd->pipe)
 		{
@@ -61,7 +60,6 @@ static void exec_pipe_fork(t_cmd *cmd)
 		}
 		exec_cmd_child(cmd);
 #endif
-
 	}
 	waitpid(pid, NULL, 0);
 }
@@ -127,41 +125,3 @@ void exec_pipe(t_cmd *cur)
 		close(cur->fd[0]);
 #endif
 }
-
-/*
-
-	pipe 개념 이해용
-
-static void exec_pipe2(t_cmd *cur)
-{
-	pid_t	pid;
-	int		fd[2];
-
-	cur->next->pipe_prev = 1;
-	pipe(fd);
-
-	pid = fork();
-
-	// child : cur이 먼저 실행됨
-	if (pid == 0)
-	{
-#ifdef TEST
-		printf("Child : %s\n", cur->argv[0]);
-#endif
-		close(fd[0]);	// 사용하지 않는 read 닫기
-		dup2(fd[1], STDOUT_FILENO); //stdout과 연결된 fd 2는 자동으로 닫히고, fd[1]을 복사하여 stdout에 연결한다.
-		close(fd[1]);	// fd[1] 닫기
-		exec_cmd(cur);	// 출력이 pipe로 전달됨
-	}
-
-	// parent : cur->next 실행됨, cur의 결과를 입력으로 받는다.
-	waitpid(pid, NULL, 0); // 자식이 종료될 때까지 대기
-#ifdef TEST
-		printf("Parent : %s\n", cur->next->argv[0]);
-#endif
-	close(fd[1]);	// 사용하지 않는 write 닫기
-	dup2(fd[0], STDIN_FILENO);	// STDIN에 fd[0]이 연결됨
-	close(fd[0]);	// fd[0] 닫기
-	exec_cmd(cur->next);
-}
-*/

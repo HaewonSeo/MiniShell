@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 11:48:49 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 20:00:22 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 23:19:08 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,24 @@ char *get_env(char **envp, char *key)
 			return (envp[i] + ft_strlen(key) + 1);
 	}
 	return (NULL);
+}
+
+void	mod_env(char **envp, char *key, char *value)
+{
+	int		i;
+	char	*new_env;
+
+	new_env = ft_strdup(key);
+	new_env = ft_strjoin(new_env, "=");
+	new_env = ft_strjoin(new_env, value);
+	i = -1;
+	while (envp[++i])
+	{
+		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
+		{
+			free(envp[i]);
+			envp[i] = new_env;
+			break ;
+		}
+	}
 }

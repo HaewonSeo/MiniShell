@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 14:26:24 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 14:27:39 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 22:31:13 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void signal_handler(int signum)
+void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{

@@ -6,22 +6,19 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 16:24:08 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 18:09:18 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_info(char *argv[], char *envp[])
+static void	init_info(char *argv[], char *envp[])
 {
 	g_info.argv = argv;
 	g_info.envp = envp;
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	g_info.shell = (char **)malloc(sizeof(char *) * 1);
 	split_envp(envp, &g_info);
-#ifdef TEST11
-	print_envp(g_info.envp);
-#endif
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -43,8 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 #ifdef WSL
 		input = prompt4();
-#endif
-#ifndef WSL
+#else
 		input = prompt2();
 #endif
 		parsing_cmd(input, &cur);
@@ -80,7 +76,6 @@ int	main(int argc, char *argv[], char *envp[])
 			tmp = tmp->next;
 		}
 #endif
-
 		exec_input(cur);
 		free(input);
 		input = NULL;

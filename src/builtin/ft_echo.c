@@ -6,18 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 17:03:06 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/01 23:25:16 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	쉘 변수 및 환경변수 리스트에서 key에 해당하는 value를 찾아서 출력
-	1. 환경변수 리스트에서 탐색
-	2. 없으면 쉘변수 리스트에서 탐색
-*/
-static void echo_env(char *arg)
+static void	echo_env(char *arg)
 {
 	char	*key;
 	char	*value;
@@ -27,7 +22,6 @@ static void echo_env(char *arg)
 	else
 	{
 		key = &arg[1];
-
 		value = get_env(g_info.envp, key);
 		if (value)
 		{
@@ -40,18 +34,7 @@ static void echo_env(char *arg)
 	}
 }
 
-/*
-	echo 기능
-
-	1. 옵션 -n이 있는 경우 개행 출력하지 않음
-	2. 일반적인 경우 argument 출력
-	3. 환경변수 출력 (환경변수가 존재하지 않는 경우 출력하지 않음)
-		출력 예(ASDD는 존재하지 않는 환경변수)
-		shw2662@DESKTOP-F8LA849:~$ echo $ASDD A B
-		A B
-
-*/
-void ft_echo(t_cmd *cmd)
+void		ft_echo(t_cmd *cmd)
 {
 	bool	opt_n;
 	int		i;
@@ -74,4 +57,5 @@ void ft_echo(t_cmd *cmd)
 	}
 	if (!opt_n)
 		printf("\n");
+	g_info.exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 20:12:27 by haseo             #+#    #+#             */
-/*   Updated: 2021/12/29 21:46:41 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 18:37:13 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ static int ft_nbrlen(int n)
 	return (len);
 }
 
-/*
-	get_cursor_cur_pos() : 현재 커서의 좌표를 얻는다.
-
-	1. 커서 위치를 STDIN에 기록, 커서 위치는 [row;colR 형식으로 기록된다.
-		- 이 때 출력될 커서의 위치는 사용할 위치보다 1씩 크다. 따라서 1을 뺀 값을 저장한다.
-	2. STDIN을 읽어서 row와 col 값을 파싱
-*/
 void	get_cursor_pos(int *col, int *row)
 {
 	int		read_size;
@@ -65,7 +58,6 @@ void	get_cursor_pos(int *col, int *row)
 		else
 			i++;
 	}
-	// printf("col : %d\t row : %d\n", *col, *row);
 }
 
 static int	putchar_stdout(int c)
