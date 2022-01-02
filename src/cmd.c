@@ -36,10 +36,12 @@ void    remove_redi(t_cmd *tmp)
     int     j;
     char    **str;
 
+    if (tmp->redirection == 0)
+        return ;
     i = 0;
     j = 0;
-    str = (char **)malloc(sizeof(char *) * (tmp->argc - 2));
-    while (tmp->argv[i])
+    str = (char **)malloc(sizeof(char *) * (tmp->argc - 1));
+    while (i < tmp->argc)
     {
         if (tmp->argv[i][0] == '>' | tmp->argv[i][0] == '<')
             i = i + 2;
@@ -47,15 +49,11 @@ void    remove_redi(t_cmd *tmp)
         i++;
         j++;
     }
-    str[j] = 0;
     free_argv(tmp->argv, tmp->argc);
     tmp->argv = (char **)malloc(sizeof(char *) * j);
     i = 0;
-    while (str[i])
-    {
+    while (i++ < j)
         tmp->argv[i] = ft_substr(str[i], 0, ft_strlen(str[i]));
-        i++;
-    }
     tmp->argv[i] = 0;
     tmp->argc = i;
     free_argv(str, i);
@@ -136,7 +134,7 @@ void    parsing_cmd(char *str, t_cmd **cur)
     if (k <= 0)
         (*cur)->next = tmp;
     else
-        (*cur)->next->next = tmp;//
+        (*cur)->next->next = tmp;
     if (k == -2)
         tmp->shell_var = 1;
     finish_cmd(tmp, str);

@@ -43,7 +43,7 @@ void    tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
     return ;
 }
 
-void    check_right(char *str) // | < << > >> " '
+void    check_right(char *str)
 {
     ch_right_quote(str);
     ch_right_pipe(str);

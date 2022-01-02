@@ -98,7 +98,7 @@ void    del_envp(t_info *info, char *key)
 	info->envp[i] = 0;
 }
 
-void    split_envp(char **envp, t_info *info)//g_info.envp가 들어올 거(뒤)
+void    split_envp(char **envp, t_info *info)
 {
 	int i;
 
