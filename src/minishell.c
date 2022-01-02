@@ -45,7 +45,7 @@ int	main(int argc, char *argv[], char *envp[])
 		input = prompt4();
 #endif
 #ifndef WSL
-		input = prompt();
+		input = prompt2();
 #endif
 		parsing_cmd(input, &cur);
 		cur = cur->next;
