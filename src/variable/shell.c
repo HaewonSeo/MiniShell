@@ -91,6 +91,8 @@ void    del_shell(t_info *info, char *key)
 	int i;
 
 	i = 0;
+	if (!get_shell(info, key))
+		return ;
 	while (ft_strncmp(info->shell[i], key, ft_strlen(key)))
 		i++;
 	while (info->shell[i] && info->shell[i + 1])

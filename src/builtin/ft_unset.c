@@ -25,7 +25,7 @@ void ft_unset(t_cmd *cmd)
 		else
 		{
 			del_envp(&g_info, cmd->argv[i]);
-			// del_shell(&g_info, cmd->argv[i]); (에러) 동작안하고 무한루프 빠짐
+			del_shell(&g_info, cmd->argv[i]);
 #ifdef TEST
 			printf("[shell list]\n");		// (에러) 쉘 변수 리스트에 환경변수 SHELL이 존재함
 			print_shell(g_info.shell);		// SHELL=/bin/bash 첫항에 존재
