@@ -54,7 +54,7 @@ t_cmd   *parsing_cmd_env(char *str)
     new = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
     str = re_make_str(str);
     new->argc = 1;
-    new->argv = (char **)malloc(sizeof(char *) * 1);
+    new->argv = (char **)malloc(sizeof(char *) * 2);
     new->redirection = 0;
     new->pipe = 0;
     new->quote = 0;
@@ -65,5 +65,6 @@ t_cmd   *parsing_cmd_env(char *str)
     new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->next = NULL;
     new->argv[0] = ft_substr(str, 0, ft_strlen(str));//
+    new->argv[1] = 0;
     return (new);
 }

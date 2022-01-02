@@ -33,20 +33,23 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 void    remove_redi(t_cmd *tmp)
 {
     int     i;
+    int     j;
     char    **str;
 
     i = 0;
+    j = 0;
     str = (char **)malloc(sizeof(char *) * (tmp->argc - 2));
     while (tmp->argv[i])
     {
         if (tmp->argv[i][0] == '>' | tmp->argv[i][0] == '<')
             i = i + 2;
-        str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
+        str[j] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
         i++;
+        j++;
     }
-    str[i] = 0;
+    str[j] = 0;
     free_argv(tmp->argv, tmp->argc);
-    tmp->argv = (char **)malloc(sizeof(char *) * i);
+    tmp->argv = (char **)malloc(sizeof(char *) * j);
     i = 0;
     while (str[i])
     {
@@ -133,7 +136,7 @@ void    parsing_cmd(char *str, t_cmd **cur)
     if (k <= 0)
         (*cur)->next = tmp;
     else
-        (*cur)->next->next = tmp;
+        (*cur)->next->next = tmp;//
     if (k == -2)
         tmp->shell_var = 1;
     finish_cmd(tmp, str);
