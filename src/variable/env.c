@@ -86,6 +86,8 @@ void    del_envp(t_info *info, char *key)
 {
 	int i;
 
+	if (!get_env(info->envp, key))
+		return ;
 	i = 0;
 	while (ft_strncmp(info->envp[i], key, ft_strlen(key)))
 		i++;
