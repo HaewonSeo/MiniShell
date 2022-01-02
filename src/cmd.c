@@ -33,42 +33,54 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 void    remove_redi(t_cmd *tmp)
 {
     int     i;
-    int     j;
+    char    **str;
 
     i = 0;
-    j = tmp->argc;
+    str = (char **)malloc(sizeof(char *) * (tmp->argc - 2));
     while (tmp->argv[i])
     {
-        if (tmp->argv[i][0] == '<' || tmp->argv[i][0] == '>')
-        {
-            j = i;
-            while (tmp->argv[j + 2])
-            {
-                tmp->argv[j] = tmp->argv[j + 2];
-                j++;
-            }
-            tmp->argv[j] = NULL;
-            i = 0;
-            continue ;
-        }
+        if (tmp->argv[i][0] == '>' | tmp->argv[i][0] == '<')
+            i = i + 2;
+        str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
         i++;
-        tmp->argc = j;
     }
+    str[i] = 0;
+    free_argv(tmp->argv, tmp->argc);
+    tmp->argv = (char **)malloc(sizeof(char *) * i);
+    i = 0;
+    while (str[i])
+    {
+        tmp->argv[i] = ft_substr(str[i], 0, ft_strlen(str[i]));
+        i++;
+    }
+    tmp->argv[i] = 0;
+    tmp->argc = i;
+    free_argv(str, i);
 }
 
-void    re_parsing_cmd_env(t_cmd *tmp)
+void    re_malloc_cmd(t_cmd *tmp, int len)
 {
     int i;
+    char    **str;
 
     i = 0;
-    while (tmp->argv[i])
+    str = (char **)malloc(sizeof(char *) * len);
+    while (i < len)
     {
-        if (tmp->argv[i][0] == '|' && !tmp->argv[i][1])
-            break ;
+        str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
         i++;
     }
+    str[i] = 0;
+    free_argv(tmp->argv, tmp->argc);
     tmp->argc = i;
+    i = 0;
+    while (i < tmp->argc)
+    {
+        tmp->argv[i] = ft_substr(str[i], 0, ft_strlen(str[i]));
+        i++;
+    }
     tmp->argv[i] = 0;
+    free_argv(str, i);
 }
 
 void    re_parsing_cmd(t_cmd *tmp, char *str)
@@ -90,11 +102,10 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
     k = argv_pipe(tmp) + 1;
     new->argv = (char **)malloc(sizeof(char *) * (tmp->argc - k + 1));
     new->argc = tmp->argc - k;
-    tmp->argc = tmp->argc - new->argc - 1;
     while (tmp->argv[k])
         new->argv[i++] = tmp->argv[k++];
     new->argv[i] = 0;
-    tmp->argv[argv_pipe(tmp)] = 0;
+    re_malloc_cmd(tmp, i);
     tmp_and_new(tmp, new, str);
     put_redirection(new);
     remove_redi(new);

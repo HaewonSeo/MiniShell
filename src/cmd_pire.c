@@ -41,3 +41,31 @@ int check_redi(char *str)// <은1 <<는2 >는3 >>는4
     }
     return (0);
 }
+
+void    free_argv(char **tmp, int len)///
+{
+    int i;
+
+    i = 0;
+    while (i < len)
+    {
+        free(tmp[i]);
+        i++;
+    }
+    free(tmp);
+}
+
+void    re_parsing_cmd_env(t_cmd *tmp)///
+{
+    int i;
+
+    i = 0;
+    while (tmp->argv[i])
+    {
+        if (tmp->argv[i][0] == '|' && !tmp->argv[i][1])
+            break ;
+        i++;
+    }
+    tmp->argc = i;
+    tmp->argv[i] = 0;
+}

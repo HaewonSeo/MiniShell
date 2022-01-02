@@ -129,7 +129,7 @@ void	set_canonical_mode();
 
 #ifndef WSL
 char	*prompt();
-void	prompt2();
+void	*prompt2();
 #endif
 void	prompt3();
 char	*prompt4();
@@ -190,6 +190,8 @@ void	check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd   *parsing_cmd_env(char *str);
 void	finish_cmd(t_cmd *tmp, char *str);
+void    free_argv(char **tmp, int len);
+void    re_parsing_cmd_env(t_cmd *tmp);
 
 /*
 ** cmd tool
