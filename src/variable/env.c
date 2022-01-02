@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 11:48:49 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 23:19:08 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 19:50:31 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void    del_envp(t_info *info, char *key)
 	info->envp[i] = 0;
 }
 
-void    split_envp(char **envp, t_info *info)//g_info.envp가 들어올 거(뒤)
+void    split_envp(char **envp, t_info *info)
 {
 	int i;
 

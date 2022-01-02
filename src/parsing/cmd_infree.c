@@ -24,15 +24,14 @@ void    init_cmd(char *str, t_cmd *tmp)
     tmp->fd[1] = 0;
     tmp->shell_var = 0;
     tmp->next = NULL;
-    tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));///
+    tmp->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
 }
 
-void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
+void    free_cmd(t_cmd *tmp)
 {
     t_cmd   *del;
     int     i;
 
-    i = 0;
     while (tmp)
     {
         del = tmp;
@@ -51,6 +50,7 @@ void    free_cmd(t_cmd *tmp) //env의 free와 같은 형식
             free(del->redir->rr);
         if (del->redir->ll)
             free(del->redir->ll);
+        free(del->redir);
         free(del);
     }
     free(tmp);
@@ -120,6 +120,6 @@ void    finish_cmd(t_cmd *tmp, char *str)
         tmp->quote = 0;
     if (tmp->pipe > 0)
         re_parsing_cmd(tmp, str + where_pipe(str));
-    put_redirection(tmp);//
-    remove_redi(tmp);//
+    put_redirection(tmp);
+    remove_redi(tmp);
 }

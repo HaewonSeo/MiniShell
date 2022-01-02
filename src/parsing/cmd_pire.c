@@ -16,7 +16,7 @@ int check_pipe(t_cmd *tmp)
     return (0);
 }
 
-int check_redi(char *str)// <은1 <<는2 >는3 >>는4
+int check_redi(char *str)
 {
     int i;
 
@@ -42,7 +42,7 @@ int check_redi(char *str)// <은1 <<는2 >는3 >>는4
     return (0);
 }
 
-void    free_argv(char **tmp, int len)///
+void    free_argv(char **tmp, int len)
 {
     int i;
 
@@ -55,7 +55,7 @@ void    free_argv(char **tmp, int len)///
     free(tmp);
 }
 
-void    re_parsing_cmd_env(t_cmd *tmp)///
+void    re_parsing_cmd_env(t_cmd *tmp)
 {
     int i;
 
