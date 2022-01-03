@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 22:10:25 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 17:15:59 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	init_info(int argc, char *argv[], char *envp[])
 	g_info.argv = argv;
 	g_info.envp = envp;
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	g_info.shell = (char **)malloc(sizeof(char *) * 1);
+	// g_info.shell = (char **)malloc(sizeof(char *) * 1);
+	g_info.shell = NULL;
 	g_info.shell_len = 0;
 	split_envp(envp, &g_info);
 }

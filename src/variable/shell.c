@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:13:17 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 19:50:57 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 17:30:29 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ char *get_shell(t_info *info, char *key)
 	int		i;
 
 	i = 0;
-	if (info->shell_len == 0)
+	if (info->shell == NULL)
 		return (NULL);
+	// if (info->shell_len == 0)
+	// 	return (NULL);
 	while (info->shell[i])
 	{
 		if (ft_strncmp(info->shell[i], key, ft_strlen(key)) == 0)
@@ -131,5 +133,24 @@ void	print_shell(char **shell)
 	{
 		printf("%s\n", shell[i]);
 		i++;
+	}
+}
+
+void	mod_shell(char **shell, char *key, char *value)
+{
+	int		i;
+	char	*new;
+
+	new = ft_strdup(key);
+	new = ft_strjoin(new, value);
+	i = -1;
+	while (shell[++i])
+	{
+		if (ft_strncmp(shell[i], key, ft_strlen(key)) == 0)
+		{
+			free(shell[i]);
+			shell[i] = new;
+			break ;
+		}
 	}
 }

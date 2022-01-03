@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 13:37:25 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 17:21:37 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,6 @@ void	free_shell(char **shel);
 char	*get_shell(t_info *info, char *key);
 void	del_shell(t_info *info, char *key);
 void	print_shell(char **shell);
+void	mod_shell(char **shell, char *key, char *value);
 
 #endif
