@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 17:15:59 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 23:21:46 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	init_info(int argc, char *argv[], char *envp[])
 	g_info.argv = argv;
 	g_info.envp = envp;
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	// g_info.shell = (char **)malloc(sizeof(char *) * 1);
 	g_info.shell = NULL;
 	g_info.shell_len = 0;
 	split_envp(envp, &g_info);
@@ -45,7 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 		input = prompt();
 #endif
 		if (!input)
-			continue;
+			continue ;
 		parsing_cmd(input, &cur);
 		cur = cur->next;
 #ifdef TEST
@@ -55,5 +54,5 @@ int	main(int argc, char *argv[], char *envp[])
 		free(input);
 		input = NULL;
 	}
-	return 0;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 23:25:16 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:00:47 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ static void	echo_env(char *arg)
 		value = get_env(g_info.envp, key);
 		if (value)
 		{
-			printf("%s", value);
+			printf("%s ", value);
 			return ;
 		}
 		value = get_shell(&g_info, key);
 		if (value)
-			printf("%s", value);
+			printf("%s ", value);
 	}
 }
 
-void		ft_echo(t_cmd *cmd)
+void	ft_echo(t_cmd *cmd)
 {
 	bool	opt_n;
 	int		i;
@@ -48,12 +48,12 @@ void		ft_echo(t_cmd *cmd)
 	}
 	while (++i < cmd->argc)
 	{
-		if (cmd->argv[i][0] == '$')
+		if (cmd->quote == 1)
+			printf("%s ", cmd->argv[i]);
+		else if (cmd->argv[i][0] == '$')
 			echo_env(cmd->argv[i]);
 		else
-			printf("%s", cmd->argv[i]);
-		if (i < cmd->argc - 1)
-			printf(" ");
+			printf("%s ", cmd->argv[i]);
 	}
 	if (!opt_n)
 		printf("\n");

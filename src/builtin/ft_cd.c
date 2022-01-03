@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:43:46 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 23:23:28 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 21:58:36 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	cd_home()
+static void	cd_home(void)
 {
 	char	*path;
 
@@ -51,7 +51,7 @@ static void	cd_path(const char *path)
 	}
 }
 
-void		ft_cd(t_cmd *cmd)
+void	ft_cd(t_cmd *cmd)
 {
 	if (cmd->argc > 2)
 		ft_perror1("cd", "too many arguments", EPERM);

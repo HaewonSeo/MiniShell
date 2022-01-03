@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 21:15:34 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 21:15:45 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:38:33 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	print_cmd(t_cmd *tmp, char *input)
 {
-	int n;
-	int i;
+	int	n;
+	int	i;
 
 	n = 0;
 	printf("\n----Parsing test----\n");
@@ -34,6 +34,7 @@ void	print_cmd(t_cmd *tmp, char *input)
 		printf("redirection = %d\n", tmp->redirection);
 		printf("shell_var = %d\n", tmp->shell_var);
 		printf("quote = %d\n", tmp->quote);
+		printf("shel_len = %d\n", g_info.shell_len);
 		printf("l = %s\n", tmp->redir->l);
 		printf("ll = %s\n", tmp->redir->ll);
 		printf("r = %s\n", tmp->redir->r);

@@ -6,14 +6,14 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 21:14:34 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:43:25 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #ifndef WSL
-char	*prompt()
+char	*prompt(void)
 {
 	char	*cwd;
 	char	*cmd;
@@ -77,7 +77,14 @@ static void	*ft_str_remove_back(char *s)
 	s[len - 1] = '\0';
 }
 
-char	*prompt4()
+/*
+	cwd 출력 시 , cwd 길이만큼 cursor의 col값이 증가하지 않아서 cursor 제어에 오류가 발생함
+	ft_putstr_fd(BLU, STDOUT_FILENO);
+	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
+	ft_putstr_fd("$ ", STDOUT_FILENO);
+	ft_putstr_fd(EOC, STDOUT_FILENO);
+*/
+char	*prompt4(void)
 {
 	int		ch;
 	char	*input;
@@ -86,14 +93,6 @@ char	*prompt4()
 
 	ch = 0;
 	input = NULL;
-
-	/*
-	cwd 출력 시 , cwd 길이만큼 cursor의 col값이 증가하지 않아서 cursor 제어에 오류가 발생함
-	ft_putstr_fd(BLU, STDOUT_FILENO);
-	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
-	ft_putstr_fd("$ ", STDOUT_FILENO);
-	ft_putstr_fd(EOC, STDOUT_FILENO);
-	*/
 	get_cursor_pos(&col, &row);
 	while (read(STDIN_FILENO, &ch, sizeof(ch)) > 0)
 	{
@@ -104,7 +103,6 @@ char	*prompt4()
 				free(input);
 			return (NULL);
 		}
-		// ft_putchar_fd((char)ch, STDOUT_FILENO);
 		if (ft_isprint(ch))
 		{
 			col++;

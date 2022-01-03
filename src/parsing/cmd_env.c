@@ -45,11 +45,10 @@ int check_cmd_env(char *str)
             while (str[i] && str[i] != ' ')
                 i++;
             j = i;
-            while (j < ft_strlen(str))
+            while (j++ < ft_strlen(str))
             {
                 if (str[j] == '>' || str[j] == '<')
                     return (-2);
-                j++;
             }
             return (i);
         }

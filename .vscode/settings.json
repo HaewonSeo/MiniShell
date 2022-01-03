@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
 	"files.associations": {
 		"cstdio": "cpp",
 		"exception": "cpp",
@@ -19,9 +18,3 @@
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }
-=======
-    "files.associations": {
-        "sstream": "c"
-    }
-}
->>>>>>> fb8c5637c06772cbaab08a546c59d6c00ff8c9a2

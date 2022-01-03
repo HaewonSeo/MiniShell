@@ -6,14 +6,15 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 17:21:37 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 23:22:56 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define WSL
+# define WSL
+# define TEST
 
 # include <signal.h>
 # include <unistd.h>
@@ -31,21 +32,20 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
-#ifndef WSL
-# include <readline/readline.h>
-# include <readline/history.h>
-#endif
+# ifndef WSL
+#  include <readline/readline.h>
+#  include <readline/history.h>
+# endif
 
-#define ETX	3
-#define EOT	4
-#define LF	10
-#define FS	28
-#define DEL	127
-#define LEFT_ARROW	4479771
-#define RIGHT_ARROW	4414235
-#define TEST 1
+# define ETX				3
+# define EOT				4
+# define LF					10
+# define FS					28
+# define DEL				127
+# define LEFT_ARROW			4479771
+# define RIGHT_ARROW		4414235
 
-typedef struct			s_term
+typedef struct s_term
 {
 	struct termios		canonical;
 	struct termios		noncanonical;
@@ -53,18 +53,18 @@ typedef struct			s_term
 	char				*ce;
 }						t_term;
 
-typedef struct			s_redir
+typedef struct s_redir
 {
-	char 				*l;
+	char				*l;
 	char				*ll;
 	char				*r;
 	char				*rr;
 }						t_redir;
 
-typedef struct			s_cmd
+typedef struct s_cmd
 {
 	int					argc;
-	char 				**argv;
+	char				**argv;
 	int					pipe;
 	int					redirection;
 	int					quote;
@@ -76,20 +76,20 @@ typedef struct			s_cmd
 
 }						t_cmd;
 
-typedef struct			s_info
+typedef struct s_info
 {
 	t_term				term;
 	int					argc;
 	char				**argv;
 	char				**envp;
 	char				**shell;
-	int					shell_len;//
+	int					shell_len;
 	t_cmd				*head_cmd;
 	int					exit_status;
 	int					signal;
 }						t_info;
 
-t_info					g_info;
+t_info	g_info;
 
 /*
 ** builtin
@@ -98,17 +98,16 @@ t_info					g_info;
 void	ft_cd(t_cmd *cmd);
 void	ft_echo(t_cmd *cmd);
 void	ft_env(t_cmd *cmd);
-void	ft_exit();
+void	ft_exit(void);
 void	ft_export(t_cmd *cmd);
-void	ft_pwd();
+void	ft_pwd(void);
 void	ft_unset(t_cmd *cmd);
 
 /*
 ** execute
 */
 
-void	exec_input();
-// int		is_builtin(char *cmd);
+void	exec_input(void);
 void	exec_builtin(t_cmd *cmd);
 char	*get_cmd_path(char *cmd);
 void	exec_cmd_child(t_cmd *cmd);
@@ -143,10 +142,10 @@ void	ch_right_pipe(char *str);
 void	ch_right_quote(char *str);
 void	check_right(char *str);
 int		check_cmd_env(char *str);
-t_cmd   *parsing_cmd_env(char *str);
+t_cmd	*parsing_cmd_env(char *str);
 void	finish_cmd(t_cmd *tmp, char *str);
-void    free_argv(char **tmp, int len);
-void    re_parsing_cmd_env(t_cmd *tmp);
+void	free_argv(char **tmp, int len);
+void	re_parsing_cmd_env(t_cmd *tmp);
 
 /*
 ** cmd tool
@@ -156,7 +155,6 @@ int		check_i(char *str, t_cmd *tmp, int i, int j);
 int		argv_pipe(t_cmd *tmp);
 void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str);
 int		return_j(t_cmd *tmp, char *str);
-
 
 /*
 ** cursor
@@ -171,10 +169,12 @@ void	move_cursor_right(int *col, int *row);
 ** prompt
 */
 
-#ifndef WSL
-char	*prompt();
-#endif
-char	*prompt4();
+# ifndef WSL
+
+char	*prompt(void);
+# endif
+
+char	*prompt4(void);
 
 /*
 ** signal
@@ -186,19 +186,19 @@ void	signal_handler(int signum);
 ** terminal_input_mode
 */
 
-void	get_canonical_mode();
-void	set_noncanonical_mode();
-void	set_canonical_mode();
+void	get_canonical_mode(void);
+void	set_noncanonical_mode(void);
+void	set_canonical_mode(void);
 
 /*
 ** utility
 */
 
-void	ft_perror(const char *str, int errnum);
-void	ft_perror1(const char *cmd, const char *msg, int errnum);
-void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum);
-void	ft_perror3(const char *cmd, const char *msg, int errnum);
-void	ft_perror4(const char *cmd, int i, const char *msg, int errnum);
+void	ft_perror( har *str, int errnum);
+void	ft_perror1(char *cmd, char *msg, int errnum);
+void	ft_perror2(char *cmd, char *arg, char *msg, int errnum);
+void	ft_perror3(char *cmd, char *msg, int errnum);
+void	ft_perror4(char *cmd, int i, char *msg, int errnum);
 void	print_cmd(t_cmd *tmp, char *input);
 
 /*
@@ -213,6 +213,9 @@ void	split_envp(char **envp, t_info *info);
 void	print_envp(char **envp);
 char	*get_env(char **envp, char *key);
 void	mod_env(char **envp, char *key, char *value);
+char	*shell_to_envp(t_info *info, char *tmp, char *str);
+void	add_env_new(char **envp, char *new);
+void	add_env(char **envp, char *str);
 
 /*
 ** shell
@@ -225,5 +228,7 @@ char	*get_shell(t_info *info, char *key);
 void	del_shell(t_info *info, char *key);
 void	print_shell(char **shell);
 void	mod_shell(char **shell, char *key, char *value);
+void	add_shell_new(char **shell, char *new);
+void	add_shell(char **shell, char *str);
 
 #endif

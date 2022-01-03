@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 22:24:47 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 20:47:17 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:08:46 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,29 @@ static void	set_l(char *fname)
 
 static void	set_ll(char *delimiter)
 {
-	int	fd;
-	char *input;
+	int		fd;
+	char	*input;
 
 	fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0744);
 	if (fd < 0)
 		ft_perror1("tmp", "No such file or directory", (int)EPERM);
-	else
+	while (1)
 	{
-		while (1)
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		input = prompt4();
+		if (!strcmp(input, delimiter))
 		{
-			ft_putstr_fd("> ", STDOUT_FILENO);
-			input = prompt4();
-			if (!strcmp(input, delimiter))
-			{
-				free(input);
-				break;
-			}
-			ft_putstr_fd(input, fd);
-			ft_putstr_fd("\n", fd);
-			ft_putstr_fd("\n", STDOUT_FILENO);
 			free(input);
+			break ;
 		}
-		close(fd);
+		ft_putstr_fd(input, fd);
+		ft_putstr_fd("\n", fd);
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		set_l("tmp");
+		free(input);
 	}
+	close(fd);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	set_l("tmp");
 }
 
 static void	set_r(char *fname)
@@ -87,7 +84,7 @@ static void	set_rr(char *fname)
 	}
 }
 
-void		set_redirection(t_cmd *cur)
+void	set_redirection(t_cmd *cur)
 {
 	if (cur->redir->l)
 		set_l(cur->redir->l);

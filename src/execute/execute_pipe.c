@@ -6,16 +6,16 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:32:45 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 20:41:33 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:28:29 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void set_pipe(t_cmd *cmd)
+static void	set_pipe(t_cmd *cmd)
 {
 	if (cmd->redirection)
-			set_redirection(cmd);
+		set_redirection(cmd);
 	if (cmd->pipe)
 	{
 		if (dup2(cmd->next->fd[1], STDOUT_FILENO) == -1)
@@ -30,7 +30,7 @@ static void set_pipe(t_cmd *cmd)
 	}
 }
 
-static void exec_pipe_fork(t_cmd *cmd)
+static void	exec_pipe_fork(t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;
@@ -54,18 +54,17 @@ static void exec_pipe_fork(t_cmd *cmd)
 	}
 }
 
-void exec_pipe(t_cmd *cur)
+void	exec_pipe(t_cmd *cur)
 {
-#ifdef TEST11
-		printf("cmd : %s\n", cur->argv[0]);
-		printf("fd[0] : %d fd[1] : %d \n", cur->fd[0], cur->fd[1]);
-#endif
 	if (cur->pipe)
 	{
 		cur->next->pipe_prev = 1;
 		pipe(cur->next->fd);
 	}
-	exec_pipe_fork(cur);
+	if (cmd->shell_var)
+		add_shell(g_info.shell, cmd->argv[0]);
+	else
+		exec_pipe_fork(cur);
 	if (cur->pipe)
 		close(cur->next->fd[1]);
 	if (cur->pipe_prev)

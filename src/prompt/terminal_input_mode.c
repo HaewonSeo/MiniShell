@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 14:25:31 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/01 22:31:25 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:42:29 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_canonical_mode()
+void	get_canonical_mode(void)
 {
 	char	*term;
 
@@ -24,7 +24,7 @@ void	get_canonical_mode()
 	g_info.term.ce = tgetstr("ce", NULL);
 }
 
-void	set_noncanonical_mode()
+void	set_noncanonical_mode(void)
 {
 	tcgetattr(STDIN_FILENO, &g_info.term.noncanonical);
 	g_info.term.noncanonical.c_lflag &= ~(ICANON | ECHO);
@@ -33,7 +33,7 @@ void	set_noncanonical_mode()
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.noncanonical);
 }
 
-void	set_canonical_mode()
+void	set_canonical_mode(void)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.canonical);
 }

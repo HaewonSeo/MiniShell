@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:28:18 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 20:47:39 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:38:06 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_perror(const char *str, int errnum)
+void	ft_perror(char *str, int errnum)
 {
 	ft_putstr_fd("bash: ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
@@ -21,7 +21,7 @@ void	ft_perror(const char *str, int errnum)
 	exit(errnum);
 }
 
-void	ft_perror1(const char *cmd, const char *msg, int errnum)
+void	ft_perror1(char *cmd, char *msg, int errnum)
 {
 	ft_putstr_fd("bash: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
@@ -32,7 +32,7 @@ void	ft_perror1(const char *cmd, const char *msg, int errnum)
 	exit(errnum);
 }
 
-void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum)
+void	ft_perror2(char *cmd, char *arg, char *msg, int errnum)
 {
 	ft_putstr_fd("bash: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
@@ -45,7 +45,7 @@ void	ft_perror2(const char *cmd, const char *arg, const char *msg, int errnum)
 	exit(errnum);
 }
 
-void	ft_perror3(const char *cmd, const char *msg, int errnum)
+void	ft_perror3(char *cmd, char *msg, int errnum)
 {
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -55,7 +55,7 @@ void	ft_perror3(const char *cmd, const char *msg, int errnum)
 	exit(errnum);
 }
 
-void	ft_perror4(const char *cmd, int i, const char *msg, int errnum)
+void	ft_perror4(char *cmd, int i, char *msg, int errnum)
 {
 	char	*num_str;
 	char	*i_str;

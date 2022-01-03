@@ -60,23 +60,16 @@ void    add_envp(t_info *info, char *str)
 	int     j;
 	char    *tmp;
 
-	i = 0;
+	i = 1;
 	j = 0;
-	while (str[i])
+	while (i++ < ft_strlen(str))
 	{
 		if (str[i] == '=')
 			break ;
-		i++;
 	}
-	if (i == 0)
-		i++;
 	tmp = ft_substr(str, 0, i);
 	if (get_shell(info, tmp) != NULL)
-	{
-		del_shell(info, tmp);
-		if (ft_strchr(tmp, '=') == NULL)
-			str = ft_strjoin(tmp, get_shell(info, tmp));
-	}
+		str = shell_to_envp(info, tmp, str);
 	if (get_env(info->envp, tmp))
 	{
 		while (ft_strncmp(info->envp[j], tmp, i) != 0)
@@ -122,45 +115,4 @@ void    split_envp(char **envp, t_info *info)
 		i++;
 	}
 	info->envp[i] = 0;
-}
-
-void print_envp(char **envp)
-{
-	int		i;
-
-	i = -1;
-	while (envp[++i])
-		printf("%s\n", envp[i]);
-}
-
-char *get_env(char **envp, char *key)
-{
-	int		i;
-
-	i = -1;
-	while (envp[++i])
-	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
-			return (envp[i] + ft_strlen(key) + 1);
-	}
-	return (NULL);
-}
-
-void	mod_env(char **envp, char *key, char *value)
-{
-	int		i;
-	char	*new;
-
-	new = ft_strdup(key);
-	new = ft_strjoin(new, value);
-	i = -1;
-	while (envp[++i])
-	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
-		{
-			free(envp[i]);
-			envp[i] = new;
-			break ;
-		}
-	}
 }

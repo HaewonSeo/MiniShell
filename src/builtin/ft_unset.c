@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:18 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 17:25:50 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:00:37 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_unset(t_cmd *cmd)
+void	ft_unset(t_cmd *cmd)
 {
 	int		i;
 

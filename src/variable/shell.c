@@ -33,26 +33,25 @@ void	add_new_shell_env(char *str, t_info *info)
 
 	i = 0;
 	j = 0;
+	if (info->shell_len == 0)
+	{
+		info->shell[0] = ft_substr(str, 0, ft_strlen(str));
+		info->shell_len++;
+		return ;
+	}
 	while (info->shell[i])
 		i++;
 	tmp = (char **)malloc(sizeof(char *) * (i + 2));
-	while (j < i)
-	{
+	while (j++ < i)
 		tmp[j] = ft_substr(info->shell[j], 0, ft_strlen(info->shell[j]));
-		j++;
-	}
 	tmp[j] = ft_substr(str, 0, ft_strlen(str));
 	free_shell(info->shell);
 	info->shell = (char **)malloc(sizeof(char *) * (i + 2));
 	j = 0;
-	while (j < i + 1)
-	{
+	while (j++ < i + 1)
 		info->shell[j] = ft_substr(tmp[j], 0, ft_strlen(tmp[j]));
-		j++;
-	}
 	free_shell(tmp);
 	info->shell[j] = 0;
-	g_info.shell_len++;
 }
 
 void    add_shell_env(char *str)
@@ -60,7 +59,7 @@ void    add_shell_env(char *str)
 	int     i;
 	char    *tmp;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] == '=')
@@ -77,13 +76,11 @@ void    add_shell_env(char *str)
 			g_info.shell_len--;
 		}
 	}
-	else if (g_info.shell_len == 0)
+	else
 	{
-		g_info.shell[0] = ft_substr(str, 0, ft_strlen(str));
+		add_new_shell_env(str, &g_info);
 		g_info.shell_len++;
 	}
-	else
-		add_new_shell_env(str, &g_info);
 }
 
 char *get_shell(t_info *info, char *key)
@@ -91,10 +88,8 @@ char *get_shell(t_info *info, char *key)
 	int		i;
 
 	i = 0;
-	if (info->shell == NULL)
+	if (info->shell_len == 0)
 		return (NULL);
-	// if (info->shell_len == 0)
-	// 	return (NULL);
 	while (info->shell[i])
 	{
 		if (ft_strncmp(info->shell[i], key, ft_strlen(key)) == 0)
@@ -122,35 +117,4 @@ void    del_shell(t_info *info, char *key)
 	info->shell[i] = 0;
 	info->shell_len--;
 	return ;
-}
-
-void	print_shell(char **shell)
-{
-	int		i;
-
-	i = 0;
-	while (shell[i])
-	{
-		printf("%s\n", shell[i]);
-		i++;
-	}
-}
-
-void	mod_shell(char **shell, char *key, char *value)
-{
-	int		i;
-	char	*new;
-
-	new = ft_strdup(key);
-	new = ft_strjoin(new, value);
-	i = -1;
-	while (shell[++i])
-	{
-		if (ft_strncmp(shell[i], key, ft_strlen(key)) == 0)
-		{
-			free(shell[i]);
-			shell[i] = new;
-			break ;
-		}
-	}
 }

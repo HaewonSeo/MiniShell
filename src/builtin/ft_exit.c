@@ -6,13 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:36:01 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 22:48:17 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 22:01:18 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit()
+void	ft_exit(void)
 {
 	printf("exit\n");
 	// free_envp(g_info.envp);
