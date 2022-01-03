@@ -106,7 +106,7 @@ int return_j(t_cmd *tmp, char *str)
     if (tmp->quote != 0)
         j = parsing_cmd_qu(str, tmp);
     tmp->pipe = check_pipe(tmp);
-    tmp->redirection = check_redi(str);
+    tmp->redirection = check_redi(tmp);//
     return (j);
 }
 

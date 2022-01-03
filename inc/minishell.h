@@ -128,7 +128,7 @@ int		parsing_cmd_qu(char *str, t_cmd *tmp);
 void	re_parsing_cmd(t_cmd *tmp, char *str);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
-int		check_redi(char *str);
+int		check_redi(t_cmd *tmp);//
 void	free_cmd(t_cmd *tmp);
 void	remove_redi(t_cmd *tmp);
 int		check_cmd(t_cmd *tmp);
