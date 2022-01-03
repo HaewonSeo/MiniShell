@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:13:17 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 17:30:29 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:50:47 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_shell(char **shel)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (shel && shel[i])
@@ -54,10 +54,10 @@ void	add_new_shell_env(char *str, t_info *info)
 	info->shell[j] = 0;
 }
 
-void    add_shell_env(char *str)
+void	add_shell_env(char *str)
 {
-	int     i;
-	char    *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 1;
 	while (str[i])
@@ -83,28 +83,28 @@ void    add_shell_env(char *str)
 	}
 }
 
-char *get_shell(t_info *info, char *key)
+char	*get_shell(t_info *info, char *key)
 {
 	int		i;
 
 	i = 0;
-	if (info->shell_len == 0)
+	if (info->shell == NULL)
 		return (NULL);
 	while (info->shell[i])
 	{
-		if (ft_strncmp(info->shell[i], key, ft_strlen(key)) == 0)
+		if (!ft_strncmp(info->shell[i], key, ft_strlen(key)))
 			return (info->shell[i] + ft_strlen(key) + 1);
 		i++;
 	}
 	return (NULL);
 }
 
-void    del_shell(t_info *info, char *key)
+void	del_shell(t_info *info, char *key)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (!get_shell(info, key))
+	if (get_shell(info, key) == NULL)
 		return ;
 	while (ft_strncmp(info->shell[i], key, ft_strlen(key)))
 		i++;

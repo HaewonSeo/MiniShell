@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:43:25 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:33:11 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*ft_str_add_back(char *s, char ch)
 	return (str);
 }
 
-static void	*ft_str_remove_back(char *s)
+static void	ft_str_remove_back(char *s)
 {
 	int	len;
 

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:43:46 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 21:58:36 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 23:59:23 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	cd_envv(char *arg)
 	}
 }
 
-static void	cd_path(const char *path)
+static void	cd_path(char *path)
 {
 	if (!path || chdir(path) == -1)
 		ft_perror2("cd", path, "No such file or directory", (int)EPERM);
@@ -62,5 +62,5 @@ void	ft_cd(t_cmd *cmd)
 	else if (cmd->argc == 2 && cmd->argv[1][0] != '~' && cmd->argv[1][0] != '$')
 		cd_path(cmd->argv[1]);
 	else
-		ft_perror2("cd", cmd->argv[1], "No such file or directory", EPERM);
+		ft_perror2("cd", cmd->argv[1], "No such file or directory", (int)EPERM);
 }

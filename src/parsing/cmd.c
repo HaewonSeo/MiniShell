@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:17:17 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/03 21:17:21 by hyejung          ###   ########.fr       */
+/*   Updated: 2022/01/04 01:32:52 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int parsing_cmd_qu(char *str, t_cmd *tmp)
+int	parsing_cmd_qu(char *str, t_cmd *tmp)
 {
-	int     i;
-	int     j;
-	int     mid;
+	int	i;
+	int	j;
+	int	mid;
 
 	i = -1;
 	j = 0;
 	new_init(str, tmp);
-	while (++i < ft_strlen(str))
+	while (++i < (int)ft_strlen(str))
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
@@ -41,10 +41,10 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 	return (j);
 }
 
-void    remove_redi(t_cmd *tmp)
+void	remove_redi(t_cmd *tmp)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = tmp->argc;
@@ -52,7 +52,7 @@ void    remove_redi(t_cmd *tmp)
 		return ;
 	while (tmp->argv[i])
 	{
-		if (tmp->argv[i][0] == '<' | tmp->argv[i][0] == '>')
+		if (tmp->argv[i][0] == '<' || tmp->argv[i][0] == '>')
 		{
 			j = i;
 			while (tmp->argv[j + 2])
@@ -69,10 +69,10 @@ void    remove_redi(t_cmd *tmp)
 	}
 }
 
-void    re_malloc_cmd(t_cmd *tmp, int len)
+void	re_malloc_cmd(t_cmd *tmp, int len)
 {
-	int     i;
-	char    **str;
+	int		i;
+	char	**str;
 
 	i = 0;
 	str = (char **)malloc(sizeof(char *) * (len + 1));
@@ -95,12 +95,12 @@ void    re_malloc_cmd(t_cmd *tmp, int len)
 	free_argv(str, i);
 }
 
-void    re_parsing_cmd(t_cmd *tmp, char *str)
+void	re_parsing_cmd(t_cmd *tmp, char *str)
 {
 	int		i;
 	int		k;
-	t_cmd   *new;
-	
+	t_cmd	*new;
+
 	if (check_cmd_env(str) > 0 && ft_strlen(str + check_cmd_env(str)) == 0)
 	{
 		tmp->next = parsing_cmd_env(str);
@@ -123,17 +123,17 @@ void    re_parsing_cmd(t_cmd *tmp, char *str)
 	remove_redi(new);
 }
 
-void    parsing_cmd(char *str, t_cmd **cur)
+void	parsing_cmd(char *str, t_cmd **cur)
 {
-	int     k;
-	t_cmd   *tmp;
-	
+	int		k;
+	t_cmd	*tmp;
+
 	check_right(str);
 	k = check_cmd_env(str);
 	if (k > 0)
 	{
 		(*cur)->next = parsing_cmd_env(str);
-		while (str[k] == ' ' | str[k] == '|')
+		while (str[k] == ' ' || str[k] == '|')
 			k++;
 		str = str + k;
 	}

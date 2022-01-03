@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:28:18 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:38:06 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 00:12:21 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	ft_perror(char *str, int errnum)
 {
-	ft_putstr_fd("bash: ", STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\nbash: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+#ifdef WSL
+	set_canonical_mode();
+#endif
 	exit(errnum);
 }
 
@@ -29,6 +32,9 @@ void	ft_perror1(char *cmd, char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+#ifdef WSL
+	set_canonical_mode();
+#endif
 	exit(errnum);
 }
 
@@ -42,6 +48,9 @@ void	ft_perror2(char *cmd, char *arg, char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+#ifdef WSL
+	set_canonical_mode();
+#endif
 	exit(errnum);
 }
 
@@ -52,6 +61,9 @@ void	ft_perror3(char *cmd, char *msg, int errnum)
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
+#ifdef WSL
+	set_canonical_mode();
+#endif
 	exit(errnum);
 }
 
@@ -64,8 +76,18 @@ void	ft_perror4(char *cmd, int i, char *msg, int errnum)
 	i_str = ft_itoa(i);
 	num_str = ft_strjoin(num_str, i_str);
 	num_str = ft_strjoin(num_str, "\'");
-	ft_perror2(cmd, num_str, msg, errnum);
+	ft_putstr_fd("bash: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(num_str, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	free(i_str);
 	free(num_str);
-	// exit(errnum);
+	g_info.exit_status = errnum;
+#ifdef WSL
+	set_canonical_mode();
+#endif
+	exit(errnum);
 }

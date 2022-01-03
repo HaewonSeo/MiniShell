@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 14:25:31 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:42:29 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:33:38 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_canonical_mode(void)
 	tcgetattr(STDIN_FILENO, &g_info.term.canonical);
 	term = "xterm";
 	term = getenv("TERM");
-	tgetent(NULL, "xterm");
+	tgetent(NULL, term);
 	g_info.term.cm = tgetstr("cm", NULL);
 	g_info.term.ce = tgetstr("ce", NULL);
 }

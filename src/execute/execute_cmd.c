@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:23:14 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:10:56 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,14 @@ static void	exec_cmd_fork(t_cmd *cmd)
 void	exec_cmd(t_cmd *cmd)
 {
 	if (cmd->shell_var)
+	{
 		add_shell(g_info.shell, cmd->argv[0]);
-	else if (is_builtin_on_parent(cmd->argv[0]))
+#ifdef TEST
+		printf("[shell list]\n");
+		print_shell(g_info.shell);
+#endif
+	}
+	else if (is_builtin(cmd->argv[0]))
 		exec_builtin(cmd);
 	else
 		exec_cmd_fork(cmd);

@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:55:20 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/03 21:55:22 by hyejung          ###   ########.fr       */
+/*   Updated: 2022/01/04 00:42:23 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    print_envp(char **envp)
+void	print_envp(char **envp)
 {
-	int i;
+	int	i;
 
+	if (envp == NULL)
+		return ;
 	i = -1;
 	while (envp[++i])
 		printf("%s\n", envp[i]);
 }
 
-char    *get_env(char **envp, char *key)
+char	*get_env(char **envp, char *key)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (envp[++i])
@@ -34,10 +36,10 @@ char    *get_env(char **envp, char *key)
 	return (NULL);
 }
 
-void    mod_env(char **envp, char *key, char *value)
+void	mod_env(char **envp, char *key, char *value)
 {
-	int     i;
-	char    *new;
+	int		i;
+	char	*new;
 
 	new = ft_strdup(key);
 	new = ft_strjoin(new, value);
@@ -53,7 +55,7 @@ void    mod_env(char **envp, char *key, char *value)
 	}
 }
 
-char    *shell_to_envp(t_info *info, char *tmp, char *str)
+char	*shell_to_envp(t_info *info, char *tmp, char *str)
 {
 	del_shell(info, tmp);
 	if (ft_strchr(tmp, '=') == NULL)

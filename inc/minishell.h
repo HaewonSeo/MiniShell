@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 23:22:56 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:29:01 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ void	ft_unset(t_cmd *cmd);
 ** execute
 */
 
-void	exec_input(void);
+int		is_builtin(char *cmd);
+int		is_builtin_on_child(char *cmd);
+int		is_builtin_on_parent(char *cmd);
+void	exec_input(t_cmd *cmd);
 void	exec_builtin(t_cmd *cmd);
 char	*get_cmd_path(char *cmd);
 void	exec_cmd_child(t_cmd *cmd);
@@ -194,7 +197,7 @@ void	set_canonical_mode(void);
 ** utility
 */
 
-void	ft_perror( har *str, int errnum);
+void	ft_perror(char *str, int errnum);
 void	ft_perror1(char *cmd, char *msg, int errnum);
 void	ft_perror2(char *cmd, char *arg, char *msg, int errnum);
 void	ft_perror3(char *cmd, char *msg, int errnum);
@@ -230,5 +233,6 @@ void	print_shell(char **shell);
 void	mod_shell(char **shell, char *key, char *value);
 void	add_shell_new(char **shell, char *new);
 void	add_shell(char **shell, char *str);
+void	del_shell2(char **shell, char *key);
 
 #endif

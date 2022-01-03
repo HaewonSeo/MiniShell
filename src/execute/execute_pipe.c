@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:32:45 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:28:29 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 23:53:58 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	exec_pipe(t_cmd *cur)
 		cur->next->pipe_prev = 1;
 		pipe(cur->next->fd);
 	}
-	if (cmd->shell_var)
-		add_shell(g_info.shell, cmd->argv[0]);
+	if (cur->shell_var)
+		add_shell(g_info.shell, cur->argv[0]);
 	else
 		exec_pipe_fork(cur);
 	if (cur->pipe)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_tool.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 20:53:43 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/03 21:23:59 by hyejung          ###   ########.fr       */
+/*   Updated: 2022/01/03 23:37:08 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,63 +31,63 @@ int	argv_pipe(t_cmd *tmp)
 {
 	int	i;
 
-    i = 0;
+	i = 0;
 	while (tmp->argv[i])
-    {
-        if (tmp->argv[i][0] == '|')
-            break ;
-        i++;
-    }
-    return (i);
+	{
+		if (tmp->argv[i][0] == '|')
+			break ;
+		i++;
+	}
+	return (i);
 }
 
-void    tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
+void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
 {
-    new->shell_var = 0;
-    new->pipe_prev = 1;
-    new->pipe = check_pipe(new);
-    tmp->next = new;
-    new->next = NULL;
-    if (where_quote(str) > where_pipe(str))
-        tmp->quote = 0;
-    if (new->pipe > 0)
-        re_parsing_cmd(new, str + where_pipe(str));
-    new->redirection = check_redi(new);
-    return ;
+	new->shell_var = 0;
+	new->pipe_prev = 1;
+	new->pipe = check_pipe(new);
+	tmp->next = new;
+	new->next = NULL;
+	if (where_quote(str) > where_pipe(str))
+		tmp->quote = 0;
+	if (new->pipe > 0)
+		re_parsing_cmd(new, str + where_pipe(str));
+	new->redirection = check_redi(new);
+	return ;
 }
 
-void    check_right(char *str)
+void	check_right(char *str)
 {
-    ch_right_quote(str);
-    ch_right_pipe(str);
-    ch_right_redi(str);
+	ch_right_quote(str);
+	ch_right_pipe(str);
+	ch_right_redi(str);
 }
 
-void    put_redirection(t_cmd *tmp)
+void	put_redirection(t_cmd *tmp)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (tmp->redirection == 0)
-        return ;
-    while (i < tmp->argc)
-    {
-        if (tmp->argv[i][0] == '<')
-        {
-            if (!tmp->argv[i][1])
-                tmp->redir->l = tmp->argv[i + 1];
-            else if (tmp->argv[i][1] == '<')
-                tmp->redir->ll = tmp->argv[i + 1];
-            i++;
-        }
-        if (tmp->argv[i][0] == '>')
+	i = 0;
+	if (tmp->redirection == 0)
+		return ;
+	while (i < tmp->argc)
+	{
+		if (tmp->argv[i][0] == '<')
 		{
-            if (!tmp->argv[i][1])
-                tmp->redir->r = tmp->argv[i + 1];
-            else if (tmp->argv[i][1] == '>')
-                tmp->redir->rr = tmp->argv[i + 1];
-            i++;
-        }
-        i++;
-    }
+			if (!tmp->argv[i][1])
+				tmp->redir->l = tmp->argv[i + 1];
+			else if (tmp->argv[i][1] == '<')
+				tmp->redir->ll = tmp->argv[i + 1];
+			i++;
+		}
+		if (tmp->argv[i][0] == '>')
+		{
+			if (!tmp->argv[i][1])
+				tmp->redir->r = tmp->argv[i + 1];
+			else if (tmp->argv[i][1] == '>')
+				tmp->redir->rr = tmp->argv[i + 1];
+			i++;
+		}
+		i++;
+	}
 }

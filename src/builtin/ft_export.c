@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:06 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:31:23 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:52:19 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	add_shell_to_envp(char **envp, char *key)
 	char	*shell_value;
 	char	*new;
 
-	if (get_env(g_info.envp, key))
+	if (get_env(envp, key))
 		return ;
 	shell_value = get_shell(&g_info, key);
 	if (shell_value)
@@ -34,11 +34,12 @@ static void	add_shell_to_envp(char **envp, char *key)
 		new = ft_strdup(key);
 		new = ft_strjoin(new, "=");
 		new = ft_strjoin(new, shell_value);
-		add_env_new(g_info.envp, new);
+		add_env_new(envp, new);
+		free(new);
 	}
 	else
-		add_env_new(g_info.envp, key);
-	del_shell(&g_info, key);
+		add_env_new(envp, key);
+	del_shell2(g_info.shell, key);
 }
 
 void	ft_export(t_cmd *cmd)

@@ -6,13 +6,23 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:21:41 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:21:54 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 23:53:07 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_builtin_on_child(char *cmd)
+int	is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo")
+		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "pwd")
+		|| !ft_strcmp(cmd, "unset"))
+		return (1);
+	return (0);
+}
+
+int	is_builtin_on_child(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd")
 		|| !ft_strcmp(cmd, "env"))
@@ -20,7 +30,7 @@ static int	is_builtin_on_child(char *cmd)
 	return (0);
 }
 
-static int	is_builtin_on_parent(char *cmd)
+int	is_builtin_on_parent(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export")
 		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "exit"))

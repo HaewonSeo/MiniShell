@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:11:36 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:30:12 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:34:24 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	add_env(char **envp, char *str)
 		i++;
 	key = ft_substr(str, 0, i);
 	new_value = ft_strchr(str, '=');
-	old_value = get_env(g_info.envp, key);
+	old_value = get_env(envp, key);
 	if (old_value)
-		mod_env(g_info.envp, key, new_value);
+		mod_env(envp, key, new_value);
 	else
-		add_env_new(g_info.envp, str);
+		add_env_new(envp, str);
 	del_shell(&g_info, key);
 	free(key);
 }

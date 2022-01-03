@@ -6,15 +6,15 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 11:48:49 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 17:30:29 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 01:33:47 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    free_envp(char **env)
+void	free_envp(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])
@@ -54,15 +54,15 @@ void	add_envp_new(t_info *info, char *str)
 	info->envp[j] = 0;
 }
 
-void    add_envp(t_info *info, char *str)
+void	add_envp(t_info *info, char *str)
 {
-	int     i;
-	int     j;
-	char    *tmp;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = 1;
 	j = 0;
-	while (i++ < ft_strlen(str))
+	while (i++ < (int)ft_strlen(str))
 	{
 		if (str[i] == '=')
 			break ;
@@ -82,9 +82,9 @@ void    add_envp(t_info *info, char *str)
 	free(tmp);
 }
 
-void    del_envp(t_info *info, char *key)
+void	del_envp(t_info *info, char *key)
 {
-	int i;
+	int	i;
 
 	if (!get_env(info->envp, key))
 		return ;
@@ -100,9 +100,9 @@ void    del_envp(t_info *info, char *key)
 	info->envp[i] = 0;
 }
 
-void    split_envp(char **envp, t_info *info)
+void	split_envp(char **envp, t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i])

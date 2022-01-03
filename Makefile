@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2022/01/03 22:32:21 by haseo            ###   ########.fr        #
+#    Updated: 2022/01/04 01:29:13 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME			= minishell
 # ----------------------------------
 
 CC				= gcc
-# CFLAGS 			= -Wall -Wextra -Werror
+CFLAGS 			= -Wall -Wextra -Werror
 # CFLAGS			+= -g3 -fsanitize=address
 CFLAGS			+= -g
 
@@ -101,15 +101,11 @@ SRCS			=	minishell.c \
 					error.c \
 					print_cmd.c \
 					env.c \
-<<<<<<< Updated upstream
 					env_tool.c \
 					shell.c \
-					shell_tool.c
-=======
+					shell_tool.c \
 					env2.c \
-					shell.c \
 					shell2.c
->>>>>>> Stashed changes
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
