@@ -109,6 +109,7 @@ void    del_shell(t_info *info, char *key)
 	}
 	free(info->shell[i]);
 	info->shell[i] = 0;
+	info->shell_len--;
 	return ;
 }
 
