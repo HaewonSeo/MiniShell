@@ -6,18 +6,24 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 20:43:22 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 13:38:04 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(char *cmd)
+static int	is_builtin_on_child(char *cmd)
 {
-	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo")
-	|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "env")
-	|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "export")
-	|| !ft_strcmp(cmd, "unset"))
+	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd")
+	|| !ft_strcmp(cmd, "env"))
+		return (1);
+	return (0);
+}
+
+static int is_builtin_on_parent(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export")
+	|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }
@@ -36,16 +42,6 @@ void exec_builtin(t_cmd *cmd)
 		ft_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		ft_unset(cmd);
-}
-
-static void	free_double_arr(char **mem)
-{
-	int		i;
-
-	i = -1;
-	while (mem[++i])
-		free(mem[i]);
-	free(mem);
 }
 
 char		*get_cmd_path(char *cmd)
@@ -71,7 +67,7 @@ char		*get_cmd_path(char *cmd)
 		free(cmd_path);
 		cmd_path = NULL;
 	}
-	free_double_arr(paths);
+	ft_free2d(paths);
 	free(_cmd);
 	return (cmd_path);
 }
@@ -80,16 +76,8 @@ void		exec_cmd_child(t_cmd *cmd)
 {
 	char	*cmd_path;
 
-	if (is_builtin(cmd->argv[0]))
+	if (is_builtin_on_child(cmd->argv[0]))
 		exec_builtin(cmd);
-	else if (cmd->shell_var)
-	{
-		add_shell_env(cmd->argv[0]);
-#ifdef TEST
-		printf("[shell list]\n");
-		print_shell(g_info.shell);		// SHELL=/bin/bash 첫항에 존재
-#endif
-	}
 	else
 	{
 		cmd_path = get_cmd_path(cmd->argv[0]);
@@ -109,8 +97,16 @@ void		exec_cmd(t_cmd *cmd)
 	pid_t	pid;
 	int		status;
 
-	if (!ft_strcmp(cmd->argv[0], "exit"))
-		ft_exit();
+	if (is_builtin_on_parent(cmd->argv[0]))
+		exec_builtin(cmd);
+	else if (cmd->shell_var)
+	{
+		add_shell_env(cmd->argv[0]);
+#ifdef TEST
+		printf("[shell list]\n");
+		print_shell(g_info.shell);		// SHELL=/bin/bash 첫항에 존재
+#endif
+	}
 	else
 	{
 		pid = fork();

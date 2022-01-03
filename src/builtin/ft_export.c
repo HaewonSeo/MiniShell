@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 18:44:06 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 20:49:36 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 14:18:03 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,15 @@ void	ft_export(t_cmd *cmd)
 				ft_perror2("export", "`$'", "not a valid identifier", 1);
 			// $ A=1 형식
 			else if (ft_strchr(cmd->argv[i], '=') != NULL)
-				add_envp(&g_info, cmd->argv[i]);		// (에러) 같은 값이 중복으로 추가됨
+				add_envp(&g_info, cmd->argv[i]);
 			// $ A 형식
-				// add_shell_env(cmd->argv[i]); // (에러) 환경변수 리스트에 A가 추가되지 않음
 				// 쉘 변수 리스트에서 먼저 찾고 없으면 널값을 환경변수 리스트에 추가
+					// (에러) 쉘 변수 리스트에서 A값을 찾지 못해서
+					//	A값이 존재함에도 불구하고 환경변수 리스트에서 A가 널값으로 추가된다.
 				// 정확히는 env 명령에는 A가 출력되지는 않으나, export 명령어 입력시 declare -x A 로 출력됨
 				// 일단은 env 및 export 시 모두 A가 출력되도록 구현
 			else
-				add_shell_env(cmd->argv[i]);
+				add_shell_env(cmd->argv[i]);	// (에러) 환경변수 리스트에 A가 추가되지 않음
 		}
 	}
 }

@@ -65,6 +65,5 @@ t_cmd   *parsing_cmd_env(char *str)
     new->redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
     new->next = NULL;
     new->argv[0] = ft_substr(str, 0, ft_strlen(str));
-    new->argv[1] = 0;
     return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 21:16:05 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/03 13:37:25 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ t_info					g_info;
 /*
 ** builtin
 */
+
 void	ft_cd(t_cmd *cmd);
 void	ft_echo(t_cmd *cmd);
 void	ft_env(t_cmd *cmd);
-void	ft_exit_with_set_mode(int errnum);
 void	ft_exit();
 void	ft_export(t_cmd *cmd);
 void	ft_pwd();
@@ -108,7 +108,7 @@ void	ft_unset(t_cmd *cmd);
 */
 
 void	exec_input();
-int		is_builtin(char *cmd);
+// int		is_builtin(char *cmd);
 void	exec_builtin(t_cmd *cmd);
 char	*get_cmd_path(char *cmd);
 void	exec_cmd_child(t_cmd *cmd);

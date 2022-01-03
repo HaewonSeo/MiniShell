@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/02 21:15:32 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/02 22:10:25 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,5 @@ int	main(int argc, char *argv[], char *envp[])
 		free(input);
 		input = NULL;
 	}
-#ifdef WSL
-	set_canonical_mode();
-#endif
 	return 0;
 }
