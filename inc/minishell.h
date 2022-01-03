@@ -83,6 +83,7 @@ typedef struct			s_info
 	char				**argv;
 	char				**envp;
 	char				**shell;
+	int					shell_len;//
 	t_cmd				*head_cmd;
 	int					exit_status;
 	int					signal;
