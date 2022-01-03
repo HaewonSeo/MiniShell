@@ -52,6 +52,7 @@ void	add_new_shell_env(char *str, t_info *info)
 	}
 	free_shell(tmp);
 	info->shell[j] = 0;
+	g_info.shell_len++;
 }
 
 void    add_shell_env(char *str)
@@ -68,7 +69,10 @@ void    add_shell_env(char *str)
 	}
 	tmp = ft_substr(str, 0, i);
 	if (getenv(tmp))
+	{
 		add_envp(&g_info, str);
+		g_info.shell_len--;
+	}
 	else
 		add_new_shell_env(str, &g_info);
 }
@@ -77,11 +81,14 @@ char *get_shell(t_info *info, char *key)
 {
 	int		i;
 
-	i = -1;
-	while (info->shell[++i])
+	i = 0;
+	if (info->shell_len == 0)
+		return (NULL);
+	while (info->shell[i])
 	{
 		if (ft_strncmp(info->shell[i], key, ft_strlen(key)) == 0)
 			return (info->shell[i] + ft_strlen(key) + 1);
+		i++;
 	}
 	return (NULL);
 }
@@ -102,6 +109,8 @@ void    del_shell(t_info *info, char *key)
 	}
 	free(info->shell[i]);
 	info->shell[i] = 0;
+	info->shell_len--;
+	return ;
 }
 
 void	print_shell(char **shell)

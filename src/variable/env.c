@@ -25,11 +25,11 @@ void    free_envp(char **env)
 	free(env);
 }
 
-void    add_envp_new(t_info *info, char *str)
+void	add_envp_new(t_info *info, char *str)
 {
-	int i;
-	int j;
-	char **tmp;
+	int		i;
+	int		j;
+	char	**tmp;
 
 	i = 0;
 	j = 0;
@@ -69,17 +69,18 @@ void    add_envp(t_info *info, char *str)
 		i++;
 	}
 	tmp = ft_substr(str, 0, i);
-	if (get_shell(info, tmp))//
-		del_shell(info, tmp);//
-	if (!getenv(tmp))
-		add_envp_new(info, str);
-	else
+	if (get_env(info->envp, tmp) != NULL)
 	{
-		while (ft_strncmp(info->envp[j], tmp, i))
+		while (ft_strncmp(info->envp[j], tmp, i) != 0)
 			j++;
 		free(info->envp[j]);
 		info->envp[j] = ft_substr(str, 0, ft_strlen(str));
 	}
+	else
+		add_envp_new(info, str);
+	if (get_shell(info, tmp) != NULL)
+		del_shell(info, tmp);
+	free(tmp);
 }
 
 void    del_envp(t_info *info, char *key)
@@ -114,6 +115,7 @@ void    split_envp(char **envp, t_info *info)
 		info->envp[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
 		i++;
 	}
+	info->envp[i] = 0;
 }
 
 void print_envp(char **envp)

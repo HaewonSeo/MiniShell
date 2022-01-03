@@ -19,6 +19,7 @@ static void	init_info(int argc, char *argv[], char *envp[])
 	g_info.envp = envp;
 	g_info.head_cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	g_info.shell = (char **)malloc(sizeof(char *) * 1);
+	g_info.shell_len = 0;
 	split_envp(envp, &g_info);
 }
 
