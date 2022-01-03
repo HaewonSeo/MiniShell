@@ -33,7 +33,7 @@ void	add_envp_new(t_info *info, char *str)
 
 	i = 0;
 	j = 0;
-	while (info->envp[i])
+	while (g_info.envp[i])
 		i++;
 	tmp = (char **)malloc(sizeof(char *) * (i + 2));
 	while (j < i)
@@ -68,8 +68,16 @@ void    add_envp(t_info *info, char *str)
 			break ;
 		i++;
 	}
+	if (i == 0)
+		i++;
 	tmp = ft_substr(str, 0, i);
-	if (get_env(info->envp, tmp) != NULL)
+	if (get_shell(info, tmp) != NULL)
+	{
+		del_shell(info, tmp);
+		if (ft_strchr(tmp, '=') == NULL)
+			str = ft_strjoin(tmp, get_shell(info, tmp));
+	}
+	if (get_env(info->envp, tmp))
 	{
 		while (ft_strncmp(info->envp[j], tmp, i) != 0)
 			j++;
@@ -78,8 +86,6 @@ void    add_envp(t_info *info, char *str)
 	}
 	else
 		add_envp_new(info, str);
-	if (get_shell(info, tmp) != NULL)
-		del_shell(info, tmp);
 	free(tmp);
 }
 
