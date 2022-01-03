@@ -33,13 +33,13 @@ void    tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
     new->shell_var = 0;
     new->pipe_prev = 1;
     new->pipe = check_pipe(new);
-    new->redirection = check_redi(str + where_pipe(str));
     tmp->next = new;
     new->next = NULL;
     if (where_quote(str) > where_pipe(str))
         tmp->quote = 0;
     if (new->pipe > 0)
         re_parsing_cmd(new, str + where_pipe(str));
+    new->redirection = check_redi(new);
     return ;
 }
 
