@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_infree.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/03 21:18:08 by hyejung           #+#    #+#             */
+/*   Updated: 2022/01/03 21:18:10 by hyejung          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -114,7 +125,7 @@ void    finish_cmd(t_cmd *tmp, char *str)
 {
     if (tmp->pipe == 1 && where_pipe(str) < where_redi(str))
         tmp->redirection = 0;
-    if (where_quote(str) > where_pipe(str))
+    if (where_quote(str) > where_pipe(str) && where_pipe(str) != -1)
         tmp->quote = 0;
     if (tmp->pipe > 0)
         re_parsing_cmd(tmp, str + where_pipe(str));

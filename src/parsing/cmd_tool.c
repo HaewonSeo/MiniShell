@@ -1,25 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_tool.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/03 20:53:43 by hyejung           #+#    #+#             */
+/*   Updated: 2022/01/03 21:23:59 by hyejung          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-int   check_i(char *str, t_cmd *tmp, int i, int j, int mid)
+int	check_i(char *str, t_cmd *tmp, int i, int j)
 {
-    char    c;
+	int		mid;
+	char	c;
 
-    c = str[i];
-    i++;
-    while (str[i] && str[i] != c)
-        i++;
-    tmp->argv[j] = ft_substr(str, mid + 1, i - mid - 1);
-    i++;
-    return (i);
+	c = str[i];
+	mid = i;
+	i++;
+	while (str[i] && str[i] != c)
+		i++;
+	tmp->argv[j] = ft_substr(str, mid + 1, i - mid - 1);
+	i++;
+	return (i);
 }
 
-int argv_pipe(t_cmd *tmp)
+int	argv_pipe(t_cmd *tmp)
 {
-    int i;
+	int	i;
 
     i = 0;
-    while (tmp->argv[i])
+	while (tmp->argv[i])
     {
         if (tmp->argv[i][0] == '|')
             break ;
@@ -68,7 +81,7 @@ void    put_redirection(t_cmd *tmp)
             i++;
         }
         if (tmp->argv[i][0] == '>')
-        {
+		{
             if (!tmp->argv[i][1])
                 tmp->redir->r = tmp->argv[i + 1];
             else if (tmp->argv[i][1] == '>')

@@ -152,7 +152,7 @@ void    re_parsing_cmd_env(t_cmd *tmp);
 ** cmd tool
 */
 
-int		check_i(char *str, t_cmd *tmp, int i, int j, int mid);
+int		check_i(char *str, t_cmd *tmp, int i, int j);
 int		argv_pipe(t_cmd *tmp);
 void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str);
 int		return_j(t_cmd *tmp, char *str);

@@ -33,6 +33,7 @@ void	print_cmd(t_cmd *tmp, char *input)
 		printf("pipe_prev = %d\n", tmp->pipe_prev);
 		printf("redirection = %d\n", tmp->redirection);
 		printf("shell_var = %d\n", tmp->shell_var);
+		printf("quote = %d\n", tmp->quote);
 		printf("l = %s\n", tmp->redir->l);
 		printf("ll = %s\n", tmp->redir->ll);
 		printf("r = %s\n", tmp->redir->r);
