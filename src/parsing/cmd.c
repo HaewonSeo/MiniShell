@@ -73,6 +73,7 @@ void    re_malloc_cmd(t_cmd *tmp, int len)
 {
 	int     i;
 	char    **str;
+
 	i = 0;
 	str = (char **)malloc(sizeof(char *) * (len + 1));
 	while (i < len)
@@ -96,9 +97,10 @@ void    re_malloc_cmd(t_cmd *tmp, int len)
 
 void    re_parsing_cmd(t_cmd *tmp, char *str)
 {
-	int     i;
-	int     k;
+	int		i;
+	int		k;
 	t_cmd   *new;
+	
 	if (check_cmd_env(str) > 0 && ft_strlen(str + check_cmd_env(str)) == 0)
 	{
 		tmp->next = parsing_cmd_env(str);
@@ -125,6 +127,7 @@ void    parsing_cmd(char *str, t_cmd **cur)
 {
 	int     k;
 	t_cmd   *tmp;
+	
 	check_right(str);
 	k = check_cmd_env(str);
 	if (k > 0)

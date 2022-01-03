@@ -34,6 +34,7 @@ void	print_cmd(t_cmd *tmp, char *input)
 		printf("redirection = %d\n", tmp->redirection);
 		printf("shell_var = %d\n", tmp->shell_var);
 		printf("quote = %d\n", tmp->quote);
+		printf("shel_len = %d\n", g_info.shell_len);
 		printf("l = %s\n", tmp->redir->l);
 		printf("ll = %s\n", tmp->redir->ll);
 		printf("r = %s\n", tmp->redir->r);

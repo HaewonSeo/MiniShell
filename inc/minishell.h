@@ -83,7 +83,7 @@ typedef struct			s_info
 	char				**argv;
 	char				**envp;
 	char				**shell;
-	int					shell_len;//
+	int					shell_len;
 	t_cmd				*head_cmd;
 	int					exit_status;
 	int					signal;
@@ -213,6 +213,7 @@ void	split_envp(char **envp, t_info *info);
 void	print_envp(char **envp);
 char	*get_env(char **envp, char *key);
 void	mod_env(char **envp, char *key, char *value);
+char	*shell_to_envp(t_info *info, char *tmp, char *str);
 
 /*
 ** shell

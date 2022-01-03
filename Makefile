@@ -100,7 +100,9 @@ SRCS			=	minishell.c \
 					error.c \
 					print_cmd.c \
 					env.c \
-					shell.c
+					env_tool.c \
+					shell.c \
+					shell_tool.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
