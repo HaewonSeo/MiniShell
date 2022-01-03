@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyejung <hyejung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/03 21:17:17 by hyejung           #+#    #+#             */
+/*   Updated: 2022/01/03 21:17:21 by hyejung          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int parsing_cmd_qu(char *str, t_cmd *tmp)
@@ -16,7 +28,7 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 		mid = i;
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			i = check_i(str, tmp, i, j, mid);
+			i = check_i(str, tmp, i, j);
 			j++;
 			continue ;
 		}
