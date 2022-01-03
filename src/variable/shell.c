@@ -68,10 +68,19 @@ void    add_shell_env(char *str)
 		i++;
 	}
 	tmp = ft_substr(str, 0, i);
-	if (getenv(tmp))
+	if (get_env(g_info.envp, tmp))
 	{
 		add_envp(&g_info, str);
-		g_info.shell_len--;
+		if (get_shell(&g_info, tmp))
+		{
+			del_shell(&g_info, tmp);
+			g_info.shell_len--;
+		}
+	}
+	else if (g_info.shell_len == 0)
+	{
+		g_info.shell[0] = ft_substr(str, 0, ft_strlen(str));
+		g_info.shell_len++;
 	}
 	else
 		add_new_shell_env(str, &g_info);
