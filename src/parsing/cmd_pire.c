@@ -9,32 +9,35 @@ int check_pipe(t_cmd *tmp)
     while (tmp->argv[i])
     {
         if (tmp->argv[i][0] == '|')
-            return (1);
+        {
+            if (ft_strlen(tmp->argv[i]) == 1)
+                return (1);
+        }
         else
             i++;
     }
     return (0);
 }
 
-int check_redi(char *str)
+int check_redi(t_cmd *tmp)
 {
     int i;
 
     i = 0;
-    while (str[i])
+    while (tmp->argv[i])
     {
-        if (str[i] == '<')
+        if (tmp->argv[i][0] == '<')
         {
-            if (str[i + 1] == ' ')
+            if (ft_strlen(tmp->argv[i]) == 0)
                 return (1);
-            else if (str[i + 1] == '<')
+            else if (tmp->argv[i][1] == '<')
                 return (2);
         }
-        else if (str[i] == '>')
+        else if (tmp->argv[i][0] == '>')
         {
-            if (str[i + 1] == ' ')
+            if (ft_strlen(tmp->argv[i]) == 1)
                 return (3);
-            else if (str[i + 1] == '>')
+            else if (tmp->argv[i][1] == '>')
                 return (4);
         }
         i++;

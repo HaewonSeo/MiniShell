@@ -5,6 +5,7 @@ int parsing_cmd_qu(char *str, t_cmd *tmp)
 	int     i;
 	int     j;
 	int     mid;
+
 	i = -1;
 	j = 0;
 	new_init(str, tmp);
@@ -32,8 +33,11 @@ void    remove_redi(t_cmd *tmp)
 {
 	int i;
 	int j;
+
 	i = 0;
 	j = tmp->argc;
+	if (tmp->redirection == 0)
+		return ;
 	while (tmp->argv[i])
 	{
 		if (tmp->argv[i][0] == '<' | tmp->argv[i][0] == '>')
