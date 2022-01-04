@@ -6,14 +6,14 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:29:01 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 16:33:52 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define WSL
+// # define WSL
 # define TEST
 
 # include <signal.h>
@@ -32,10 +32,8 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "color.h"
-# ifndef WSL
-#  include <readline/readline.h>
-#  include <readline/history.h>
-# endif
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define ETX				3
 # define EOT				4
@@ -86,7 +84,6 @@ typedef struct s_info
 	int					shell_len;
 	t_cmd				*head_cmd;
 	int					exit_status;
-	int					signal;
 }						t_info;
 
 t_info	g_info;
@@ -94,6 +91,9 @@ t_info	g_info;
 /*
 ** builtin
 */
+
+void echo_val(char *arg);
+void	echo_env(char *arg);
 
 void	ft_cd(t_cmd *cmd);
 void	ft_echo(t_cmd *cmd);
@@ -130,7 +130,7 @@ int		parsing_cmd_qu(char *str, t_cmd *tmp);
 void	re_parsing_cmd(t_cmd *tmp, char *str);
 int		check_cmd(t_cmd *tmp);
 int		check_pipe(t_cmd *tmp);
-int		check_redi(t_cmd *tmp);//
+int		check_redi(t_cmd *tmp);
 void	free_cmd(t_cmd *tmp);
 void	remove_redi(t_cmd *tmp);
 int		check_cmd(t_cmd *tmp);
@@ -163,21 +163,17 @@ int		return_j(t_cmd *tmp, char *str);
 ** cursor
 */
 
-void	get_cursor_pos(int *col, int *row);
-void	put_backspace(int *col, int *row);
-void	move_cursor_left(int *col, int *row);
-void	move_cursor_right(int *col, int *row);
+// void	get_cursor_pos(int *col, int *row);
+// void	put_backspace(int *col, int *row);
+// void	move_cursor_left(int *col, int *row);
+// void	move_cursor_right(int *col, int *row);
 
 /*
 ** prompt
 */
 
-# ifndef WSL
-
 char	*prompt(void);
-# endif
-
-char	*prompt4(void);
+// char	*prompt4(void);
 
 /*
 ** signal
@@ -189,9 +185,9 @@ void	signal_handler(int signum);
 ** terminal_input_mode
 */
 
-void	get_canonical_mode(void);
-void	set_noncanonical_mode(void);
-void	set_canonical_mode(void);
+// void	get_canonical_mode(void);
+// void	set_noncanonical_mode(void);
+// void	set_canonical_mode(void);
 
 /*
 ** utility

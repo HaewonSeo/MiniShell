@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:10:56 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 15:12:45 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	exec_cmd(t_cmd *cmd)
 		print_shell(g_info.shell);
 #endif
 	}
-	else if (is_builtin(cmd->argv[0]))
+	else if (is_builtin_on_parent(cmd->argv[0]))
 		exec_builtin(cmd);
 	else
 		exec_cmd_fork(cmd);

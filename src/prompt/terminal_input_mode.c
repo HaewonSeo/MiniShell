@@ -6,12 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 14:25:31 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:33:38 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 11:10:21 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 void	get_canonical_mode(void)
 {
 	char	*term;
@@ -37,3 +38,4 @@ void	set_canonical_mode(void)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_info.term.canonical);
 }
+*/

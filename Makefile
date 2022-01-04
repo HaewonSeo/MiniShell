@@ -6,7 +6,7 @@
 #    By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 01:37:10 by haseo             #+#    #+#              #
-#    Updated: 2022/01/04 01:29:13 by haseo            ###   ########.fr        #
+#    Updated: 2022/01/04 15:55:10 by haseo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ NAME			= minishell
 
 CC				= gcc
 CFLAGS 			= -Wall -Wextra -Werror
-# CFLAGS			+= -g3 -fsanitize=address
-CFLAGS			+= -g
+CFLAGS			+= -g3 -fsanitize=address
+# CFLAGS			+= -g
 
 # ----------------------------------
 # Command
@@ -100,11 +100,11 @@ SRCS			=	minishell.c \
 					terminal_input_mode.c \
 					error.c \
 					print_cmd.c \
-					env.c \
 					env_tool.c \
-					shell.c \
-					shell_tool.c \
+					env.c \
 					env2.c \
+					shell_tool.c \
+					shell.c \
 					shell2.c
 
 OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
@@ -115,11 +115,11 @@ OBJS			= $(addprefix $(OBJ_DIR)/, ${SRCS:.c=.o})
 
 LIBFT			= $(LIBFT_DIR)/libft.a
 LDFLAGS			= -lft
-ifeq ($(OS), Darwin)
-	LDFLAGS		+= -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
-else
-	LDFLAGS		+= -lncurses
-endif
+# ifeq ($(OS), Darwin)
+LDFLAGS		+= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+# else
+	# LDFLAGS		+= -lncurses
+# endif
 
 # ----------------------------------
 # Rules
@@ -132,14 +132,14 @@ $(OBJ_DIR):
 					@$(ECHO) "$(GREEN)[Success]\t $(ORANGE)Create $(OBJ_DIR)$(NOCOLOR)"
 
 $(OBJ_DIR)/%.o: %.c
-					@$(CC) -c $(CFLAGS) -I$(INC_DIR) -I$(LIBFT_DIR)/inc -o $@ $^
+					@$(CC) -c $(CFLAGS) -I$(INC_DIR) -I$(LIBFT_DIR)/inc -I /Users/$(USER)/.brew/opt/readline/include -o $@ $^
 					@$(ECHO) "$(GREEN)[Success]\t $(ORANGE)Create $@$(NOCOLOR)"
 
 $(LIBFT):
 					@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME):		$(LIBFT) $(OBJ_DIR) ${OBJS}
-					@$(CC) $(CFLAGS) -o $@ ${OBJS} -L$(LIBFT_DIR) $(LDFLAGS)
+					@$(CC) $(CFLAGS) -o $@ ${OBJS} -L $(LIBFT_DIR) $(LDFLAGS)
 					@$(ECHO) "$(GREEN)[Success]\t $(BLUE)Create $@ \t$(NOCOLOR)"
 
 clean:

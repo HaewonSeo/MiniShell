@@ -6,41 +6,34 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 22:11:54 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:33:11 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 15:41:13 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#ifndef WSL
 char	*prompt(void)
 {
 	char	*cwd;
 	char	*cmd;
 
-	cwd = getcwd(NULL, 0);
+	cwd = ft_strdup(BLU);
+	cwd = ft_strjoin(cwd, getcwd(NULL, 0));
 	cwd = ft_strjoin(cwd, "$ ");
+	cwd = ft_strjoin(cwd, EOC);
 	cmd = readline(cwd);
 	if (!cmd)
 	{
 		free(cwd);
-		return (NULL);
+		ft_exit();
 	}
-#ifdef SIGNAL_
-	if (g_info.signal || !cmd)
-	{
-		g_info.signal = 0;
-		free(cwd);
-		return (NULL);
-	}
-#endif
 	printf("%s\n", cmd);
 	add_history(cmd);
 	free(cwd);
 	return (cmd);
 }
-#endif
 
+/*
 static char	*ft_str_add_back(char *s, char ch)
 {
 	char	*str;
@@ -77,13 +70,13 @@ static void	ft_str_remove_back(char *s)
 	s[len - 1] = '\0';
 }
 
-/*
+
 	cwd 출력 시 , cwd 길이만큼 cursor의 col값이 증가하지 않아서 cursor 제어에 오류가 발생함
 	ft_putstr_fd(BLU, STDOUT_FILENO);
 	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
 	ft_putstr_fd("$ ", STDOUT_FILENO);
 	ft_putstr_fd(EOC, STDOUT_FILENO);
-*/
+
 char	*prompt4(void)
 {
 	int		ch;
@@ -126,3 +119,4 @@ char	*prompt4(void)
 	}
 	return (input);
 }
+*/

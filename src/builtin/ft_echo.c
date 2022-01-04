@@ -6,19 +6,40 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:00:47 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 16:39:05 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	echo_env(char *arg)
+void echo_val(char *arg)
+{
+	int j;
+
+	if (ft_strchr(arg, '$'))
+	{
+		j = 0;
+		while (arg[j] && arg[j] != '$')
+		{
+			printf("%c", arg[j]);
+			j++;
+		}
+		echo_env(ft_strchr(arg, '$'));
+	}
+	else
+		printf("%s", arg);
+}
+
+void	echo_env(char *arg)
 {
 	char	*key;
 	char	*value;
 
 	if (arg[1] == '?')
+	{
 		printf("%d", g_info.exit_status);
+		echo_val(&arg[2]);
+	}
 	else
 	{
 		key = &arg[1];
@@ -50,8 +71,10 @@ void	ft_echo(t_cmd *cmd)
 	{
 		if (cmd->quote == 1)
 			printf("%s ", cmd->argv[i]);
-		else if (cmd->argv[i][0] == '$')
-			echo_env(cmd->argv[i]);
+		else if (!ft_strcmp(cmd->argv[i], "$"))
+			printf("%s ", cmd->argv[i]);
+		else if (ft_strchr(cmd->argv[i], '$'))
+			echo_val(cmd->argv[i]);
 		else
 			printf("%s ", cmd->argv[i]);
 	}

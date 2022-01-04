@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:11:36 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:34:24 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 14:31:05 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	add_env_new(char **envp, char *new)
 	i = 0;
 	while (envp[i])
 		i++;
-	new_envp = (char **)malloc(sizeof(char *) * (i + 1));
+	new_envp = (char **)malloc(sizeof(char *) * (i + 2));
 	j = -1;
 	while (++j < i)
 		new_envp[j] = envp[j];

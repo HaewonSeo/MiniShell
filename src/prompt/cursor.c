@@ -6,12 +6,13 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 20:12:27 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:41:12 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 11:10:49 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static int	ft_nbrlen(int n)
 {
 	int		len;
@@ -88,3 +89,4 @@ void	move_cursor_right(int *col, int *row)
 	(*col)++;
 	tputs(tgoto(g_info.term.cm, *col, *row), 1, putchar_stdout);
 }
+*/

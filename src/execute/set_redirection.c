@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 22:24:47 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 22:08:46 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 16:01:22 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,25 @@ static void	set_l(char *fname)
 	}
 }
 
+static char	*prompt_heredoc(void)
+{
+	char	*cmd;
+
+	cmd = readline("> ");
+	if (!cmd)
+	{
+		ft_exit();
+	}
+	// if (g_info.signal || !cmd)
+	// {
+	// 	g_info.signal = 0;
+	// 	free(cwd);
+	// 	return (NULL);
+	// }
+	// printf("%s\n", cmd);
+	// add_history(cmd);
+	return (cmd);
+}
 static void	set_ll(char *delimiter)
 {
 	int		fd;
@@ -37,8 +56,7 @@ static void	set_ll(char *delimiter)
 		ft_perror1("tmp", "No such file or directory", (int)EPERM);
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		input = prompt4();
+		input = prompt_heredoc();
 		if (!strcmp(input, delimiter))
 		{
 			free(input);
@@ -46,11 +64,9 @@ static void	set_ll(char *delimiter)
 		}
 		ft_putstr_fd(input, fd);
 		ft_putstr_fd("\n", fd);
-		ft_putstr_fd("\n", STDOUT_FILENO);
 		free(input);
 	}
 	close(fd);
-	ft_putstr_fd("\n", STDOUT_FILENO);
 	set_l("tmp");
 }
 

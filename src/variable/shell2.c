@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:13:24 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:51:07 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 12:29:05 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ void	add_shell_new(char **shell, char *new)
 	i = 0;
 	while (shell[i])
 		i++;
-	new_shell = (char **)malloc(sizeof(char *) * (i + 1));
-	j = -1;
-	while (++j < i)
+	new_shell = (char **)malloc(sizeof(char *) * (i + 2));
+	j = 0;
+	while (j < i)
+	{
 		new_shell[j] = shell[j];
+		j++;
+	}
 	new_shell[j] = ft_strdup(new);
 	new_shell[j + 1] = NULL;
 	g_info.shell = new_shell;
@@ -58,9 +61,15 @@ void	add_shell(char **shell, char *str)
 	new_value = ft_strchr(str, '=');
 	old_value = get_shell(&g_info, key);
 	if (old_value)
+	{
+		printf("mod\n");
 		mod_shell(shell, key, new_value);
+	}
 	else
+	{
+		printf("add_new\n");
 		add_shell_new(shell, str);
+	}
 	free(key);
 }
 

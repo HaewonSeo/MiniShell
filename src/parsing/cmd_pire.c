@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:17:37 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/03 23:46:18 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/04 15:47:40 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ int	check_pipe(t_cmd *tmp)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (tmp->argv[i])
 	{
 		if (tmp->argv[i][0] == '|')
 		{
 			if (ft_strlen(tmp->argv[i]) == 1)
 				return (1);
+			else
+				i++;
 		}
 		else
 			i++;
@@ -39,16 +41,16 @@ int	check_redi(t_cmd *tmp)
 	{
 		if (tmp->argv[i][0] == '<')
 		{
-			if (ft_strlen(tmp->argv[i]) == 0)
+			if (ft_strlen(tmp->argv[i]) == 1)
 				return (1);
-			else if (tmp->argv[i][1] == '<')
+			else if (tmp->argv[i][1] == '<' && ft_strlen(tmp->argv[i]) == 2)
 				return (2);
 		}
 		else if (tmp->argv[i][0] == '>')
 		{
 			if (ft_strlen(tmp->argv[i]) == 1)
 				return (3);
-			else if (tmp->argv[i][1] == '>')
+			else if (tmp->argv[i][1] == '>' && ft_strlen(tmp->argv[i]) == 2)
 				return (4);
 		}
 		i++;
