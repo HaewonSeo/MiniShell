@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:07 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 18:11:59 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 12:22:02 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	main(int argc, char *argv[], char *envp[])
 			continue ;
 		parsing_cmd(input, &cur);
 		cur = cur->next;
-		exec_input(cur);
+		if (cur->argc)
+			exec_input(cur);;
 		free(input);
 		input = NULL;
 	}

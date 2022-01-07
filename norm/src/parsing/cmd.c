@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:17:17 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 16:42:45 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 12:21:10 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,9 @@ void	parsing_cmd(char *str, t_cmd **cur)
 		while (str[k] == ' ' || str[k] == '|')
 			k++;
 		str = str + k;
+		if (ft_strlen(str) == 0)
+			return ;
 	}
-	if (ft_strlen(str) == 0)
-		return ;
 	tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	init_cmd(str, tmp);
 	tmp->argc = return_j(tmp, str);
