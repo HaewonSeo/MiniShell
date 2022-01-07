@@ -59,6 +59,8 @@ void	add_shell(char **shell, char *str)
 	old_value = get_shell(&g_info, key);
 	if (old_value)
 		mod_shell(shell, key, new_value);
+	else if (get_env(g_info.envp, key))//
+		add_envp(&g_info, str);//
 	else
 		add_shell_new(shell, str);
 	free(key);

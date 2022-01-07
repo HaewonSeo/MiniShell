@@ -67,7 +67,7 @@ void	add_shell_env(char *str)
 		i++;
 	}
 	tmp = ft_substr(str, 0, i);
-	if (get_env(g_info.envp, tmp))
+	if (get_env(g_info.envp, tmp) != NULL)
 	{
 		add_envp(&g_info, str);
 		if (get_shell(&g_info, tmp))
