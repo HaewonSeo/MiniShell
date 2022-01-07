@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:32:46 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 17:03:26 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:27:02 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	mod_shell(char **shell, char *key, char *value)
 	{
 		if (ft_strncmp(shell[i], key, ft_strlen(key)) == 0)
 		{
+			if (shell[i][ft_strlen(key)] != '=')
+				continue ;
 			del = shell[i];
 			shell[i] = new;
 			free(del);

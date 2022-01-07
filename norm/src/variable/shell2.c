@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:13:24 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 17:03:14 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:31:01 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	add_shell(char **shell, char *str)
 	old_value = get_shell(&g_info, key);
 	if (old_value)
 		mod_shell(shell, key, new_value);
-	else if (get_env(g_info.envp, key))//
-		add_envp(&g_info, str);//
+	else if (get_env(g_info.envp, key))
+		add_env(g_info.envp, str);
 	else
 		add_shell_new(shell, str);
 	free(key);
@@ -79,6 +79,8 @@ void	del_shell2(char **shell, char *key)
 	{
 		if (!ft_strncmp(shell[i], key, ft_strlen(key)))
 		{
+			if (shell[i][ft_strlen(key)] != '=')
+				continue ;
 			del = shell[i];
 			break ;
 		}

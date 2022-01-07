@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:17:17 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/07 12:21:10 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 17:51:14 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	remove_redi(t_cmd *tmp)
 	j = tmp->argc;
 	if (tmp->redirection == 0)
 		return ;
-	while (tmp->argv[i])
+	while (tmp->argc > 0 && tmp->argv[i])
 	{
 		if (tmp->argv[i][0] == '<' || tmp->argv[i][0] == '>')
 		{
 			j = i;
-			while (tmp->argv[j + 2])
+			while (j + 2 < tmp->argc && tmp->argv[j + 2])
 			{
 				tmp->argv[j] = tmp->argv[j + 2];
 				j++;
@@ -76,7 +76,7 @@ void	re_malloc_cmd(t_cmd *tmp, int len)
 
 	i = 0;
 	str = (char **)malloc(sizeof(char *) * (len + 1));
-	while (i < len)
+	while (i < len && tmp->argc > 0)
 	{
 		str[i] = ft_substr(tmp->argv[i], 0, ft_strlen(tmp->argv[i]));
 		i++;
@@ -128,7 +128,6 @@ void	parsing_cmd(char *str, t_cmd **cur)
 	int		k;
 	t_cmd	*tmp;
 
-	check_right(str);
 	k = check_cmd_env(str);
 	if (k > 0)
 	{
@@ -141,6 +140,7 @@ void	parsing_cmd(char *str, t_cmd **cur)
 	}
 	tmp = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	init_cmd(str, tmp);
+	tmp->quote = check_right(str);
 	tmp->argc = return_j(tmp, str);
 	if ((*cur) && k <= 0)
 		(*cur)->next = tmp;

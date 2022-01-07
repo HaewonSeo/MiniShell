@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:55:20 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 00:42:23 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:28:13 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ char	*get_env(char **envp, char *key)
 	while (envp[++i])
 	{
 		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
-			return (envp[i] + ft_strlen(key) + 1);
+		{
+			if (envp[i][ft_strlen(key)] == '=')
+				return (envp[i] + ft_strlen(key) + 1);
+		}
 	}
 	return (NULL);
 }
@@ -48,6 +51,8 @@ void	mod_env(char **envp, char *key, char *value)
 	{
 		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
 		{
+			if (envp[i][ft_strlen(key)] != '=')
+				continue ;
 			free(envp[i]);
 			envp[i] = new;
 			break ;

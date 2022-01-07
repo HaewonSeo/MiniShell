@@ -6,33 +6,18 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 20:53:43 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 15:54:49 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:00:26 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_i(char *str, t_cmd *tmp, int i, int j)
-{
-	int		mid;
-	char	c;
-
-	c = str[i];
-	mid = i;
-	i++;
-	while (str[i] && str[i] != c)
-		i++;
-	tmp->argv[j] = ft_substr(str, mid + 1, i - mid - 1);
-	i++;
-	return (i);
-}
 
 int	argv_pipe(t_cmd *tmp)
 {
 	int	i;
 
 	i = 0;
-	while (tmp->argv[i])
+	while (tmp->argc > 0 && tmp->argv[i])
 	{
 		if (tmp->argv[i][0] == '|')
 			break ;
@@ -56,11 +41,45 @@ void	tmp_and_new(t_cmd *tmp, t_cmd *new, char *str)
 	return ;
 }
 
-void	check_right(char *str)
+int	check_quote_double(char *str)
 {
-	ch_right_quote(str);
-	ch_right_pipe(str);
-	ch_right_redi(str);
+	int		i;
+	char	c;
+	char	d;
+
+	i = -1;
+	c = 0;
+	d = 0;
+	while (str[++i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			c = str[i];
+		if (c != 0)
+			break ;
+	}
+	i = ft_strlen(str);
+	while (str[--i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			d = str[i];
+		if (d != 0)
+			break ;
+	}
+	if (c == d && c != 0)
+		return (1);
+	return (0);
+}
+
+int	check_right(char *str)
+{
+	int	i;
+
+	i = ch_right_quote(str);
+	if (i == 0 && check_quote_double(str) == 0)
+		i = ch_right_pipe(str);
+	if (i == 0 && check_quote_double(str) == 0)
+		i = ch_right_redi(str);
+	return (i);
 }
 
 void	put_redirection(t_cmd *tmp)

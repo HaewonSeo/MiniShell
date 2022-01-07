@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:11:36 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 17:27:50 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:29:30 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	del_env2(char **env, char *key)
 	{
 		if (!ft_strncmp(env[i], key, ft_strlen(key)))
 		{
+			if (env[i][ft_strlen(key)] != '=')
+				continue ;
 			del = env[i];
 			break ;
 		}

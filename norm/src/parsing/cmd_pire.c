@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:17:37 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 17:58:59 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:00:45 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,19 @@ void	re_parsing_cmd_env(t_cmd *tmp)
 	}
 	tmp->argc = i;
 	tmp->argv[i] = 0;
+}
+
+int	check_i(char *str, t_cmd *tmp, int i, int j)
+{
+	int		mid;
+	char	c;
+
+	c = str[i];
+	mid = i;
+	i++;
+	while (str[i] && str[i] != c)
+		i++;
+	tmp->argv[j] = ft_substr(str, mid + 1, i - mid - 1);
+	i++;
+	return (i);
 }

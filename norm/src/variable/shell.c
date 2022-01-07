@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:13:17 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 01:50:47 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:28:44 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ char	*get_shell(t_info *info, char *key)
 	while (info->shell[i])
 	{
 		if (!ft_strncmp(info->shell[i], key, ft_strlen(key)))
-			return (info->shell[i] + ft_strlen(key) + 1);
+		{
+			if (info->shell[i][ft_strlen(key)] == '=')
+				return (info->shell[i] + ft_strlen(key) + 1);
+		}
 		i++;
 	}
 	return (NULL);

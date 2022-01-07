@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:30:10 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 17:28:06 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:01:16 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		is_builtin_on_child(char *cmd);
 int		is_builtin_on_parent(char *cmd);
 void	exec_input(t_cmd *cmd);
 void	exec_builtin(t_cmd *cmd);
-char	*get_cmd_path(char *cmd);
+char	*get_cmd_path(char *cmd, char **paths);
 void	exec_cmd_child(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd);
 void	exec_pipe(t_cmd *cur);
@@ -125,17 +125,18 @@ int		check_quote(char *str);
 int		where_pipe(char *str);
 int		where_quote(char *str);
 int		where_redi(char *str);
-void	printf_error(int i);
-void	ch_right_redi_2(char *str, int i);
-void	ch_right_redi(char *str);
-void	ch_right_pipe(char *str);
-void	ch_right_quote(char *str);
-void	check_right(char *str);
+int		printf_error(int i);
+int		ch_right_redi_2(char *str, int i);
+int		ch_right_redi(char *str);
+int		ch_right_pipe(char *str);
+int		ch_right_quote(char *str);
+int		check_right(char *str);
 int		check_cmd_env(char *str);
 t_cmd	*parsing_cmd_env(char *str);
 void	finish_cmd(t_cmd *tmp, char *str);
 void	free_argv(char **tmp, int len);
 void	re_parsing_cmd_env(t_cmd *tmp);
+int		check_i(char *str, t_cmd *tmp, int i, int j);
 
 /*
 ** cmd tool

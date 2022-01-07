@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 21:18:08 by hyejung           #+#    #+#             */
-/*   Updated: 2022/01/04 15:54:28 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:35:02 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int	return_j(t_cmd *tmp, char *str)
 
 	i = 0;
 	j = 0;
-	tmp->quote = check_quote(str);
+	if (tmp->quote >= 0)
+		tmp->quote = check_quote(str);
 	while (tmp->quote == 0 && i < (int)ft_strlen(str))
 	{
 		while (str[i] && str[i] == ' ')
@@ -114,7 +115,7 @@ int	return_j(t_cmd *tmp, char *str)
 		i++;
 	}
 	tmp->argv[j] = 0;
-	if (tmp->quote != 0)
+	if (tmp->quote != -1)
 		j = parsing_cmd_qu(str, tmp);
 	tmp->pipe = check_pipe(tmp);
 	tmp->redirection = check_redi(tmp);
@@ -125,9 +126,12 @@ void	finish_cmd(t_cmd *tmp, char *str)
 {
 	if (tmp->pipe == 1 && (where_pipe(str) < where_redi(str)))
 		tmp->redirection = 0;
-	if (where_quote(str) > where_pipe(str) && where_pipe(str) != -1)
-		tmp->quote = 0;
-	if (tmp->pipe > 0)
+	if (tmp->quote >= 0)
+	{
+		if (where_quote(str) > where_pipe(str) && where_pipe(str) != -1)
+			tmp->quote = 0;
+	}
+	if (tmp->pipe > 0 && tmp->quote >= 0)
 		re_parsing_cmd(tmp, str + where_pipe(str));
 	put_redirection(tmp);
 	remove_redi(tmp);

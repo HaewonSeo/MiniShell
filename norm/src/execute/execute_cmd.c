@@ -6,15 +6,14 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:34:19 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 16:59:10 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:02:11 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_cmd_path(char *cmd)
+char	*get_cmd_path(char *cmd, char **paths)
 {
-	char		**paths;
 	char		*_cmd;
 	char		*cmd_path;
 	int			i;
@@ -22,7 +21,6 @@ char	*get_cmd_path(char *cmd)
 
 	if (stat(cmd, &st) == 0)
 		return (cmd);
-	paths = ft_split(get_env(g_info.envp, "PATH"), ':');
 	_cmd = ft_strdup("/");
 	_cmd = ft_strjoin(_cmd, cmd);
 	i = -1;
@@ -42,18 +40,27 @@ char	*get_cmd_path(char *cmd)
 
 void	exec_cmd_child(t_cmd *cmd)
 {
-	char	*cmd_path;
+	char		*cmd_path;
+	char		**paths;
 
 	if (is_builtin_on_child(cmd->argv[0]))
 		exec_builtin(cmd);
 	else
 	{
-		cmd_path = get_cmd_path(cmd->argv[0]);
-		if (!cmd_path)
-			ft_perror3(cmd->argv[0], "command not found", 127);
+		paths = ft_split(get_env(g_info.envp, "PATH"), ':');
+		if (paths == NULL)
+			ft_perror1(cmd->argv[0], "No such file or directory", 127);
 		else
 		{
-			if (execve(cmd_path, cmd->argv, g_info.envp) == -1)
+			cmd_path = get_cmd_path(cmd->argv[0], paths);
+			if (cmd_path == NULL)
+				ft_perror3(cmd->argv[0], "command not found", 127);
+			else if (!ft_strcmp(cmd->argv[0], "expr"))
+			{
+				if (ft_strchr(cmd->argv[1], '$') != NULL)
+					ft_echo(cmd);
+			}
+			else if (execve(cmd_path, cmd->argv, g_info.envp) == -1)
 				ft_perror("execve", 1);
 			free(cmd_path);
 		}
@@ -87,6 +94,8 @@ static void	exec_cmd_fork(t_cmd *cmd)
 
 void	exec_cmd(t_cmd *cmd)
 {
+	if (cmd->quote < 0)
+		return ;
 	if (cmd->shell_var)
 		add_shell(g_info.shell, cmd->argv[0]);
 	else if (is_builtin_on_parent(cmd->argv[0]))

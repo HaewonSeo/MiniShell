@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:04:50 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 17:55:19 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 18:35:54 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	echo_env(char *arg)
 		value = get_env(g_info.envp, key);
 		if (value)
 		{
-			printf("%s ", value);
+			printf("%s", value);
 			return ;
 		}
 		value = get_shell(&g_info, key);
 		if (value)
-			printf("%s ", value);
+			printf("%s", value);
 	}
 }
 
@@ -63,20 +63,21 @@ void	ft_echo(t_cmd *cmd)
 	opt_n = false;
 	i = 0;
 	if (!strcmp(cmd->argv[1], "-n"))
-	{
 		opt_n = true;
+	if (opt_n == true)
 		++i;
-	}
 	while (++i < cmd->argc)
 	{
 		if (cmd->quote == 1)
-			printf("%s ", cmd->argv[i]);
+			printf("%s", cmd->argv[i]);
 		else if (!ft_strcmp(cmd->argv[i], "$"))
-			printf("%s ", cmd->argv[i]);
+			printf("%s", cmd->argv[i]);
 		else if (ft_strchr(cmd->argv[i], '$'))
 			echo_val(cmd->argv[i]);
 		else
-			printf("%s ", cmd->argv[i]);
+			printf("%s", cmd->argv[i]);
+		if (i < cmd->argc - 1)
+			printf(" ");
 	}
 	if (!opt_n)
 		printf("\n");

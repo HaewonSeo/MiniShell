@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:28:18 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/04 17:01:16 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 15:40:15 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	ft_perror(char *str, int errnum)
 {
-	ft_putstr_fd("\nbash: ", STDERR_FILENO);
+	ft_putstr_fd("bash: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	g_info.exit_status = errnum;
-	exit(errnum);
 }
 
 void	ft_perror1(char *cmd, char *msg, int errnum)

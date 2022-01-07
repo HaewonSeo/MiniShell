@@ -6,7 +6,7 @@
 /*   By: haseo <haseo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:32:45 by haseo             #+#    #+#             */
-/*   Updated: 2022/01/03 23:53:58 by haseo            ###   ########.fr       */
+/*   Updated: 2022/01/07 17:56:26 by haseo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void	exec_pipe_fork(t_cmd *cmd)
 
 void	exec_pipe(t_cmd *cur)
 {
+	if (cur->quote < 0)
+		return ;
 	if (cur->pipe)
 	{
 		cur->next->pipe_prev = 1;
